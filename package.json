@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "tsx scripts/subset-font.ts && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "publish:staging": "pnpm dlx vercel --prod"
   },
   "dependencies": {
     "next": "16.2.0",
