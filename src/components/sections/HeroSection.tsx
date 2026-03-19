@@ -80,7 +80,7 @@ export default function HeroSection() {
 
         <div className="animate-float">
           <div ref={cloudRef} style={{ willChange: "transform" }}>
-            <Image src="/hero-cloud.svg" alt="" width={321} height={241} />
+            <Image src="/hero-cloud.svg" alt="" width={321} height={241} priority />
           </div>
         </div>
       </div>

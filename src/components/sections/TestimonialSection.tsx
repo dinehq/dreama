@@ -45,10 +45,10 @@ type SlidePhase = 'enter' | 'exit' | 'pre-enter';
 export default function TestimonialSection() {
   const [active, setActive] = useState(0);
   const [phase, setPhase] = useState<SlidePhase>('enter');
+  const [dir, setDir] = useState<1 | -1>(1); // 1 = forward, -1 = backward
 
   // Ref so timer callbacks always read the latest index without stale closures.
   const activeRef   = useRef(0);
-  const dirRef      = useRef<1 | -1>(1); // 1 = forward, -1 = backward
   const autoRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fadeRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enterRafRef = useRef<number | null>(null);
@@ -126,7 +126,7 @@ export default function TestimonialSection() {
    */
   const goTo = (idx: number, dir: 1 | -1) => {
     clearAll();
-    dirRef.current = dir;
+    setDir(dir);
     setPhase('exit');
     fadeRef.current = setTimeout(() => {
       activeRef.current = idx;
@@ -147,8 +147,8 @@ export default function TestimonialSection() {
 
   const item = ITEMS[active];
 
-  const exitY  = dirRef.current > 0 ? -6 : 6;   // exit slides in direction of travel
-  const enterY = dirRef.current > 0 ?   6 : -6; // enter arrives from the opposite side
+  const exitY  = dir > 0 ? -6 : 6;   // exit slides in direction of travel
+  const enterY = dir > 0 ?   6 : -6; // enter arrives from the opposite side
   const slideStyle = (delay = 0): React.CSSProperties =>
     phase === 'exit'
       ? { opacity: 0, transform: `translateY(${exitY}px)`,  transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease` }
@@ -217,14 +217,14 @@ export default function TestimonialSection() {
             <button
               onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length, -1)}
               aria-label="上一条"
-              className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
+              className="w-9 h-9 rounded-full bg-ink/8 flex items-center justify-center text-ink hover:bg-ink/12 transition-colors cursor-pointer"
             >
               <ChevronLeftIcon width={36} height={36} />
             </button>
             <button
               onClick={() => goTo((activeRef.current + 1) % ITEMS.length, 1)}
               aria-label="下一条"
-              className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
+              className="w-9 h-9 rounded-full bg-ink/8 flex items-center justify-center text-ink hover:bg-ink/12 transition-colors cursor-pointer"
             >
               <ChevronRightIcon width={36} height={36} />
             </button>
