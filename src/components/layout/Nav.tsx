@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { LogoIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
 
@@ -8,15 +7,8 @@ export default function Nav() {
       <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20 h-14 flex items-center justify-between gap-4">
 
         {/* Left — logo */}
-        <div className="flex items-center gap-1.5 shrink-0 min-w-0">
-          <Image
-            src="/dce94a79f20f749e08e9545104460da7c171bd7a.png"
-            alt=""
-            width={36}
-            height={36}
-            priority
-          />
-          <LogoIcon className="shrink-0" />
+        <div className="shrink-0 min-w-0">
+          <LogoIcon variant="full" />
         </div>
 
         {/* Center — nav links (hidden below md) */}

@@ -1,23 +1,23 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const ITEMS = [
   {
     title: "先进AI模型",
     description: "集成最前沿的生成式AI技术，从文本到图像，从角色到世界",
-    /** Placeholder bg for the showcase area — swap for real image later */
-    placeholderBg: "bg-brand-light",
+    src: "/primary-carousel/1.jpg",
   },
   {
     title: "强大创作工具",
     description: "直观的创作界面，让复杂的AI能力触手可及",
-    placeholderBg: "bg-accent-yellow",
+    src: "/primary-carousel/2.jpg",
   },
   {
     title: "用户体验",
     description: "技术持续迭代升级，创作能力无限延展",
-    placeholderBg: "bg-accent-blue",
+    src: "/primary-carousel/3.jpg",
   },
 ] as const;
 
@@ -63,8 +63,10 @@ export default function AIShowcaseSection() {
       }
     };
 
-    setProgress(0);
-    rafRef.current = requestAnimationFrame(tick);
+    rafRef.current = requestAnimationFrame(() => {
+      setProgress(0);
+      rafRef.current = requestAnimationFrame(tick);
+    });
 
     return () => {
       if (rafRef.current !== null) {
@@ -95,10 +97,17 @@ export default function AIShowcaseSection() {
         </h2>
 
         {/* Media area */}
-        <div
-          className={`w-full h-[648px] rounded-[48px] transition-colors duration-500 ${ITEMS[active].placeholderBg}`}
-        >
-          {/* TODO: <Image> / <video> keyed to active index */}
+        <div className="relative w-full h-[648px] rounded-[48px] overflow-hidden">
+          {ITEMS.map((item, idx) => (
+            <Image
+              key={item.src}
+              src={item.src}
+              alt={item.title}
+              fill
+              className={`object-cover transition-opacity duration-500 ${idx === active ? "opacity-100" : "opacity-0"}`}
+              priority={idx === 0}
+            />
+          ))}
         </div>
 
         {/* Tab bar */}

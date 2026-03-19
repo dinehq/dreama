@@ -1,48 +1,42 @@
-/**
- * LogoIcon — renders the "造梦次元" brand text as an inline SVG.
- * Paths sourced from the Figma export (public/*.svg) and combined here
- * to avoid 4 separate network requests.
- *
- * Rendered at 68×16 px to match the Figma spec; scale via className / style.
- */
-import type { IconProps } from "./types";
+import Image from "next/image";
 
-export function LogoIcon({ className, style, "aria-label": ariaLabel }: IconProps) {
+type LogoVariant = "full" | "text" | "avatar";
+
+const LOGO_CONFIG: Record<LogoVariant, { src: string; width: number; height: number; alt: string }> = {
+  full:   { src: "/logos/logo-full.svg",  width: 111, height: 36, alt: "造梦次元" },
+  text:   { src: "/logos/text-logo.svg",  width: 69,  height: 16, alt: "造梦次元" },
+  avatar: { src: "/logos/avatar.svg",     width: 56,  height: 56, alt: "造梦次元" },
+};
+
+interface LogoIconProps {
+  variant: LogoVariant;
+  className?: string;
+  /** Fluid mode: image height stretches to 100% of the parent, width follows aspect ratio. */
+  fluid?: boolean;
+}
+
+export function LogoIcon({ variant, className, fluid }: LogoIconProps) {
+  const { src, width, height, alt } = LOGO_CONFIG[variant];
+  if (fluid) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={0}
+        height={0}
+        sizes={`${width}px`}
+        className={className}
+        style={{ height: "100%", width: "auto" }}
+      />
+    );
+  }
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 68 16"
-      width="68"
-      height="16"
-      fill="#00CA41"
-      aria-hidden={!ariaLabel}
-      aria-label={ariaLabel ?? "造梦次元"}
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
       className={className}
-      style={style}
-    >
-      {/* 造 — viewBox origin: 0 0 16.0761 15.9777 */}
-      <g>
-        <path d="M11.0761 7.71651C11.0761 7.91283 11.0708 8.10519 11.0607 8.29365C11.4754 9.71764 12.8364 11.9288 16.0761 13.7993L14.8261 15.9644C12.661 14.7144 11.135 13.2757 10.1161 11.871C8.8789 14.2306 6.67397 15.4974 4.88162 15.9777L4.23454 13.5628C6.14111 13.0519 8.57603 11.3844 8.57603 7.71651V5.35038H11.0761V7.71651Z" />
-        <path d="M5.55982 8.08377L2.23385 14.6018L0.00697561 13.4655L3.33295 6.94745L5.55982 8.08377Z" />
-        <path d="M8.48443 0.789813L8.19944 1.57753H14.5135L15.6347 3.03866L14.6597 6.67762L12.4173 6.07676L13.0008 3.89902H7.96602L6.70731 5.54269L4.69424 4.44207L6.30142 0L8.48443 0.789813Z" />
-        <path d="M4.42851 4.43623L3.21436 6.62169L0 4.83593L1.2141 2.65047L4.42851 4.43623Z" />
-      </g>
-
-      {/* 梦 — offset 17.1, viewBox origin: 0 0 16.8433 15.5703 */}
-      <g transform="translate(17.1, 0)">
-        <path d="M5.98856 1.27235H8.31005V3.05811H6.73783L8.294 4.61428L7.03124 5.87704L5.98856 4.83436V7.05374H5.22129L5.81251 7.81268H14.3593L15.4753 8.92878C15.4753 10.1167 14.8681 11.127 14.026 11.9231C13.1863 12.717 12.0381 13.376 10.7311 13.9036C8.30774 14.8817 5.14496 15.4852 1.82186 15.5703L1.01321 13.3485C2.67032 13.3483 4.27912 13.2084 5.75967 12.957L4.75283 11.9502L6.33124 10.3718L8.33145 12.372C8.88788 12.2092 9.41143 12.0291 9.89564 11.8336C11.0497 11.3679 11.9244 10.8382 12.4924 10.3011C12.5848 10.2138 12.6669 10.1283 12.7398 10.0449H5.99728L2.1862 11.8767L1.01683 9.99034L4.78649 7.05374H3.75637V4.83436L1.26276 7.32797L0 6.06521L3.0071 3.05811H0.899156V1.27235H3.75637V0H5.98856V1.27235Z" />
-      </g>
-
-      {/* 次 — offset 35.0, viewBox origin: 0 0 15.926 15.181 */}
-      <g transform="translate(35.0, 0)">
-        <path d="M15.4578 7.16535H11.6184V12.2548H15.926L15.4852 14.7548H10.3684L9.11834 13.5048V7.16535H6.80004C6.69462 9.32239 6.15281 11.0446 5.14905 12.3729C4.01906 13.8683 2.42459 14.7047 0.647075 15.181L0 12.7661C1.43683 12.3811 2.46517 11.7778 3.15441 10.8656C3.75946 10.065 4.19495 8.90476 4.2965 7.16535H0.479748V4.84386H15.4578V7.16535Z" />
-        <path d="M14.1855 2.32148H1.77442V0H14.1855V2.32148Z" />
-      </g>
-
-      {/* 元 — offset 52.1, viewBox origin: 0 0 15.9562 15.4914 */}
-      <g transform="translate(52.1, 0)">
-        <path d="M3.75802 5.78139C3.75802 7.58654 3.76084 9.36748 3.51266 10.9313C3.38416 11.741 3.18352 12.5282 2.8627 13.2592H15.9562L15.3581 15.4914H0.789203L0 13.5861C0.694523 12.8916 1.09563 11.9197 1.30801 10.5814C1.4786 9.50653 1.51551 8.28371 1.52352 6.89748H0.164188V4.66529H2.64192L3.75802 5.78139Z" />
-      </g>
-    </svg>
+    />
   );
 }
