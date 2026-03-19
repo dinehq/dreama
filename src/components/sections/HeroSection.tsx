@@ -38,14 +38,16 @@ export default function HeroSection() {
           让想像发生
         </h1>
 
-        <div
-          style={{
-            transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-            transition: "transform 0.15s ease-out",
-            willChange: "transform",
-          }}
-        >
-          <Image src="/hero-cloud.svg" alt="" width={321} height={241} />
+        <div className="animate-float">
+          <div
+            style={{
+              transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translate(${tilt.y * 0.8}px, ${tilt.x * -0.8}px)`,
+              transition: "transform 0.15s ease-out",
+              willChange: "transform",
+            }}
+          >
+            <Image src="/hero-cloud.svg" alt="" width={321} height={241} />
+          </div>
         </div>
       </div>
     </section>

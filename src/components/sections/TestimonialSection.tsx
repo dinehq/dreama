@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
 import ChevronRightIcon from "@/components/icons/chevron-right.svg";
+import FadeIn from "@/components/ui/FadeIn";
 
 const BLOB_PATH =
   "M724.1 0C816.386 0 891.2 74.813 891.2 167.1V288.9C891.2 381.187 816.386 456 724.1 456C671.157 456 623.968 431.378 593.352 392.961C589.076 387.596 580.623 387.595 576.347 392.961C545.731 431.378 498.542 456 445.6 456C392.657 456 345.468 431.378 314.852 392.961C310.576 387.596 302.123 387.595 297.847 392.961C267.231 431.378 220.042 456 167.1 456C74.8131 456 0.00023831 381.187 0 288.9V167.1C0.000230964 74.8131 74.8131 0.000214411 167.1 0C220.042 0 267.231 24.622 297.847 63.0384C302.123 68.4037 310.576 68.4036 314.852 63.0383C345.468 24.6219 392.658 0.000123001 445.6 0C498.542 0 545.731 24.622 576.347 63.0384C580.623 68.4037 589.076 68.4036 593.352 63.0383C623.968 24.6219 671.158 0.000123001 724.1 0Z";
@@ -115,7 +116,7 @@ export default function TestimonialSection() {
 
   return (
     <section ref={sectionRef} className="py-20 px-5 lg:px-20">
-      <div className="max-w-[891px] mx-auto">
+      <FadeIn className="max-w-[891px] mx-auto">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
         <div className="pt-24">
@@ -192,7 +193,7 @@ export default function TestimonialSection() {
           </span>
         </div>
 
-      </div>
+      </FadeIn>
     </section>
   );
 }
