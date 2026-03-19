@@ -5,6 +5,14 @@ import Link from "next/link";
 import { LogoIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
 
+const NAV_LINKS = [
+  { href: "#features", label: "创作者" },
+  { href: "#about",    label: "关于我们" },
+  { href: "#join",     label: "加入我们" },
+] as const;
+
+const LINK_CLASS = "text-[15px] text-ink hover:text-brand transition-colors";
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
 
@@ -19,23 +27,16 @@ export default function Nav() {
 
         {/* Center — nav links (hidden below md) */}
         <div className="hidden md:flex items-center gap-9">
-          <a href="#features" className="text-[15px] text-ink hover:text-brand transition-colors">
-            创作者
-          </a>
-          <a href="#about" className="text-[15px] text-ink hover:text-brand transition-colors">
-            关于我们
-          </a>
-          <a href="#join" className="text-[15px] text-ink hover:text-brand transition-colors">
-            加入我们
-          </a>
+          {NAV_LINKS.map(({ href, label }) => (
+            <a key={href} href={href} className={LINK_CLASS}>
+              {label}
+            </a>
+          ))}
         </div>
 
         {/* Right — CTA + hamburger */}
         <div className="flex items-center gap-4 md:gap-6 shrink-0">
-          <a
-            href="#"
-            className="hidden md:block text-[15px] text-ink hover:text-brand transition-colors"
-          >
+          <a href="#" className={`hidden md:block ${LINK_CLASS}`}>
             创作者登录
           </a>
           <Button>下载App</Button>
@@ -77,31 +78,20 @@ export default function Nav() {
           }}
         >
           <div className="px-4 py-2 flex flex-col gap-1 border-t border-border">
-            <a
-              href="#features"
-              onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
-            >
-              创作者
-            </a>
-            <a
-              href="#about"
-              onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
-            >
-              关于我们
-            </a>
-            <a
-              href="#join"
-              onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
-            >
-              加入我们
-            </a>
+            {NAV_LINKS.map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className={`${LINK_CLASS} py-3 border-b border-border`}
+              >
+                {label}
+              </a>
+            ))}
             <a
               href="#"
               onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3"
+              className={`${LINK_CLASS} py-3`}
             >
               创作者登录
             </a>

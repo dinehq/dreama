@@ -6,31 +6,70 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import heroBg from "@public/hero.png";
+
+const TILT_STRENGTH = 8;
+const LERP = 0.12;
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const cloudRef = useRef<HTMLDivElement>(null);
+  const mouse = useRef({ x: 0, y: 0 });
+  const pos = useRef({ x: 0, y: 0 });
+  const rafRef = useRef<number | null>(null);
 
-  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
-    const rect = sectionRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const dx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-    const dy = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-    setTilt({ x: dy * -8, y: dx * 8 });
-  }
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-  function handleMouseLeave() {
-    setTilt({ x: 0, y: 0 });
-  }
+    const startRAF = () => {
+      if (rafRef.current) return;
+      const tick = () => {
+        const dx = mouse.current.x - pos.current.x;
+        const dy = mouse.current.y - pos.current.y;
+        pos.current.x += dx * LERP;
+        pos.current.y += dy * LERP;
+        if (cloudRef.current) {
+          const rx = pos.current.y * -TILT_STRENGTH;
+          const ry = pos.current.x * TILT_STRENGTH;
+          cloudRef.current.style.transform =
+            `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translate(${ry * 0.8}px, ${rx * -0.8}px)`;
+        }
+        if (Math.abs(dx) < 0.001 && Math.abs(dy) < 0.001) {
+          rafRef.current = null;
+          return;
+        }
+        rafRef.current = requestAnimationFrame(tick);
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const r = section.getBoundingClientRect();
+      mouse.current.x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      mouse.current.y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+      startRAF();
+    };
+    const onLeave = () => {
+      mouse.current.x = 0;
+      mouse.current.y = 0;
+      startRAF();
+    };
+
+    section.addEventListener("mousemove", onMove);
+    section.addEventListener("mouseleave", onLeave);
+    return () => {
+      section.removeEventListener("mousemove", onMove);
+      section.removeEventListener("mouseleave", onLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   return (
     <section
       ref={sectionRef}
       className="relative w-full h-[810px] overflow-hidden"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
       <Image src={heroBg} alt="" fill className="object-cover" priority placeholder="blur" />
 
@@ -40,13 +79,7 @@ export default function HeroSection() {
         </h1>
 
         <div className="animate-float">
-          <div
-            style={{
-              transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translate(${tilt.y * 0.8}px, ${tilt.x * -0.8}px)`,
-              transition: "transform 0.15s ease-out",
-              willChange: "transform",
-            }}
-          >
+          <div ref={cloudRef} style={{ willChange: "transform" }}>
             <Image src="/hero-cloud.svg" alt="" width={321} height={241} />
           </div>
         </div>

@@ -43,24 +43,28 @@ const DURATION_MS = 4000;
  * Clicking a tab immediately activates it and restarts the timer.
  * After DURATION_MS the carousel advances automatically.
  *
- * TODO: replace placeholder <div> in media area with <Image> / <video> per tab.
+ * Progress bar width is written directly to the DOM via refs to avoid
+ * 60 React re-renders/second during the RAF animation loop.
  */
 const FADE_MS = 300; // must match transition-opacity duration below
 
 export default function AIShowcaseSection() {
   const [active, setActive] = useState(0);
-  const [progress, setProgress] = useState(0); // 0–100
-  const [prevActive, setPrevActive] = useState<number | null>(null);
-  const [exitWidth, setExitWidth] = useState(0); // frozen width of the outgoing bar
+  // Only tracks the outgoing tab's frozen bar width — set once per transition.
+  const [exiting, setExiting] = useState<{ index: number; frozenWidth: number } | null>(null);
+
   const rafRef = useRef<number | null>(null);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Tracks current progress (0–100) without triggering re-renders.
+  const progressRef = useRef(0);
+  // Direct refs to each tab's progress bar span.
+  const progressBarRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
-  /** Start fade-out for `outgoing` tab, frozen at `width`. */
+  /** Freeze the outgoing tab's bar at `width` and fade it out after FADE_MS. */
   const beginFadeOut = (outgoing: number, width: number) => {
-    setExitWidth(width);
-    setPrevActive(outgoing);
+    setExiting({ index: outgoing, frozenWidth: width });
     if (fadeTimerRef.current !== null) clearTimeout(fadeTimerRef.current);
-    fadeTimerRef.current = setTimeout(() => setPrevActive(null), FADE_MS);
+    fadeTimerRef.current = setTimeout(() => setExiting(null), FADE_MS);
   };
 
   useEffect(() => {
@@ -69,19 +73,24 @@ export default function AIShowcaseSection() {
     const tick = (now: number) => {
       if (startTime === null) startTime = now;
       const pct = Math.min(((now - startTime) / DURATION_MS) * 100, 100);
-      setProgress(pct);
+      progressRef.current = pct;
+      const bar = progressBarRefs.current[active];
+      if (bar) bar.style.width = `${pct}%`;
 
       if (pct < 100) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         beginFadeOut(active, 100);
-        setProgress(0);
+        progressRef.current = 0;
         setActive((prev) => (prev + 1) % ITEMS.length);
       }
     };
 
+    // One frame to let the bar reset to 0 before animating.
     rafRef.current = requestAnimationFrame(() => {
-      setProgress(0);
+      progressRef.current = 0;
+      const bar = progressBarRefs.current[active];
+      if (bar) bar.style.width = "0%";
       rafRef.current = requestAnimationFrame(tick);
     });
 
@@ -99,8 +108,8 @@ export default function AIShowcaseSection() {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    beginFadeOut(active, progress);
-    setProgress(0);
+    beginFadeOut(active, progressRef.current);
+    progressRef.current = 0;
     setActive(idx);
   };
 
@@ -144,12 +153,13 @@ export default function AIShowcaseSection() {
                   isActive ? "bg-brand-light" : "bg-surface-alt hover:bg-surface"
                 }`}
               >
-                {/* Progress fill — grows left→right behind text */}
+                {/* Progress fill — width written directly by RAF for the active tab */}
                 <span
+                  ref={(el) => { progressBarRefs.current[idx] = el; }}
                   aria-hidden="true"
                   className={`absolute inset-y-0 left-0 bg-brand rounded-card transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
                   style={{
-                    width: `${isActive ? progress : idx === prevActive ? exitWidth : 0}%`,
+                    width: `${isActive ? 0 : idx === exiting?.index ? exiting.frozenWidth : 0}%`,
                   }}
                 />
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useRef } from "react";
+import { useIntersectionOnce } from "./useIntersectionOnce";
 
 /** True once the nearest FadeInGroup's section has entered the viewport. */
 export const FadeInGroupContext = createContext(false);
@@ -21,23 +22,7 @@ interface FadeInGroupProps {
  */
 export default function FadeInGroup({ children, className }: FadeInGroupProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const visible = useIntersectionOnce(ref);
 
   return (
     <FadeInGroupContext.Provider value={visible}>
