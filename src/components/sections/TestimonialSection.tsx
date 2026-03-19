@@ -34,7 +34,7 @@ const ITEMS = [
 
 const DURATION_MS = 5000;
 const FADE_MS = 200;
-const PARALLAX_STRENGTH = 14; // max SVG-unit offset
+const PARALLAX_STRENGTH = 6; // max SVG-unit offset
 const LERP_FACTOR = 0.1;      // smoothing — lower = lazier
 
 export default function TestimonialSection() {

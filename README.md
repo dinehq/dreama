@@ -50,9 +50,6 @@ Powered by `@svgr/webpack` via Turbopack loader rules (`next.config.ts`). Types 
 pnpm build
 ```
 
-## TODO
+## Font
 
-- **OPPO Sans 4.0 SC**: add font files to `public/fonts/` and declare `@font-face` in `globals.css`
-- **`HeroSection`**: replace placeholder with full-bleed hero image / video
-- **`AIShowcaseSection`**: replace placeholder with one screenshot or video per tab (3 total)
-- **`TestimonialSection`**: replace placeholder with three user portraits (overlapping circles layout)
+OPPO Sans 4.0 SC is used for all text. The full font (~6 MB) is subsetted down to only the characters used in the source files (~40 KB) at build time via `scripts/subset-font.ts`, using [`subset-font`](https://www.npmjs.com/package/subset-font) (HarfBuzz WASM). The generated `OPPOSans.subset.woff2` is gitignored.

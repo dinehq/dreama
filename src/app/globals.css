@@ -21,8 +21,15 @@
   --radius-pill:    9999px;
 }
 
+@font-face {
+  font-family: 'OPPO Sans 4.0 SC';
+  src: url('/fonts/OPPOSans.subset.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
-  /* OPPO Sans 4.0 SC: add @font-face in globals.css once font files are in public/fonts/ */
   --font-display: 'OPPO Sans 4.0 SC', system-ui, sans-serif;
   --font-body:    'OPPO Sans 4.0 SC', system-ui, sans-serif;
   /* Noto Sans SC loaded at runtime via <link> in layout.tsx */
