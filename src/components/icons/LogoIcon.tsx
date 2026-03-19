@@ -1,41 +1,34 @@
 import Image from "next/image";
+import logoFullImg from "@public/logos/logo-full.png";
+import avatarImg from "@public/logos/avatar.png";
 
 type LogoVariant = "full" | "text" | "avatar";
 
-const LOGO_CONFIG: Record<LogoVariant, { src: string; width: number; height: number; alt: string }> = {
-  full:   { src: "/logos/logo-full.svg",  width: 111, height: 36, alt: "造梦次元" },
-  text:   { src: "/logos/text-logo.svg",  width: 69,  height: 16, alt: "造梦次元" },
-  avatar: { src: "/logos/avatar.svg",     width: 56,  height: 56, alt: "造梦次元" },
-};
+const LOGO_CONFIG = {
+  full:   { src: logoFullImg,            alt: "造梦次元", sizes: "120px" },
+  text:   { src: "/logos/text-logo.svg", alt: "造梦次元", sizes: "72px"  },
+  avatar: { src: avatarImg,              alt: "造梦次元", sizes: "60px"  },
+} satisfies Record<LogoVariant, { src: unknown; alt: string; sizes: string }>;
 
 interface LogoIconProps {
   variant: LogoVariant;
+  /**
+   * Tailwind / CSS class that sets the rendered height (e.g. "h-9").
+   * Width is always "auto" so the aspect ratio is preserved.
+   * The caller is responsible for providing a height constraint.
+   */
   className?: string;
-  /** Fluid mode: image height stretches to 100% of the parent, width follows aspect ratio. */
-  fluid?: boolean;
 }
 
-export function LogoIcon({ variant, className, fluid }: LogoIconProps) {
-  const { src, width, height, alt } = LOGO_CONFIG[variant];
-  if (fluid) {
-    return (
-      <Image
-        src={src}
-        alt={alt}
-        width={0}
-        height={0}
-        sizes={`${width}px`}
-        className={className}
-        style={{ height: "100%", width: "auto" }}
-      />
-    );
-  }
+export function LogoIcon({ variant, className }: LogoIconProps) {
+  const { src, alt, sizes } = LOGO_CONFIG[variant];
   return (
     <Image
       src={src}
       alt={alt}
-      width={width}
-      height={height}
+      width={0}
+      height={0}
+      sizes={sizes}
       className={className}
     />
   );

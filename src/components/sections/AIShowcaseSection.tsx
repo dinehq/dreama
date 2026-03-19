@@ -3,22 +3,25 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import FadeIn from "@/components/ui/FadeIn";
+import carousel1 from "@public/primary-carousel/1.jpg";
+import carousel2 from "@public/primary-carousel/2.jpg";
+import carousel3 from "@public/primary-carousel/3.jpg";
 
 const ITEMS = [
   {
     title: "先进AI模型",
     description: "集成最前沿的生成式AI技术，从文本到图像，从角色到世界",
-    src: "/primary-carousel/1.jpg",
+    src: carousel1,
   },
   {
     title: "强大创作工具",
     description: "直观的创作界面，让复杂的AI能力触手可及",
-    src: "/primary-carousel/2.jpg",
+    src: carousel2,
   },
   {
     title: "用户体验",
     description: "技术持续迭代升级，创作能力无限延展",
-    src: "/primary-carousel/3.jpg",
+    src: carousel3,
   },
 ] as const;
 
@@ -89,7 +92,7 @@ export default function AIShowcaseSection() {
   };
 
   return (
-    <section className="pt-20 px-5 lg:px-20 pb-20">
+    <section className="pt-20 page-gutter pb-20">
       <div className="max-w-[1280px] mx-auto">
 
         {/* Heading */}
@@ -104,12 +107,13 @@ export default function AIShowcaseSection() {
         <div className="relative w-full h-[648px] rounded-[48px] overflow-hidden">
           {ITEMS.map((item, idx) => (
             <Image
-              key={item.src}
+              key={item.title}
               src={item.src}
               alt={item.title}
               fill
               className={`object-cover transition-opacity duration-500 ${idx === active ? "opacity-100" : "opacity-0"}`}
               priority={idx === 0}
+              placeholder="blur"
             />
           ))}
         </div>

@@ -118,7 +118,7 @@ export default function TestimonialSection() {
   const item = ITEMS[active];
 
   return (
-    <section ref={sectionRef} className="py-20 px-5 lg:px-20">
+    <section ref={sectionRef} className="py-20 page-gutter">
       <FadeIn className="max-w-[891px] mx-auto">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}

@@ -49,6 +49,22 @@ body {
   font-family: var(--font-body);
 }
 
+/* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
+@utility page-gutter {
+  padding-left: calc(var(--spacing) * 5);
+  padding-right: calc(var(--spacing) * 5);
+
+  @media (min-width: 48rem) {
+    padding-left: calc(var(--spacing) * 10);
+    padding-right: calc(var(--spacing) * 10);
+  }
+
+  @media (min-width: 64rem) {
+    padding-left: calc(var(--spacing) * 20);
+    padding-right: calc(var(--spacing) * 20);
+  }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-10px); }

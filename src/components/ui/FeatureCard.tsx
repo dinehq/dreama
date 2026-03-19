@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import type { CSSProperties } from "react";
 
 type TextPosition = "top" | "bottom";
@@ -13,7 +13,7 @@ type ImageAlign =
 type SizeValue = number | `${number}%` | "auto";
 
 interface CardImage {
-  src: string;
+  src: string | StaticImageData;
   /**
    * Display width — px number, "100%" (fills card width), or "auto".
    * When either dimension is non-numeric, height follows aspect ratio automatically.
@@ -132,6 +132,7 @@ export default function FeatureCard({
                 height: image.height !== undefined ? "100%" : "auto",
               }}
               className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+              placeholder={typeof image.src === "object" ? "blur" : undefined}
             />
           ) : (
             <Image
@@ -140,6 +141,7 @@ export default function FeatureCard({
               width={image.width as number}
               height={image.height as number}
               className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+              placeholder={typeof image.src === "object" ? "blur" : undefined}
             />
           )}
         </div>

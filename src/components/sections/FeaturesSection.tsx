@@ -1,5 +1,8 @@
 import FeatureCard from "@/components/ui/FeatureCard";
 import FadeIn from "@/components/ui/FadeIn";
+import feature1 from "@public/features/1.png";
+import feature2 from "@public/features/2.jpg";
+import feature3 from "@public/features/3.png";
 
 /**
  * "为什么是造梦次元" — two-column feature grid.
@@ -8,7 +11,7 @@ import FadeIn from "@/components/ui/FadeIn";
  */
 export default function FeaturesSection() {
   return (
-    <section id="features" className="mt-20 px-5 lg:px-20 pb-20">
+    <section id="features" className="mt-20 page-gutter pb-20">
       <div className="max-w-[1280px] mx-auto">
 
         {/* Section header */}
@@ -35,7 +38,7 @@ export default function FeaturesSection() {
                 color="gray"
                 textPosition="bottom"
                 className="h-[445px]"
-                image={{ src: "/features/1.png", width: '100%', x: 0, y: 0, align: 'center' }}
+                image={{ src: feature1, width: '100%', x: 0, y: 0, align: 'center' }}
               />
             </FadeIn>
 
@@ -47,7 +50,7 @@ export default function FeaturesSection() {
                 color="gray"
                 textPosition="bottom"
                 className="h-[300px]"
-                image={{ src: "/features/2.jpg", width: '100%', x: 0, y: 0, align: 'center' }}
+                image={{ src: feature2, width: '100%', x: 0, y: 0, align: 'center' }}
               />
             </FadeIn>
 
@@ -58,7 +61,7 @@ export default function FeaturesSection() {
                 color="orange"
                 textPosition="top"
                 className="h-[300px]"
-                image={{ src: "/features/3.png", width: '100%', x: 0, y: 0, align: 'center' }}
+                image={{ src: feature3, width: '100%', x: 0, y: 0, align: 'center' }}
               />
             </FadeIn>
           </div>

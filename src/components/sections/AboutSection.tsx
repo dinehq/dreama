@@ -6,7 +6,7 @@ import FadeIn from "@/components/ui/FadeIn";
  */
 export default function AboutSection() {
   return (
-    <section id="about" className="px-5 lg:px-20 pb-20">
+    <section id="about" className="page-gutter pb-20">
       <div className="max-w-[1280px] mx-auto">
         <FadeIn>
           <div className="bg-accent-yellow rounded-[48px] h-[445px] flex flex-col items-center justify-center px-8 md:px-[15%] text-center">

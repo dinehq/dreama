@@ -3,17 +3,17 @@ import { LogoIcon } from "@/components/icons";
 export default function Footer() {
   return (
     <footer className="border-t border-black/8">
-      <div className="relative max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20 py-4 flex items-center justify-between gap-4">
+      <div className="relative max-w-[1440px] mx-auto page-gutter py-4 flex items-center justify-between gap-4">
 
         {/* Left — text logo + copyright */}
         <div className="flex flex-col gap-0.5 min-w-0">
-          <LogoIcon variant="text" />
+          <LogoIcon variant="text" className="h-4 w-auto" />
           <p className="text-xs text-ink/50 whitespace-nowrap">© 2026 深圳想法流科技有限公司</p>
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
         <div className="hidden sm:flex absolute inset-y-4 left-1/2 -translate-x-1/2 items-center">
-          <LogoIcon variant="avatar" fluid />
+          <LogoIcon variant="avatar" className="h-full w-auto" />
         </div>
 
         {/* Right — ICP registration */}
