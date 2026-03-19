@@ -15,7 +15,7 @@ const ITEMS = [
     author: "张明轩",
     role: "独立创作者",
     avatar: "/creators/1.png",
-    color: "#06C755",
+    color: "var(--color-brand)",
   },
   {
     quote:
@@ -23,7 +23,7 @@ const ITEMS = [
     author: "李晓雯",
     role: "漫画作者",
     avatar: "/creators/2.png",
-    color: "#45C7FF",
+    color: "var(--color-accent-blue)",
   },
   {
     quote:
@@ -31,7 +31,7 @@ const ITEMS = [
     author: "陈建国",
     role: "独立游戏开发者",
     avatar: "/creators/3.png",
-    color: "#FFE23C",
+    color: "var(--color-accent-yellow)",
   },
 ] as const;
 
@@ -60,26 +60,41 @@ export default function TestimonialSection() {
     const section = sectionRef.current;
     if (!section) return;
 
+    const startRAF = () => {
+      if (rafRef.current) return;
+      const tick = () => {
+        const dx = mouse.current.x - pos.current.x;
+        const dy = mouse.current.y - pos.current.y;
+        pos.current.x += dx * LERP_FACTOR;
+        pos.current.y += dy * LERP_FACTOR;
+        imageRef.current?.setAttribute(
+          "transform",
+          `translate(${-pos.current.x * PARALLAX_STRENGTH}, ${-pos.current.y * PARALLAX_STRENGTH})`
+        );
+        // Stop looping once position has converged within 0.01 SVG units.
+        if (Math.abs(dx) < 0.001 && Math.abs(dy) < 0.001) {
+          rafRef.current = null;
+          return;
+        }
+        rafRef.current = requestAnimationFrame(tick);
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
     const onMove = (e: MouseEvent) => {
       const r = section.getBoundingClientRect();
       mouse.current.x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
       mouse.current.y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+      startRAF();
     };
-    const onLeave = () => { mouse.current.x = 0; mouse.current.y = 0; };
-
-    const tick = () => {
-      pos.current.x += (mouse.current.x - pos.current.x) * LERP_FACTOR;
-      pos.current.y += (mouse.current.y - pos.current.y) * LERP_FACTOR;
-      imageRef.current?.setAttribute(
-        "transform",
-        `translate(${-pos.current.x * PARALLAX_STRENGTH}, ${-pos.current.y * PARALLAX_STRENGTH})`
-      );
-      rafRef.current = requestAnimationFrame(tick);
+    const onLeave = () => {
+      mouse.current.x = 0;
+      mouse.current.y = 0;
+      startRAF();
     };
 
     section.addEventListener("mousemove", onMove);
     section.addEventListener("mouseleave", onLeave);
-    rafRef.current = requestAnimationFrame(tick);
     return () => {
       section.removeEventListener("mousemove", onMove);
       section.removeEventListener("mouseleave", onLeave);
@@ -141,8 +156,7 @@ export default function TestimonialSection() {
             {/* Green blob background */}
             <path
               d={BLOB_PATH}
-              fill={item.color}
-              style={{ transition: "fill 0.4s ease" }}
+              style={{ fill: item.color, transition: "fill 0.4s ease" }}
             />
             {/* Clip is on the static <g>; only the image inside moves with parallax */}
             <g clipPath="url(#blob-clip)">

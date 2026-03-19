@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { LogoIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
 
@@ -8,13 +9,13 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/5">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-nav-bg/90 backdrop-blur-sm border-b border-border">
       <div className="max-w-[1440px] mx-auto page-gutter h-14 flex items-center justify-between gap-4">
 
         {/* Left — logo */}
-        <div className="shrink-0 min-w-0">
+        <Link href="/" className="shrink-0 min-w-0">
           <LogoIcon variant="full" className="h-9 w-auto" priority />
-        </div>
+        </Link>
 
         {/* Center — nav links (hidden below md) */}
         <div className="hidden md:flex items-center gap-9">
@@ -75,25 +76,25 @@ export default function Nav() {
             transform: open ? "translateY(0)" : "translateY(-8px)",
           }}
         >
-          <div className="px-4 py-2 flex flex-col gap-1 border-t border-black/5">
+          <div className="px-4 py-2 flex flex-col gap-1 border-t border-border">
             <a
               href="#features"
               onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-black/5"
+              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
             >
               创作者
             </a>
             <a
               href="#about"
               onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-black/5"
+              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
             >
               关于我们
             </a>
             <a
               href="#join"
               onClick={() => setOpen(false)}
-              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-black/5"
+              className="text-[15px] text-ink hover:text-brand transition-colors py-3 border-b border-border"
             >
               加入我们
             </a>

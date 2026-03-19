@@ -2,12 +2,12 @@ import { LogoIcon } from "@/components/icons";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-black/8">
+    <footer className="border-t border-border">
       <div className="relative max-w-[1440px] mx-auto page-gutter py-4 flex items-center justify-between gap-4">
 
         {/* Left — text logo + copyright */}
         <div className="flex flex-col gap-0.5 min-w-0">
-          <LogoIcon variant="text" className="h-4 w-auto self-start" />
+          <LogoIcon variant="text" className="h-4 w-auto self-start invert-dark" />
           <p className="text-xs text-ink/50 whitespace-nowrap">© 2026 深圳想法流科技有限公司</p>
         </div>
 

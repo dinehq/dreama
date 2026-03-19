@@ -9,11 +9,14 @@
   --color-accent-orange: #ff830f;
   --color-accent-blue:   #45c7ff;
 
-  /* Neutrals */
+  /* Neutrals — light-mode defaults; overridden in dark mode below */
+  --color-page-bg:     #ffffff;
+  --color-nav-bg:      #ffffff;
   --color-surface:     #f8f8f8;
   --color-surface-alt: #f0f0f0;
   --color-ink:         #242424;
   --color-hero-bg:     #e4e4e4;
+  --color-border:      rgba(0,0,0,0.06);
 
   /* Radius */
   --radius-card:    24px;
@@ -35,15 +38,48 @@
   --font-nav:     'OPPO Sans 4.0 SC', system-ui, sans-serif;
 }
 
+/* Adaptive shadow — used by FeatureCard hover */
+:root {
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.10);
+}
+
 /* Dark mode — variables only; components intentionally use no dark: classes */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-page-bg: #0a0a0a;
-    --color-ink:     #ededed;
+    /* Neutrals */
+    --color-page-bg:     #0a0a0a;
+    --color-nav-bg:      #111111;
+    --color-surface:     #1c1c1e;
+    --color-surface-alt: #141416;
+    --color-ink:         #ededed;
+    --color-hero-bg:     #1e1e1e;
+    --color-border:      rgba(255,255,255,0.08);
+
+    /* Brand — keep hue, reduce lightness */
+    --color-brand:         #05b34a;
+    --color-brand-light:   #164d28;
+    --color-brand-mint:    #0d3318;
+
+    /* Accents — keep hue, reduce to avoid harshness on dark bg */
+    --color-accent-yellow: #c99e00;
+    --color-accent-orange: #c45f00;
+    --color-accent-blue:   #0090bf;
+
+    --shadow-card-hover: 0 8px 30px rgba(255, 255, 255, 0.06);
+  }
+
+  img,
+  image {
+    filter: brightness(0.85);
+  }
+
+  .invert-dark {
+    filter: invert(1);
   }
 }
 
 body {
+  background-color: var(--color-page-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
 }

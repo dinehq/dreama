@@ -120,7 +120,7 @@ export default function FeatureCard({
   const textColors = textThemeMap[textTheme];
   return (
     <div
-      className={`group relative w-full rounded-feature overflow-hidden transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] ${colorMap[color]} ${className}`}
+      className={`group relative w-full rounded-feature overflow-hidden transition-shadow duration-500 hover:shadow-[var(--shadow-card-hover)] ${colorMap[color]} ${className}`}
     >
       {image && (
         <div style={wrapperStyle(image)}>
