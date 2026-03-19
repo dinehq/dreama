@@ -1,5 +1,6 @@
 import FeatureCard, { type FeatureCardProps } from "@/components/ui/FeatureCard";
 import FadeIn from "@/components/ui/FadeIn";
+import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@public/features/1.png";
 import feature2 from "@public/features/2.jpg";
 import feature3 from "@public/features/3.png";
@@ -90,7 +91,7 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
 export default function FeaturesSection() {
   return (
     <section id="features" className="mt-20 page-gutter pb-20">
-      <div className="max-w-[1280px] mx-auto">
+      <FadeInGroup className="max-w-[1280px] mx-auto">
 
         {/* Section header */}
         <FadeIn className="text-center mb-16">
@@ -106,7 +107,7 @@ export default function FeaturesSection() {
           <CardColumn label="给创作者" cards={RIGHT_CARDS} />
         </div>
 
-      </div>
+      </FadeInGroup>
     </section>
   );
 }

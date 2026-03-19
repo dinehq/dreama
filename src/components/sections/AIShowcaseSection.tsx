@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import FadeIn from "@/components/ui/FadeIn";
+import FadeInGroup from "@/components/ui/FadeInGroup";
 import carousel1 from "@public/primary-carousel/1.jpg";
 import carousel2 from "@public/primary-carousel/2.jpg";
 import carousel3 from "@public/primary-carousel/3.jpg";
@@ -105,7 +106,7 @@ export default function AIShowcaseSection() {
 
   return (
     <section className="pt-20 page-gutter pb-20">
-      <div className="max-w-[1280px] mx-auto">
+      <FadeInGroup className="max-w-[1280px] mx-auto">
 
         {/* Heading */}
         <FadeIn>
@@ -136,10 +137,10 @@ export default function AIShowcaseSection() {
           {ITEMS.map((item, idx) => {
             const isActive = idx === active;
             return (
-              <FadeIn key={item.title} delay={200 + idx * 100} className="flex-1">
               <button
+                key={item.title}
                 onClick={() => handleSelect(idx)}
-                className={`relative w-full text-left px-4 py-4 rounded-card overflow-hidden transition-colors cursor-pointer ${
+                className={`flex-1 relative w-full text-left px-4 py-4 rounded-card overflow-hidden transition-colors cursor-pointer ${
                   isActive ? "bg-brand-light" : "bg-surface-alt hover:bg-surface"
                 }`}
               >
@@ -160,12 +161,11 @@ export default function AIShowcaseSection() {
                   </span>
                 </span>
               </button>
-              </FadeIn>
             );
           })}
         </div>
 
-      </div>
+      </FadeInGroup>
     </section>
   );
 }
