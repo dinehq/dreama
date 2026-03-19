@@ -7,12 +7,12 @@ Official website for Dreama (造梦次元), built with Next.js 16 and Tailwind C
 - **Framework**: Next.js 16 (App Router + Turbopack)
 - **Styles**: Tailwind CSS v4
 - **Language**: TypeScript
-- **Package manager**: Bun
+- **Package manager**: pnpm
 
 ## Getting Started
 
 ```bash
-bun dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the result.
@@ -47,7 +47,7 @@ Powered by `@svgr/webpack` via Turbopack loader rules (`next.config.ts`). Types 
 ## Build
 
 ```bash
-bun run build
+pnpm build
 ```
 
 ## TODO

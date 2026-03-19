@@ -1,0 +1,15 @@
+<svg width="631" height="276" viewBox="0 0 631 276" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="407" y="156" width="224" height="120" rx="24" fill="white"/>
+<rect x="424" y="179" width="101" height="12" rx="6" fill="#F3EFDA"/>
+<rect x="424" y="199" width="190" height="53" rx="6" fill="#F3EFDA"/>
+<rect y="98" width="192" height="80" rx="24" fill="white"/>
+<path d="M191 138H230.923C246.914 138 261.368 128.477 267.678 113.784L280.375 84.216C286.685 69.5232 301.139 60 317.13 60H340" stroke="#DBA824" stroke-width="4"/>
+<path d="M192 138H236.416C265.919 138 293.442 152.846 309.646 177.5C325.851 202.154 353.374 217 382.877 217L407 217" stroke="#DBA824" stroke-width="4"/>
+<circle cx="192" cy="138" r="6" fill="#DBA824"/>
+<circle cx="407" cy="217" r="6" fill="#DBA824"/>
+<rect x="20" y="118" width="101" height="12" rx="6" fill="#F3EFDA"/>
+<rect x="20" y="145" width="151" height="12" rx="6" fill="#F3EFDA"/>
+<rect x="340" width="192" height="120" rx="24" fill="white"/>
+<rect x="360" y="27" width="101" height="12" rx="6" fill="#F3EFDA"/>
+<rect x="360" y="47" width="151" height="44" rx="6" fill="#F3EFDA"/>
+</svg>
