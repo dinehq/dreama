@@ -4,24 +4,30 @@ import { useState, useEffect, useRef } from "react";
 import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
 import ChevronRightIcon from "@/components/icons/chevron-right.svg";
 
+const BLOB_PATH =
+  "M724.1 0C816.386 0 891.2 74.813 891.2 167.1V288.9C891.2 381.187 816.386 456 724.1 456C671.157 456 623.968 431.378 593.352 392.961C589.076 387.596 580.623 387.595 576.347 392.961C545.731 431.378 498.542 456 445.6 456C392.657 456 345.468 431.378 314.852 392.961C310.576 387.596 302.123 387.595 297.847 392.961C267.231 431.378 220.042 456 167.1 456C74.8131 456 0.00023831 381.187 0 288.9V167.1C0.000230964 74.8131 74.8131 0.000214411 167.1 0C220.042 0 267.231 24.622 297.847 63.0384C302.123 68.4037 310.576 68.4036 314.852 63.0383C345.468 24.6219 392.658 0.000123001 445.6 0C498.542 0 545.731 24.622 576.347 63.0384C580.623 68.4037 589.076 68.4036 593.352 63.0383C623.968 24.6219 671.158 0.000123001 724.1 0Z";
+
 const ITEMS = [
   {
     quote:
       "Dreama 让我的角色真正活了起来。观众不再只是旁观者，他们可以参与到故事中，这种体验是前所未有的。",
     author: "张明轩",
     role: "独立创作者",
+    avatar: "/creators/1.png",
   },
   {
     quote:
       "在造梦次元，我的故事不再只是我的故事。玩家带着自己的创意延续了我的世界，这才是真正的共创。",
     author: "李晓雯",
     role: "漫画作者",
+    avatar: "/creators/2.png",
   },
   {
     quote:
       "以前变现是最头疼的问题，现在内容本身就是产品。造梦次元让我第一次感受到创作可以养活自己。",
     author: "陈建国",
     role: "独立游戏开发者",
+    avatar: "/creators/3.png",
   },
 ] as const;
 
@@ -71,16 +77,40 @@ export default function TestimonialSection() {
     <section className="py-20 px-5 lg:px-20">
       <div className="max-w-[891px] mx-auto">
 
-        {/* Image placeholder — three-circle blob */}
-        <div className="relative w-full" style={{ paddingBottom: "51.17%" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/94665f4b75119d043b5469bb6a6a0e889689d6aa.svg"
-            alt=""
+        {/* Wrapper pt gives space for the person's head to overflow above the blob */}
+        <div className="pt-24">
+          <svg
+            viewBox="0 0 892 456"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full"
+            style={{ overflow: "visible" }}
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full"
-          />
-          {/* TODO: replace with three overlapping user portrait <Image> components */}
+          >
+            <defs>
+              <clipPath id="blob-clip">
+                {/* Extends well above the SVG so the head is never clipped */}
+                <rect x="0" y="-200" width="892" height="428" />
+                {/* Bottom half clips to the blob boundary */}
+                <path d={BLOB_PATH} />
+              </clipPath>
+            </defs>
+            {/* Green blob background */}
+            <path d={BLOB_PATH} fill="#06C755" />
+            {/* Person photo: y=-96 aligns image top with pt-24 wrapper top */}
+            <image
+              href={item.avatar}
+              x={0}
+              y={-96}
+              width={892}
+              height={552}
+              preserveAspectRatio="xMidYMid slice"
+              clipPath="url(#blob-clip)"
+              style={{
+                opacity: contentVisible ? 1 : 0,
+                transition: `opacity ${FADE_MS}ms`,
+              }}
+            />
+          </svg>
         </div>
 
         {/* ── Fading area: only quote + author animate on slide change ── */}
