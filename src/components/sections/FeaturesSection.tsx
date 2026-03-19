@@ -32,7 +32,7 @@ export default function FeaturesSection() {
               color="gray"
               textPosition="bottom"
               className="h-[445px]"
-              image={{ src: "/features/1.png", width: 1251, height: 1631, x: 0, y: 0, align: 'center' }}
+              image={{ src: "/features/1.png", width: '100%', x: 0, y: 0, align: 'center' }}
             />
 
             {/* Card 2 — gray, medium, text at bottom */}

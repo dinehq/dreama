@@ -83,6 +83,18 @@ function toCSS(v: SizeValue | undefined): string | number {
 }
 
 /**
+ * Wrapper style: handles absolute positioning + centering transforms.
+ * Width/height go on the wrapper so that fluid % values (e.g. "100%") are
+ * resolved against the card (the containing block), not the image content.
+ */
+function wrapperStyle(image: CardImage): CSSProperties {
+  const style: CSSProperties = { ...positionStyle(image) };
+  if (image.width  !== undefined) style.width  = toCSS(image.width);
+  if (image.height !== undefined) style.height = toCSS(image.height);
+  return style;
+}
+
+/**
  * Feature detail card — colored rounded rectangle with title + description.
  * image.align controls which corner/edge the illustration is anchored to.
  * image.x / image.y are pixel offsets inward from the anchored edge(s).
@@ -104,31 +116,33 @@ export default function FeatureCard({
   const textColors = textThemeMap[textTheme];
   return (
     <div
-      className={`relative w-full rounded-feature overflow-hidden ${colorMap[color]} ${className}`}
+      className={`group relative w-full rounded-feature overflow-hidden transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] ${colorMap[color]} ${className}`}
     >
       {image && (
-        isFluid(image) ? (
-          <Image
-            src={image.src}
-            alt=""
-            width={0}
-            height={0}
-            sizes="(max-width: 768px) 100vw, 640px"
-            style={{
-              ...positionStyle(image),
-              width: toCSS(image.width),
-              height: toCSS(image.height),
-            }}
-          />
-        ) : (
-          <Image
-            src={image.src}
-            alt=""
-            width={image.width as number}
-            height={image.height as number}
-            style={positionStyle(image)}
-          />
-        )
+        <div style={wrapperStyle(image)}>
+          {isFluid(image) ? (
+            <Image
+              src={image.src}
+              alt=""
+              width={0}
+              height={0}
+              sizes="(max-width: 768px) 100vw, 640px"
+              style={{
+                width: "100%",
+                height: image.height !== undefined ? "100%" : "auto",
+              }}
+              className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+            />
+          ) : (
+            <Image
+              src={image.src}
+              alt=""
+              width={image.width as number}
+              height={image.height as number}
+              className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+            />
+          )}
+        </div>
       )}
       <div
         className={`absolute left-8 ${
