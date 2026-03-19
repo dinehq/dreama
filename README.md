@@ -9,10 +9,14 @@ Official website for Dreama (造梦次元), built with Next.js 16 and Tailwind C
 - **Language**: TypeScript
 - **Package manager**: pnpm
 
-## Getting Started
+## Commands
 
 ```bash
-pnpm dev
+pnpm dev       # Subset font, then start dev server (Turbopack)
+pnpm build     # Subset font, then production build
+pnpm subset    # Regenerate OPPOSans.subset.woff2 manually
+pnpm start     # Start production server
+pnpm lint      # Run ESLint
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the result.

@@ -150,14 +150,14 @@ export default function AIShowcaseSection() {
                 key={item.title}
                 onClick={() => handleSelect(idx)}
                 className={`flex-1 relative w-full text-left px-4 py-4 rounded-card overflow-hidden transition-colors cursor-pointer ${
-                  isActive ? "bg-brand-light" : "bg-surface-alt hover:bg-surface"
+                  isActive ? "bg-brand-mint" : "bg-surface-alt hover:bg-surface"
                 }`}
               >
                 {/* Progress fill — width written directly by RAF for the active tab */}
                 <span
                   ref={(el) => { progressBarRefs.current[idx] = el; }}
                   aria-hidden="true"
-                  className={`absolute inset-y-0 left-0 bg-brand rounded-card transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute inset-y-0 left-0 bg-brand-vivid rounded-card transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
                   style={{
                     width: `${isActive ? 0 : idx === exiting?.index ? exiting.frozenWidth : 0}%`,
                   }}
@@ -165,7 +165,7 @@ export default function AIShowcaseSection() {
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
-                  <span className="text-sm font-bold text-ink">{item.title}</span>
+                  <span className="text-base font-bold text-ink">{item.title}</span>
                   <span className="mt-1 text-sm text-ink/70 leading-5">
                     {item.description}
                   </span>

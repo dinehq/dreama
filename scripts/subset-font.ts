@@ -29,6 +29,10 @@ function collectFiles(dir: string): string[] {
 }
 
 const chars = new Set<string>();
+
+// Always include printable ASCII so Latin/numeric glyphs aren't missing
+for (let cp = 0x20; cp <= 0x7e; cp++) chars.add(String.fromCodePoint(cp));
+
 for (const file of collectFiles(SRC_DIR)) {
   for (const ch of readFileSync(file, "utf8")) {
     if (ch.codePointAt(0)! > 127) chars.add(ch);

@@ -5,6 +5,7 @@
   --color-brand:         #06c755;
   --color-brand-light:   #44e775;
   --color-brand-mint:    #9ef2b7;
+  --color-brand-vivid:   #27df72;
   --color-accent-yellow: #ffe23c;
   --color-accent-orange: #ff830f;
   --color-accent-blue:   #45c7ff;
@@ -38,6 +39,10 @@
   --font-nav:     'OPPO Sans 4.0 SC', system-ui, sans-serif;
 }
 
+:root {
+  text-autospace: normal;
+}
+
 /* Adaptive shadow — used by FeatureCard hover */
 :root {
   --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.10);
@@ -59,6 +64,7 @@
     --color-brand:         #05b34a;
     --color-brand-light:   #164d28;
     --color-brand-mint:    #0d3318;
+    --color-brand-vivid:   #1a8540;
 
     /* Accents — keep hue, reduce to avoid harshness on dark bg */
     --color-accent-yellow: #c99e00;

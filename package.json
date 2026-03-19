@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "tsx scripts/subset-font.ts && next build",
+    "subset": "tsx scripts/subset-font.ts",
+    "dev": "pnpm subset && next dev",
+    "build": "pnpm subset && next build",
     "start": "next start",
     "lint": "eslint",
     "publish:staging": "pnpm dlx vercel --prod"
