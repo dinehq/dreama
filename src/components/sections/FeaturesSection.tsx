@@ -32,15 +32,18 @@ export default function FeaturesSection() {
               color="gray"
               textPosition="bottom"
               className="h-[445px]"
+              image={{ src: "/features/1.png", width: 1251, height: 1631, x: 0, y: 0, align: 'center' }}
             />
 
             {/* Card 2 — gray, medium, text at bottom */}
             <FeatureCard
               title="有趣激励机制"
               description="多种玩法，兴趣驱动创作"
+              textTheme="light"
               color="gray"
               textPosition="bottom"
               className="h-[300px]"
+              image={{ src: "/features/2.jpg", width: '100%', x: 0, y: 0, align: 'center' }}
             />
 
             {/* Card 3 — orange, medium, text at top */}
@@ -50,6 +53,7 @@ export default function FeaturesSection() {
               color="orange"
               textPosition="top"
               className="h-[300px]"
+              image={{ src: "/features/3.png", width: '100%', x: 0, y: 0, align: 'center' }}
             />
           </div>
 
@@ -64,6 +68,7 @@ export default function FeaturesSection() {
               color="yellow"
               textPosition="bottom"
               className="h-[280px]"
+              image={{ src: "/features/4.svg", width: 631, height: 276, x: 32, y: 21, align: 'bottom-left' }}
             />
 
             {/* Card 5 — green, tall, text at bottom */}
@@ -73,6 +78,7 @@ export default function FeaturesSection() {
               color="green"
               textPosition="bottom"
               className="h-[443px]"
+              image={{ src: "/features/5.svg", width: '50%', x: 0, y: 0, align: 'center' }}
             />
 
             {/* Card 6 — blue, medium, text at top */}
@@ -82,6 +88,7 @@ export default function FeaturesSection() {
               color="blue"
               textPosition="top"
               className="h-[321px]"
+              image={{ src: "/features/6.svg", width: '100%', x: 0, y: 0, align: 'bottom-left' }}
             />
           </div>
 

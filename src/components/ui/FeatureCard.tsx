@@ -1,12 +1,47 @@
+import Image from "next/image";
+import type { CSSProperties } from "react";
+
 type TextPosition = "top" | "bottom";
 type CardColor = "gray" | "yellow" | "orange" | "green" | "blue";
+type TextTheme = "light" | "dark";
+type ImageAlign =
+  | "top-left"  | "top"    | "top-right"
+  | "left"      | "center" | "right"
+  | "bottom-left" | "bottom" | "bottom-right";
+
+/** px number, percentage string (e.g. "50%"), or "auto" */
+type SizeValue = number | `${number}%` | "auto";
+
+interface CardImage {
+  src: string;
+  /**
+   * Display width — px number, "100%" (fills card width), or "auto".
+   * When either dimension is non-numeric, height follows aspect ratio automatically.
+   */
+  width?: SizeValue;
+  /** Display height — px number, "100%", or "auto". */
+  height?: SizeValue;
+  /**
+   * Which edge/corner of the card the image is anchored to (default: "top-left").
+   * x/y offsets are measured inward from the anchored edge(s).
+   * For centered axes (e.g. align="top"), the perpendicular axis is centered automatically.
+   */
+  align?: ImageAlign;
+  /** Offset from the horizontal anchor edge in px (default: 0) */
+  x?: number;
+  /** Offset from the vertical anchor edge in px (default: 0) */
+  y?: number;
+}
 
 interface FeatureCardProps {
   title: string;
   description: string;
   color?: CardColor;
   textPosition?: TextPosition;
+  /** "dark" = black text (default), "light" = white text */
+  textTheme?: TextTheme;
   className?: string;
+  image?: CardImage;
 }
 
 const colorMap: Record<CardColor, string> = {
@@ -17,29 +52,91 @@ const colorMap: Record<CardColor, string> = {
   blue:   "bg-accent-blue",
 };
 
+function positionStyle({ align = "top-left", x = 0, y = 0 }: CardImage): CSSProperties {
+  const style: CSSProperties = { position: "absolute" };
+  const transforms: string[] = [];
+
+  const anchorLeft   = align.includes("left");
+  const anchorRight  = align.includes("right");
+  const anchorTop    = align.includes("top");
+  const anchorBottom = align.includes("bottom");
+
+  if (anchorLeft)        style.left   = x;
+  else if (anchorRight)  style.right  = x;
+  else { style.left = "50%"; transforms.push("translateX(-50%)"); }
+
+  if (anchorTop)         style.top    = y;
+  else if (anchorBottom) style.bottom = y;
+  else { style.top = "50%"; transforms.push("translateY(-50%)"); }
+
+  if (transforms.length) style.transform = transforms.join(" ");
+  return style;
+}
+
+/** True when either dimension needs CSS-based sizing (non-numeric). */
+function isFluid(image: CardImage) {
+  return typeof image.width !== "number" || typeof image.height !== "number";
+}
+
+function toCSS(v: SizeValue | undefined): string | number {
+  return v ?? "auto";
+}
+
 /**
  * Feature detail card — colored rounded rectangle with title + description.
- * textPosition controls whether the label is anchored to the top or bottom.
+ * image.align controls which corner/edge the illustration is anchored to.
+ * image.x / image.y are pixel offsets inward from the anchored edge(s).
  */
+const textThemeMap: Record<TextTheme, { title: string; description: string }> = {
+  dark:  { title: "text-ink",       description: "text-ink/70" },
+  light: { title: "text-white",     description: "text-white/70" },
+};
+
 export default function FeatureCard({
   title,
   description,
   color = "gray",
   textPosition = "bottom",
+  textTheme = "dark",
   className = "",
+  image,
 }: FeatureCardProps) {
+  const textColors = textThemeMap[textTheme];
   return (
     <div
       className={`relative w-full rounded-feature overflow-hidden ${colorMap[color]} ${className}`}
     >
-      {/* TODO: <Image> illustration */}
+      {image && (
+        isFluid(image) ? (
+          <Image
+            src={image.src}
+            alt=""
+            width={0}
+            height={0}
+            sizes="(max-width: 768px) 100vw, 640px"
+            style={{
+              ...positionStyle(image),
+              width: toCSS(image.width),
+              height: toCSS(image.height),
+            }}
+          />
+        ) : (
+          <Image
+            src={image.src}
+            alt=""
+            width={image.width as number}
+            height={image.height as number}
+            style={positionStyle(image)}
+          />
+        )
+      )}
       <div
         className={`absolute left-8 ${
           textPosition === "top" ? "top-8" : "bottom-8"
         } max-w-[240px]`}
       >
-        <p className="text-xl font-bold text-ink leading-tight">{title}</p>
-        <p className="mt-1 text-sm text-ink/70 leading-5">{description}</p>
+        <p className={`text-xl font-bold leading-tight ${textColors.title}`}>{title}</p>
+        <p className={`mt-1 text-sm leading-5 ${textColors.description}`}>{description}</p>
       </div>
     </div>
   );
