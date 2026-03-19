@@ -36,18 +36,22 @@ const ITEMS = [
 ] as const;
 
 const DURATION_MS = 5000;
-const FADE_MS = 200;
+const EXIT_MS     = 160; // exit transition duration
 const PARALLAX_STRENGTH = 6; // max SVG-unit offset
 const LERP_FACTOR = 0.1;      // smoothing — lower = lazier
 
+type SlidePhase = 'enter' | 'exit' | 'pre-enter';
+
 export default function TestimonialSection() {
   const [active, setActive] = useState(0);
-  const [contentVisible, setContentVisible] = useState(true);
+  const [phase, setPhase] = useState<SlidePhase>('enter');
 
   // Ref so timer callbacks always read the latest index without stale closures.
-  const activeRef = useRef(0);
-  const autoRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeRef   = useRef(0);
+  const dirRef      = useRef<1 | -1>(1); // 1 = forward, -1 = backward
+  const autoRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const enterRafRef = useRef<number | null>(null);
 
   // Parallax — no state, pure RAF + direct DOM mutation.
   const sectionRef = useRef<HTMLElement>(null);
@@ -103,26 +107,37 @@ export default function TestimonialSection() {
   }, []);
 
   const clearAll = () => {
-    if (autoRef.current) clearTimeout(autoRef.current);
-    if (fadeRef.current) clearTimeout(fadeRef.current);
+    if (autoRef.current)     clearTimeout(autoRef.current);
+    if (fadeRef.current)     clearTimeout(fadeRef.current);
+    if (enterRafRef.current) cancelAnimationFrame(enterRafRef.current);
   };
 
   const scheduleAutoPlay = () => {
     autoRef.current = setTimeout(() => {
-      goTo((activeRef.current + 1) % ITEMS.length);
+      goTo((activeRef.current + 1) % ITEMS.length, 1);
     }, DURATION_MS);
   };
 
-  // Fade out quote/author, swap content, fade back in, then restart auto-play.
-  const goTo = (idx: number) => {
+  /**
+   * Three-phase directional transition:
+   *  1. exit   — content slides out in `dir` direction + fades (EXIT_MS)
+   *  2. pre-enter — instantly reposition to opposite side (no transition)
+   *  3. enter  — content slides to rest + fades in (expo-out curve)
+   */
+  const goTo = (idx: number, dir: 1 | -1) => {
     clearAll();
-    setContentVisible(false);
+    dirRef.current = dir;
+    setPhase('exit');
     fadeRef.current = setTimeout(() => {
       activeRef.current = idx;
       setActive(idx);
-      setContentVisible(true);
-      scheduleAutoPlay();
-    }, FADE_MS);
+      setPhase('pre-enter');
+      // One frame later: start enter animation so the pre-enter position commits first.
+      enterRafRef.current = requestAnimationFrame(() => {
+        setPhase('enter');
+        scheduleAutoPlay();
+      });
+    }, EXIT_MS);
   };
 
   useEffect(() => {
@@ -131,6 +146,15 @@ export default function TestimonialSection() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const item = ITEMS[active];
+
+  const exitY  = dirRef.current > 0 ? -6 : 6;   // exit slides in direction of travel
+  const enterY = dirRef.current > 0 ?   6 : -6; // enter arrives from the opposite side
+  const slideStyle = (delay = 0): React.CSSProperties =>
+    phase === 'exit'
+      ? { opacity: 0, transform: `translateY(${exitY}px)`,  transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease` }
+    : phase === 'pre-enter'
+      ? { opacity: 0, transform: `translateY(${enterY}px)`, transition: 'none' }
+    : { opacity: 1, transform: 'translateY(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
 
   return (
     <section ref={sectionRef} className="py-20 page-gutter">
@@ -169,42 +193,36 @@ export default function TestimonialSection() {
                 height={584}
                 preserveAspectRatio="xMidYMid slice"
                 style={{
-                  opacity: contentVisible ? 1 : 0,
-                  transition: `opacity ${FADE_MS}ms`,
+                  opacity: phase === 'enter' ? 1 : 0,
+                  transition: `opacity ${EXIT_MS}ms`,
                 }}
               />
             </g>
           </svg>
         </div>
 
-        {/* ── Fading area: only quote + author animate on slide change ── */}
-        <div
-          className="mt-16 px-4 md:px-[6%] transition-opacity duration-200"
-          style={{ opacity: contentVisible ? 1 : 0 }}
-        >
+        {/* ── Animated area: quote + author slide on slide change ── */}
+        <div className="mt-16 px-4 md:px-[6%]" style={slideStyle()}>
           <blockquote className="text-2xl font-bold text-ink leading-relaxed">
             &ldquo;{item.quote}&rdquo;
           </blockquote>
         </div>
 
-        {/* ── Stable area: buttons and counter never fade ── */}
+        {/* ── Stable area: buttons and counter never animate ── */}
         <div className="mt-10 px-4 md:px-[6%] flex justify-between items-center">
-          <p
-            className="text-base text-ink/80 transition-opacity duration-200"
-            style={{ opacity: contentVisible ? 1 : 0 }}
-          >
+          <p className="text-base text-ink/80" style={slideStyle(80)}>
             {item.author}，{item.role}
           </p>
           <div className="flex items-center gap-3">
             <button
-              onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length)}
+              onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length, -1)}
               aria-label="上一条"
               className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
             >
               <ChevronLeftIcon width={36} height={36} />
             </button>
             <button
-              onClick={() => goTo((activeRef.current + 1) % ITEMS.length)}
+              onClick={() => goTo((activeRef.current + 1) % ITEMS.length, 1)}
               aria-label="下一条"
               className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
             >
