@@ -33,6 +33,8 @@ const ITEMS = [
 
 const DURATION_MS = 5000;
 const FADE_MS = 200;
+const PARALLAX_STRENGTH = 14; // max SVG-unit offset
+const LERP_FACTOR = 0.1;      // smoothing — lower = lazier
 
 export default function TestimonialSection() {
   const [active, setActive] = useState(0);
@@ -42,6 +44,44 @@ export default function TestimonialSection() {
   const activeRef = useRef(0);
   const autoRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Parallax — no state, pure RAF + direct DOM mutation.
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<SVGImageElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const mouse = useRef({ x: 0, y: 0 });
+  const pos = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const onMove = (e: MouseEvent) => {
+      const r = section.getBoundingClientRect();
+      mouse.current.x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      mouse.current.y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+    };
+    const onLeave = () => { mouse.current.x = 0; mouse.current.y = 0; };
+
+    const tick = () => {
+      pos.current.x += (mouse.current.x - pos.current.x) * LERP_FACTOR;
+      pos.current.y += (mouse.current.y - pos.current.y) * LERP_FACTOR;
+      imageRef.current?.setAttribute(
+        "transform",
+        `translate(${-pos.current.x * PARALLAX_STRENGTH}, ${-pos.current.y * PARALLAX_STRENGTH})`
+      );
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    section.addEventListener("mousemove", onMove);
+    section.addEventListener("mouseleave", onLeave);
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      section.removeEventListener("mousemove", onMove);
+      section.removeEventListener("mouseleave", onLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
 
   const clearAll = () => {
     if (autoRef.current) clearTimeout(autoRef.current);
@@ -74,7 +114,7 @@ export default function TestimonialSection() {
   const item = ITEMS[active];
 
   return (
-    <section className="py-20 px-5 lg:px-20">
+    <section ref={sectionRef} className="py-20 px-5 lg:px-20">
       <div className="max-w-[891px] mx-auto">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
@@ -88,28 +128,30 @@ export default function TestimonialSection() {
           >
             <defs>
               <clipPath id="blob-clip">
-                {/* Extends well above the SVG so the head is never clipped */}
-                <rect x="0" y="-200" width="892" height="428" />
+                {/* Oversized rect so parallax shifts never expose an edge */}
+                <rect x="-50" y="-300" width="992" height="528" />
                 {/* Bottom half clips to the blob boundary */}
                 <path d={BLOB_PATH} />
               </clipPath>
             </defs>
             {/* Green blob background */}
             <path d={BLOB_PATH} fill="#06C755" />
-            {/* Person photo: y=-96 aligns image top with pt-24 wrapper top */}
-            <image
-              href={item.avatar}
-              x={0}
-              y={-96}
-              width={892}
-              height={552}
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#blob-clip)"
-              style={{
-                opacity: contentVisible ? 1 : 0,
-                transition: `opacity ${FADE_MS}ms`,
-              }}
-            />
+            {/* Clip is on the static <g>; only the image inside moves with parallax */}
+            <g clipPath="url(#blob-clip)">
+              <image
+                ref={imageRef}
+                href={item.avatar}
+                x={-14}
+                y={-110}
+                width={924}
+                height={584}
+                preserveAspectRatio="xMidYMid slice"
+                style={{
+                  opacity: contentVisible ? 1 : 0,
+                  transition: `opacity ${FADE_MS}ms`,
+                }}
+              />
+            </g>
           </svg>
         </div>
 
