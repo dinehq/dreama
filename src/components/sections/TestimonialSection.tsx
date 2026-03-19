@@ -203,14 +203,14 @@ export default function TestimonialSection() {
 
         {/* ── Animated area: quote + author slide on slide change ── */}
         <div className="mt-16 px-4 md:px-[6%]" style={slideStyle()}>
-          <blockquote className="text-2xl font-bold text-ink leading-relaxed">
+          <blockquote className="text-[36px] font-bold text-ink leading-[48px]">
             &ldquo;{item.quote}&rdquo;
           </blockquote>
         </div>
 
         {/* ── Stable area: buttons and counter never animate ── */}
         <div className="mt-10 px-4 md:px-[6%] flex justify-between items-center">
-          <p className="text-base text-ink/80" style={slideStyle(80)}>
+          <p className="text-2xl text-ink/80" style={slideStyle(80)}>
             {item.author}，{item.role}
           </p>
           <div className="flex items-center gap-3">

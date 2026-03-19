@@ -119,7 +119,7 @@ export default function AIShowcaseSection() {
 
         {/* Heading */}
         <FadeIn>
-          <h2 className="text-[40px] font-bold text-ink text-center mb-10">
+          <h2 className="text-[48px] font-bold text-ink text-center mb-10">
             AI 让这一切发生
           </h2>
         </FadeIn>

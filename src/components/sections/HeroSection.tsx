@@ -74,7 +74,7 @@ export default function HeroSection() {
       <Image src={heroBg} alt="" fill className="object-cover" priority placeholder="blur" />
 
       <div className="absolute left-1/2 -translate-x-1/2 top-[153px] flex flex-col items-center gap-10">
-        <h1 className="text-[40px] font-bold text-ink text-center whitespace-nowrap">
+        <h1 className="text-[48px] font-bold text-ink text-center whitespace-nowrap">
           让想像发生
         </h1>
 

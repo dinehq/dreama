@@ -18,8 +18,8 @@ const LEFT_CARDS: CardConfig[] = [
     image: { src: feature1, width: "100%", x: 0, y: 0, align: "center" },
   },
   {
-    title: "有趣激励机制",
-    description: "多种玩法，兴趣驱动创作",
+    title: "有意思的玩法",
+    description: "不只是看，是真的参与和生成",
     color: "gray",
     textPosition: "bottom",
     textTheme: "light",
@@ -95,7 +95,7 @@ export default function FeaturesSection() {
 
         {/* Section header */}
         <FadeIn className="text-center mb-16">
-          <h2 className="text-[40px] font-bold text-ink">为什么是造梦次元</h2>
+          <h2 className="text-[48px] font-bold text-ink">为什么是造梦次元</h2>
           <p className="mt-4 text-base text-ink/60">
             与AI共创内容，让每个参与者既是创造者也是世界的延续者。
           </p>
