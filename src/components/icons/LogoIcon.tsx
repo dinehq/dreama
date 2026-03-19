@@ -18,9 +18,11 @@ interface LogoIconProps {
    * The caller is responsible for providing a height constraint.
    */
   className?: string;
+  /** Pass true for above-the-fold logos to avoid LCP penalty. */
+  priority?: boolean;
 }
 
-export function LogoIcon({ variant, className }: LogoIconProps) {
+export function LogoIcon({ variant, className, priority }: LogoIconProps) {
   const { src, alt, sizes } = LOGO_CONFIG[variant];
   return (
     <Image
@@ -30,6 +32,7 @@ export function LogoIcon({ variant, className }: LogoIconProps) {
       height={0}
       sizes={sizes}
       className={className}
+      priority={priority}
     />
   );
 }

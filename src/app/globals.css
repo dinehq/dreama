@@ -32,8 +32,7 @@
 @theme inline {
   --font-display: 'OPPO Sans 4.0 SC', system-ui, sans-serif;
   --font-body:    'OPPO Sans 4.0 SC', system-ui, sans-serif;
-  /* Noto Sans SC loaded at runtime via <link> in layout.tsx */
-  --font-nav:     'Noto Sans SC', system-ui, sans-serif;
+  --font-nav:     'OPPO Sans 4.0 SC', system-ui, sans-serif;
 }
 
 /* Dark mode — variables only; components intentionally use no dark: classes */

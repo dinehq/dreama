@@ -21,6 +21,8 @@ interface CardImage {
   width?: SizeValue;
   /** Display height — px number, "100%", or "auto". */
   height?: SizeValue;
+  minWidth?: SizeValue;
+  minHeight?: SizeValue;
   /**
    * Which edge/corner of the card the image is anchored to (default: "top-left").
    * x/y offsets are measured inward from the anchored edge(s).
@@ -33,7 +35,7 @@ interface CardImage {
   y?: number;
 }
 
-interface FeatureCardProps {
+export interface FeatureCardProps {
   title: string;
   description: string;
   color?: CardColor;
@@ -89,8 +91,10 @@ function toCSS(v: SizeValue | undefined): string | number {
  */
 function wrapperStyle(image: CardImage): CSSProperties {
   const style: CSSProperties = { ...positionStyle(image) };
-  if (image.width  !== undefined) style.width  = toCSS(image.width);
-  if (image.height !== undefined) style.height = toCSS(image.height);
+  if (image.width     !== undefined) style.width     = toCSS(image.width);
+  if (image.height    !== undefined) style.height    = toCSS(image.height);
+  if (image.minWidth  !== undefined) style.minWidth  = toCSS(image.minWidth);
+  if (image.minHeight !== undefined) style.minHeight = toCSS(image.minHeight);
   return style;
 }
 
@@ -130,6 +134,7 @@ export default function FeatureCard({
               style={{
                 width: "100%",
                 height: image.height !== undefined ? "100%" : "auto",
+                objectFit: "cover",
               }}
               className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
               placeholder={typeof image.src === "object" ? "blur" : undefined}
@@ -140,6 +145,7 @@ export default function FeatureCard({
               alt=""
               width={image.width as number}
               height={image.height as number}
+              style={{ objectFit: "cover" }}
               className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
               placeholder={typeof image.src === "object" ? "blur" : undefined}
             />

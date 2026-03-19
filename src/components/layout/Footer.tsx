@@ -7,7 +7,7 @@ export default function Footer() {
 
         {/* Left — text logo + copyright */}
         <div className="flex flex-col gap-0.5 min-w-0">
-          <LogoIcon variant="text" className="h-4 w-auto" />
+          <LogoIcon variant="text" className="h-4 w-auto self-start" />
           <p className="text-xs text-ink/50 whitespace-nowrap">© 2026 深圳想法流科技有限公司</p>
         </div>
 

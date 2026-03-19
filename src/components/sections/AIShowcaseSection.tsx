@@ -44,10 +44,23 @@ const DURATION_MS = 4000;
  *
  * TODO: replace placeholder <div> in media area with <Image> / <video> per tab.
  */
+const FADE_MS = 300; // must match transition-opacity duration below
+
 export default function AIShowcaseSection() {
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0); // 0–100
+  const [prevActive, setPrevActive] = useState<number | null>(null);
+  const [exitWidth, setExitWidth] = useState(0); // frozen width of the outgoing bar
   const rafRef = useRef<number | null>(null);
+  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /** Start fade-out for `outgoing` tab, frozen at `width`. */
+  const beginFadeOut = (outgoing: number, width: number) => {
+    setExitWidth(width);
+    setPrevActive(outgoing);
+    if (fadeTimerRef.current !== null) clearTimeout(fadeTimerRef.current);
+    fadeTimerRef.current = setTimeout(() => setPrevActive(null), FADE_MS);
+  };
 
   useEffect(() => {
     let startTime: number | null = null;
@@ -60,8 +73,7 @@ export default function AIShowcaseSection() {
       if (pct < 100) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        // Batch progress reset with tab switch so the new active tab
-        // never renders with the old progress value (avoids twitch).
+        beginFadeOut(active, 100);
         setProgress(0);
         setActive((prev) => (prev + 1) % ITEMS.length);
       }
@@ -81,12 +93,12 @@ export default function AIShowcaseSection() {
   }, [active]);
 
   const handleSelect = (idx: number) => {
+    if (idx === active) return;
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    // Reset progress in the same batch as the active change so the newly
-    // selected tab never inherits the previous tab's progress value.
+    beginFadeOut(active, progress);
     setProgress(0);
     setActive(idx);
   };
@@ -132,13 +144,13 @@ export default function AIShowcaseSection() {
                 }`}
               >
                 {/* Progress fill — grows left→right behind text */}
-                {isActive && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-y-0 left-0 bg-brand rounded-card"
-                    style={{ width: `${progress}%` }}
-                  />
-                )}
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-y-0 left-0 bg-brand rounded-card transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  style={{
+                    width: `${isActive ? progress : idx === prevActive ? exitWidth : 0}%`,
+                  }}
+                />
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">

@@ -13,7 +13,7 @@ export default function Nav() {
 
         {/* Left — logo */}
         <div className="shrink-0 min-w-0">
-          <LogoIcon variant="full" className="h-9 w-auto" />
+          <LogoIcon variant="full" className="h-9 w-auto" priority />
         </div>
 
         {/* Center — nav links (hidden below md) */}
