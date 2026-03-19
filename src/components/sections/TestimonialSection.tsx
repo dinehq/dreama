@@ -15,6 +15,7 @@ const ITEMS = [
     author: "张明轩",
     role: "独立创作者",
     avatar: "/creators/1.png",
+    color: "#06C755",
   },
   {
     quote:
@@ -22,6 +23,7 @@ const ITEMS = [
     author: "李晓雯",
     role: "漫画作者",
     avatar: "/creators/2.png",
+    color: "#45C7FF",
   },
   {
     quote:
@@ -29,6 +31,7 @@ const ITEMS = [
     author: "陈建国",
     role: "独立游戏开发者",
     avatar: "/creators/3.png",
+    color: "#FFE23C",
   },
 ] as const;
 
@@ -136,7 +139,11 @@ export default function TestimonialSection() {
               </clipPath>
             </defs>
             {/* Green blob background */}
-            <path d={BLOB_PATH} fill="#06C755" />
+            <path
+              d={BLOB_PATH}
+              fill={item.color}
+              style={{ transition: "fill 0.4s ease" }}
+            />
             {/* Clip is on the static <g>; only the image inside moves with parallax */}
             <g clipPath="url(#blob-clip)">
               <image
@@ -164,33 +171,36 @@ export default function TestimonialSection() {
           <blockquote className="text-2xl font-bold text-ink leading-relaxed">
             &ldquo;{item.quote}&rdquo;
           </blockquote>
-          <p className="mt-10 text-base text-ink/80">
-            {item.author}，{item.role}
-          </p>
         </div>
 
         {/* ── Stable area: buttons and counter never fade ── */}
-        <div className="mt-6 px-4 md:px-[6%] flex justify-end items-center gap-3">
-          <button
-            onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length)}
-            aria-label="上一条"
-            className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
+        <div className="mt-10 px-4 md:px-[6%] flex justify-between items-center">
+          <p
+            className="text-base text-ink/80 transition-opacity duration-200"
+            style={{ opacity: contentVisible ? 1 : 0 }}
           >
-            <ChevronLeftIcon width={36} height={36} />
-          </button>
-          <button
-            onClick={() => goTo((activeRef.current + 1) % ITEMS.length)}
-            aria-label="下一条"
-            className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
-          >
-            <ChevronRightIcon width={36} height={36} />
-          </button>
-
-          <span className="block h-px w-12 bg-ink/40" aria-hidden="true" />
-
-          <span className="text-sm text-ink/60">
-            {String(active + 1).padStart(2, "0")}/{String(ITEMS.length).padStart(2, "0")}
-          </span>
+            {item.author}，{item.role}
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length)}
+              aria-label="上一条"
+              className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
+            >
+              <ChevronLeftIcon width={36} height={36} />
+            </button>
+            <button
+              onClick={() => goTo((activeRef.current + 1) % ITEMS.length)}
+              aria-label="下一条"
+              className="w-9 h-9 rounded-full bg-black/6 flex items-center justify-center text-ink hover:bg-black/10 transition-colors cursor-pointer"
+            >
+              <ChevronRightIcon width={36} height={36} />
+            </button>
+            <span className="block h-px w-12 bg-ink/40" aria-hidden="true" />
+            <span className="text-sm text-ink/60 tabular-nums">
+              {String(active + 1).padStart(2, "0")}/{String(ITEMS.length).padStart(2, "0")}
+            </span>
+          </div>
         </div>
 
       </FadeIn>
