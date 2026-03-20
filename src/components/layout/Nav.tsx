@@ -103,24 +103,24 @@ export default function Nav() {
           >
             <span
               className="
-                block h-[1.5px] w-5 origin-center rounded-full bg-ink
+                block h-0.5 w-5 origin-center rounded-full bg-ink
                 transition-all duration-300
               "
-              style={open ? { transform: "translateY(5.5px) rotate(45deg)" } : undefined}
+              style={open ? { transform: "translateY(6px) rotate(45deg)" } : undefined}
             />
             <span
               className="
-                block h-[1.5px] w-5 rounded-full bg-ink transition-all
+                block h-0.5 w-5 rounded-full bg-ink transition-all
                 duration-300
               "
               style={open ? { opacity: 0, transform: "scaleX(0)" } : undefined}
             />
             <span
               className="
-                block h-[1.5px] w-5 origin-center rounded-full bg-ink
+                block h-0.5 w-5 origin-center rounded-full bg-ink
                 transition-all duration-300
               "
-              style={open ? { transform: "translateY(-5.5px) rotate(-45deg)" } : undefined}
+              style={open ? { transform: "translateY(-6px) rotate(-45deg)" } : undefined}
             />
           </button>
         </div>
