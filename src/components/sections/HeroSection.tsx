@@ -69,12 +69,21 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[810px] overflow-hidden"
+      className="
+        relative h-[480px] w-full overflow-hidden
+        md:h-[810px]
+      "
     >
       <Image src={heroBg} alt="" fill className="object-cover" priority placeholder="blur" />
 
-      <div className="absolute left-1/2 -translate-x-1/2 top-[153px] flex flex-col items-center gap-10">
-        <h1 className="text-[48px] font-bold text-ink text-center whitespace-nowrap">
+      <div className="
+        absolute top-[19%] left-1/2 flex -translate-x-1/2 flex-col items-center
+        gap-10
+      ">
+        <h1 className="
+          text-center text-3xl font-bold whitespace-nowrap text-ink
+          md:text-5xl
+        ">
           让想像发生
         </h1>
 

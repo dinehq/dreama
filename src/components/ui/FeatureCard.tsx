@@ -141,7 +141,10 @@ export default function FeatureCard({
                 ? "contain"
                 : "cover",
           }}
-          className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+          className="
+            origin-center transition-[scale] duration-500 ease-out
+            group-hover:scale-101
+          "
           placeholder={typeof image.src === "object" ? "blur" : undefined}
         />
       ) : (
@@ -151,7 +154,10 @@ export default function FeatureCard({
           width={image.width as number}
           height={image.height as number}
           style={{ objectFit: "cover" }}
-          className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+          className="
+            block origin-center transition-[scale] duration-500 ease-out
+            group-hover:scale-101
+          "
           placeholder={typeof image.src === "object" ? "blur" : undefined}
         />
       )}
@@ -160,18 +166,32 @@ export default function FeatureCard({
 
   const textBlock = (
     <div
-      className={`absolute left-8 z-10 ${
+      className={`
+        absolute left-8 z-10
+        ${
         textPosition === "top" ? "top-8" : "bottom-8"
-      } max-w-[240px]`}
+      }
+        max-w-60
+      `}
     >
-      <p className={`text-xl font-bold leading-tight ${textColors.title}`}>{title}</p>
-      <p className={`mt-1 text-sm leading-5 ${textColors.description}`}>{description}</p>
+      <p className={`
+        text-xl/tight font-bold
+        ${textColors.title}
+      `}>{title}</p>
+      <p className={`
+        mt-1 text-sm/5
+        ${textColors.description}
+      `}>{description}</p>
     </div>
   );
 
   return (
     <div
-      className={`group relative w-full overflow-hidden rounded-feature ${colorMap[color]} ${className}`}
+      className={`
+        group relative w-full overflow-hidden rounded-5xl
+        ${colorMap[color]}
+        ${className}
+      `}
     >
       {imageBlock}
       {textBlock}

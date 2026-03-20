@@ -158,7 +158,7 @@ export default function TestimonialSection() {
 
   return (
     <section ref={sectionRef} className="py-20 page-gutter">
-      <FadeIn className="max-w-[891px] mx-auto">
+      <FadeIn className="mx-auto max-w-[891px]">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
         <div className="pt-24">
@@ -202,29 +202,49 @@ export default function TestimonialSection() {
         </div>
 
         {/* ── Animated area: quote + author slide on slide change ── */}
-        <div className="mt-16 px-4 md:px-[6%]" style={slideStyle()}>
-          <blockquote className="text-[36px] font-bold text-ink leading-[48px]">
+        <div className="
+          mt-16 px-4
+          md:px-[6%]
+        " style={slideStyle()}>
+          <blockquote className="
+            text-2xl/snug font-bold text-ink
+            md:text-4xl
+          ">
             &ldquo;{item.quote}&rdquo;
           </blockquote>
         </div>
 
         {/* ── Stable area: buttons and counter never animate ── */}
-        <div className="mt-10 px-4 md:px-[6%] flex justify-between items-center">
-          <p className="text-2xl text-ink/80" style={slideStyle(80)}>
+        <div className="
+          mt-10 flex items-center justify-between px-4
+          md:px-[6%]
+        ">
+          <p className="
+            text-lg text-ink/80
+            md:text-2xl
+          " style={slideStyle(80)}>
             {item.author}，{item.role}
           </p>
           <div className="flex items-center gap-3">
             <button
               onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length, -1)}
               aria-label="上一条"
-              className="w-9 h-9 rounded-full bg-ink/8 flex items-center justify-center text-ink hover:bg-ink/12 transition-colors cursor-pointer"
+              className="
+                flex size-9 cursor-pointer items-center justify-center
+                rounded-full bg-ink/8 text-ink transition-colors
+                hover:bg-ink/12
+              "
             >
               <ChevronLeftIcon width={36} height={36} />
             </button>
             <button
               onClick={() => goTo((activeRef.current + 1) % ITEMS.length, 1)}
               aria-label="下一条"
-              className="w-9 h-9 rounded-full bg-ink/8 flex items-center justify-center text-ink hover:bg-ink/12 transition-colors cursor-pointer"
+              className="
+                flex size-9 cursor-pointer items-center justify-center
+                rounded-full bg-ink/8 text-ink transition-colors
+                hover:bg-ink/12
+              "
             >
               <ChevronRightIcon width={36} height={36} />
             </button>

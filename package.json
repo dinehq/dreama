@@ -25,6 +25,7 @@
     "@types/subset-font": "^2.3.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.0",
+    "eslint-plugin-better-tailwindcss": "^4.3.2",
     "react-grab": "^0.1.28",
     "subset-font": "^2.4.0",
     "tailwindcss": "^4",

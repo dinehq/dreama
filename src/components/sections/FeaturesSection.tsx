@@ -8,9 +8,9 @@ import feature3 from "@public/features/3.png";
 type CardConfig = FeatureCardProps & { delay?: number };
 
 /** Bottom row — same height; column sums must match so both stacks align at the bottom */
-const LAST_ROW_CARD_CLASS = "h-[321px]";
+const LAST_ROW_CARD_CLASS = "h-[200px] md:h-[321px]";
 // 445+300+321 === 280+RIGHT_MID+321 → RIGHT_MID = 465
-const RIGHT_MIDDLE_CARD_CLASS = "h-[465px]";
+const RIGHT_MIDDLE_CARD_CLASS = "h-[280px] md:h-[465px]";
 
 const LEFT_CARDS: CardConfig[] = [
   {
@@ -18,7 +18,7 @@ const LEFT_CARDS: CardConfig[] = [
     description: "AI帮你，想到就能做到",
     color: "gray",
     textPosition: "bottom",
-    className: "h-[445px]",
+    className: "h-[280px] md:h-[445px]",
     delay: 0,
     image: { src: feature1, width: "100%", x: 0, y: 0, align: "center" },
   },
@@ -28,7 +28,7 @@ const LEFT_CARDS: CardConfig[] = [
     color: "gray",
     textPosition: "bottom",
     textTheme: "light",
-    className: "h-[300px]",
+    className: "h-[200px] md:h-[300px]",
     delay: 150,
     image: { src: feature2, width: "100%", height: "100%", x: 0, y: 0, align: "center" },
   },
@@ -49,7 +49,7 @@ const RIGHT_CARDS: CardConfig[] = [
     description: "AI帮你，从创造到创作的进阶路径",
     color: "yellow",
     textPosition: "bottom",
-    className: "h-[280px]",
+    className: "h-[200px] md:h-[280px]",
     delay: 0,
     image: { src: "/features/4.svg", width: '110%', x: 32, y: 21, align: "bottom-left" },
   },
@@ -77,7 +77,7 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
   return (
     <div className="flex flex-col gap-8">
       <FadeIn>
-        <h3 className="text-2xl font-bold text-ink text-center">{label}</h3>
+        <h3 className="text-center text-2xl font-bold text-ink">{label}</h3>
       </FadeIn>
       {cards.map(({ delay, ...props }) => (
         <FadeIn key={props.title} delay={delay}>
@@ -95,18 +95,24 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
 export default function FeaturesSection() {
   return (
     <section id="features" className="mt-20 page-gutter pb-20">
-      <FadeInGroup className="max-w-[1280px] mx-auto">
+      <FadeInGroup className="mx-auto max-w-7xl">
 
         {/* Section header */}
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-[48px] font-bold text-ink">为什么是造梦次元</h2>
+        <FadeIn className="mb-16 text-center">
+          <h2 className="
+            text-3xl font-bold text-ink
+            md:text-5xl
+          ">为什么是造梦次元</h2>
           <p className="mt-4 text-base text-ink/60">
             与AI共创内容，让每个参与者既是创造者也是世界的延续者。
           </p>
         </FadeIn>
 
         {/* Two-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="
+          grid grid-cols-1 gap-8
+          md:grid-cols-2
+        ">
           <CardColumn label="给每个人" cards={LEFT_CARDS} />
           <CardColumn label="给创作者" cards={RIGHT_CARDS} />
         </div>

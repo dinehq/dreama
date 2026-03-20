@@ -20,9 +20,8 @@
   --color-border:      rgba(0,0,0,0.06);
 
   /* Radius */
-  --radius-card:    24px;
-  --radius-feature: 64px;
-  --radius-pill:    9999px;
+  --radius-5xl:  4rem;
+  --radius-pill: 9999px;
 }
 
 @font-face {
@@ -99,19 +98,19 @@ body {
   }
 }
 
-@utility corner-squircle {
-  corner-shape: squircle;
-}
-
-/* Squircle interpolation for theme card radii (supporting browsers only) */
-.rounded-feature,
-.rounded-card {
-  corner-shape: squircle;
+@layer utilities {
+  .rounded-2xl,
+  .rounded-3xl,
+  .rounded-4xl,
+  .rounded-5xl,
+  .rounded-full {
+    corner-shape: squircle;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-0.625rem); }
 }
 
 .animate-float {

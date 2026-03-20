@@ -114,26 +114,35 @@ export default function AIShowcaseSection() {
   };
 
   return (
-    <section className="pt-20 page-gutter pb-20">
-      <FadeInGroup className="max-w-[1280px] mx-auto">
+    <section className="py-20 page-gutter">
+      <FadeInGroup className="mx-auto max-w-7xl">
 
         {/* Heading */}
         <FadeIn>
-          <h2 className="text-[48px] font-bold text-ink text-center mb-10">
+          <h2 className="
+            mb-10 text-center text-3xl font-bold text-ink
+            md:text-5xl
+          ">
             AI 让这一切发生
           </h2>
         </FadeIn>
 
         {/* Media area */}
         <FadeIn delay={100}>
-        <div className="relative w-full h-[648px] rounded-[48px] corner-squircle overflow-hidden">
+        <div className="
+          relative h-[260px] w-full overflow-hidden rounded-3xl
+          md:h-[648px]
+        ">
           {ITEMS.map((item, idx) => (
             <Image
               key={item.title}
               src={item.src}
               alt={item.title}
               fill
-              className={`object-cover transition-opacity duration-500 ${idx === active ? "opacity-100" : "opacity-0"}`}
+              className={`
+                object-cover transition-opacity duration-500
+                ${idx === active ? `opacity-100` : `opacity-0`}
+              `}
               priority={idx === 0}
               placeholder="blur"
             />
@@ -142,22 +151,36 @@ export default function AIShowcaseSection() {
         </FadeIn>
 
         {/* Tab bar */}
-        <div className="mt-8 flex flex-col md:flex-row gap-4">
+        <div className="
+          mt-8 flex flex-col gap-4
+          md:flex-row
+        ">
           {ITEMS.map((item, idx) => {
             const isActive = idx === active;
             return (
               <button
                 key={item.title}
                 onClick={() => handleSelect(idx)}
-                className={`flex-1 relative w-full text-left px-4 py-4 rounded-card overflow-hidden transition-colors cursor-pointer ${
-                  isActive ? "bg-brand-mint" : "bg-surface-alt hover:bg-surface"
-                }`}
+                className={`
+                  relative w-full flex-1 cursor-pointer overflow-hidden
+                  rounded-3xl p-4 text-left transition-colors
+                  ${
+                  isActive ? "bg-brand-mint" : `
+                    bg-surface-alt
+                    hover:bg-surface
+                  `
+                }
+                `}
               >
                 {/* Progress fill — width written directly by RAF for the active tab */}
                 <span
                   ref={(el) => { progressBarRefs.current[idx] = el; }}
                   aria-hidden="true"
-                  className={`absolute inset-y-0 left-0 bg-brand-vivid rounded-card transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}
+                  className={`
+                    absolute inset-y-0 left-0 rounded-3xl bg-brand-vivid
+                    transition-opacity duration-300
+                    ${isActive ? `opacity-100` : `opacity-0`}
+                  `}
                   style={{
                     width: `${isActive ? 0 : idx === exiting?.index ? exiting.frozenWidth : 0}%`,
                   }}
@@ -166,7 +189,7 @@ export default function AIShowcaseSection() {
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
                   <span className="text-base font-bold text-ink">{item.title}</span>
-                  <span className="mt-1 text-sm text-ink/70 leading-5">
+                  <span className="mt-1 text-sm/5 text-ink/70">
                     {item.description}
                   </span>
                 </span>
