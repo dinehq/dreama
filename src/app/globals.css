@@ -102,8 +102,7 @@ body {
   .rounded-2xl,
   .rounded-3xl,
   .rounded-4xl,
-  .rounded-5xl,
-  .rounded-full {
+  .rounded-5xl {
     corner-shape: squircle;
   }
 }

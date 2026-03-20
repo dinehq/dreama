@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { LogoIcon } from "@/components/icons";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
+import HoverPopover from "@/components/ui/HoverPopover";
+import qrCode from "@public/download-app-qr.png";
 
 const NAV_LINKS = [
   { href: "#features", label: "创作者" },
@@ -37,7 +40,7 @@ export default function Nav() {
     <nav className={`
       fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300
       ${
-      scrolled ? "border-border bg-nav-bg/90 backdrop-blur-sm" : `
+      scrolled || open ? "border-border bg-nav-bg/90 backdrop-blur-sm" : `
         border-transparent bg-transparent
       `
     }
@@ -71,14 +74,22 @@ export default function Nav() {
           flex shrink-0 items-center gap-4
           md:gap-6
         ">
-          <a href="#" className={`
+          <a href="https://ai.ideaflow.pro/" className={`
             hidden
             md:block
             ${LINK_CLASS}
           `}>
             创作者登录
           </a>
-          <Button>下载App</Button>
+          <HoverPopover
+            content={
+              <Image src={qrCode} alt="下载App二维码" width={144} height={144} className="
+                max-w-none rounded-lg
+              " />
+            }
+          >
+            <Button>下载App</Button>
+          </HoverPopover>
 
           {/* Hamburger button — mobile only */}
           <button
@@ -95,7 +106,7 @@ export default function Nav() {
                 block h-[1.5px] w-5 origin-center rounded-full bg-ink
                 transition-all duration-300
               "
-              style={open ? { transform: "translateY(6.5px) rotate(45deg)" } : undefined}
+              style={open ? { transform: "translateY(5.5px) rotate(45deg)" } : undefined}
             />
             <span
               className="
@@ -109,7 +120,7 @@ export default function Nav() {
                 block h-[1.5px] w-5 origin-center rounded-full bg-ink
                 transition-all duration-300
               "
-              style={open ? { transform: "translateY(-6.5px) rotate(-45deg)" } : undefined}
+              style={open ? { transform: "translateY(-5.5px) rotate(-45deg)" } : undefined}
             />
           </button>
         </div>
@@ -146,7 +157,7 @@ export default function Nav() {
               </a>
             ))}
             <a
-              href="#"
+              href="https://ai.ideaflow.pro/"
               onClick={() => setOpen(false)}
               className={`
                 ${LINK_CLASS}

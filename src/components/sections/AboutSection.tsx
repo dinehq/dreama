@@ -6,7 +6,10 @@ import FadeIn from "@/components/ui/FadeIn";
  */
 export default function AboutSection() {
   return (
-    <section id="about" className="page-gutter pb-20">
+    <section id="about" className="
+      page-gutter pb-10
+      md:pb-20
+    ">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <div className="

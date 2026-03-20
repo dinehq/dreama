@@ -7,10 +7,10 @@ import feature3 from "@public/features/3.png";
 
 type CardConfig = FeatureCardProps & { delay?: number };
 
-/** Bottom row — same height; column sums must match so both stacks align at the bottom */
-const LAST_ROW_CARD_CLASS = "h-[200px] md:h-[321px]";
+/** Bottom row — same flex weight; column sums must match so both stacks fill the same total height */
+const LAST_ROW_GROW = "[flex-grow:200] md:[flex-grow:321]";
 // 445+300+321 === 280+RIGHT_MID+321 → RIGHT_MID = 465
-const RIGHT_MIDDLE_CARD_CLASS = "h-[280px] md:h-[465px]";
+const RIGHT_MIDDLE_GROW = "[flex-grow:280] md:[flex-grow:465]";
 
 const LEFT_CARDS: CardConfig[] = [
   {
@@ -18,7 +18,7 @@ const LEFT_CARDS: CardConfig[] = [
     description: "AI帮你，想到就能做到",
     color: "gray",
     textPosition: "bottom",
-    className: "h-[280px] md:h-[445px]",
+    className: "[flex-grow:280] md:[flex-grow:445]",
     delay: 0,
     image: { src: feature1, width: "100%", x: 0, y: 0, align: "center" },
   },
@@ -28,7 +28,7 @@ const LEFT_CARDS: CardConfig[] = [
     color: "gray",
     textPosition: "bottom",
     textTheme: "light",
-    className: "h-[200px] md:h-[300px]",
+    className: "[flex-grow:200] md:[flex-grow:300]",
     delay: 150,
     image: { src: feature2, width: "100%", height: "100%", x: 0, y: 0, align: "center" },
   },
@@ -37,7 +37,7 @@ const LEFT_CARDS: CardConfig[] = [
     description: "基于创造力而非单纯消费的连接",
     color: "orange",
     textPosition: "top",
-    className: LAST_ROW_CARD_CLASS,
+    className: LAST_ROW_GROW,
     delay: 300,
     image: { src: feature3, width: "80%", x: 0, y: 0, align: "center" },
   },
@@ -49,7 +49,7 @@ const RIGHT_CARDS: CardConfig[] = [
     description: "AI帮你，从创造到创作的进阶路径",
     color: "yellow",
     textPosition: "bottom",
-    className: "h-[200px] md:h-[280px]",
+    className: "[flex-grow:200] md:[flex-grow:280]",
     delay: 0,
     image: { src: "/features/4.svg", width: '110%', x: 32, y: 21, align: "bottom-left" },
   },
@@ -58,7 +58,7 @@ const RIGHT_CARDS: CardConfig[] = [
     description: "你的IP有人玩、有人创造衍生内容",
     color: "green",
     textPosition: "bottom",
-    className: RIGHT_MIDDLE_CARD_CLASS,
+    className: RIGHT_MIDDLE_GROW,
     delay: 150,
     image: { src: "/features/5.svg", width: "50%", x: 0, y: 0, align: "center" },
   },
@@ -67,7 +67,7 @@ const RIGHT_CARDS: CardConfig[] = [
     description: "内容能变现，创作能养活自己",
     color: "blue",
     textPosition: "top",
-    className: LAST_ROW_CARD_CLASS,
+    className: LAST_ROW_GROW,
     delay: 300,
     image: { src: "/features/6.svg", width: "100%", x: 0, y: 0, align: "bottom-left" },
   },
@@ -79,11 +79,17 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
       <FadeIn>
         <h3 className="text-center text-2xl font-bold text-ink">{label}</h3>
       </FadeIn>
-      {cards.map(({ delay, ...props }) => (
-        <FadeIn key={props.title} delay={delay}>
-          <FeatureCard {...props} />
-        </FadeIn>
-      ))}
+      {/* Fixed total height; cards divide it proportionally via flex-grow */}
+      <div className="
+        flex h-[680px] flex-col gap-8
+        md:h-[1066px]
+      ">
+        {cards.map(({ delay, className, ...props }) => (
+          <FadeIn key={props.title} delay={delay} className={className}>
+            <FeatureCard {...props} className="h-full" />
+          </FadeIn>
+        ))}
+      </div>
     </div>
   );
 }
@@ -94,7 +100,10 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
  */
 export default function FeaturesSection() {
   return (
-    <section id="features" className="mt-20 page-gutter pb-20">
+    <section id="features" className="
+      mt-10 page-gutter pb-10
+      md:mt-20 md:pb-20
+    ">
       <FadeInGroup className="mx-auto max-w-7xl">
 
         {/* Section header */}

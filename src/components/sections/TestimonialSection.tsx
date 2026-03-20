@@ -157,11 +157,17 @@ export default function TestimonialSection() {
     : { opacity: 1, transform: 'translateY(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
 
   return (
-    <section ref={sectionRef} className="py-20 page-gutter">
+    <section ref={sectionRef} className="
+      py-10 page-gutter
+      md:py-20
+    ">
       <FadeIn className="mx-auto max-w-[891px]">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
-        <div className="pt-24">
+        <div className="
+          pt-12
+          md:pt-24
+        ">
           <svg
             viewBox="0 0 892 456"
             xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +222,7 @@ export default function TestimonialSection() {
 
         {/* ── Stable area: buttons and counter never animate ── */}
         <div className="
-          mt-10 flex items-center justify-between px-4
+          mt-10 flex flex-wrap items-center gap-3 px-4
           md:px-[6%]
         ">
           <p className="
@@ -225,7 +231,7 @@ export default function TestimonialSection() {
           " style={slideStyle(80)}>
             {item.author}，{item.role}
           </p>
-          <div className="flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-3">
             <button
               onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length, -1)}
               aria-label="上一条"
