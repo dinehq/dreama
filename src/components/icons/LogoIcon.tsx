@@ -24,11 +24,13 @@ interface LogoIconProps {
   className?: string;
   /** Pass true for above-the-fold logos to avoid LCP penalty. */
   priority?: boolean;
+  /** Increment to trigger a one-shot playback (anime-avatar only). */
+  playSignal?: number;
 }
 
-export function LogoIcon({ variant, className, priority }: LogoIconProps) {
+export function LogoIcon({ variant, className, priority, playSignal }: LogoIconProps) {
   if (variant === "anime-avatar") {
-    return <LogoAnimeAvatar className={className} priority={priority} />;
+    return <LogoAnimeAvatar className={className} priority={priority} playSignal={playSignal} />;
   }
 
   const { src, alt, sizes } = LOGO_CONFIG[variant];

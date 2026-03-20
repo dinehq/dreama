@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { LogoIcon } from "@/components/icons";
-import Image from "next/image";
 import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
-import qrCode from "@public/download-app-qr.png";
+import { DownloadQRCode, APP_DOWNLOAD_URL } from "@/components/ui/DownloadQRCode";
 
 const NAV_LINKS = [
   { href: "#features", label: "创作者" },
@@ -28,6 +27,7 @@ function scrollToHash(href: string) {
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [qrPlaySignal, setQrPlaySignal] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0);
@@ -74,22 +74,31 @@ export default function Nav() {
           flex shrink-0 items-center gap-4
           md:gap-6
         ">
-          <a href="https://ai.ideaflow.pro/" className={`
+          <a href="https://ai.ideaflow.pro/" target="_blank" rel="noopener noreferrer" className={`
             hidden
             md:block
             ${LINK_CLASS}
           `}>
             创作者登录
           </a>
-          <HoverPopover
-            content={
-              <Image src={qrCode} alt="下载App二维码" width={144} height={144} className="
-                max-w-none rounded-lg
-              " />
-            }
-          >
+          {/* Mobile — direct link */}
+          <a href={APP_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer" className="
+            md:hidden
+          ">
             <Button>下载App</Button>
-          </HoverPopover>
+          </a>
+          {/* Desktop — QR popover */}
+          <div className="
+            hidden
+            md:block
+          ">
+            <HoverPopover
+              content={<DownloadQRCode playSignal={qrPlaySignal} />}
+              onHoverChange={(hovered) => { if (hovered) setQrPlaySignal((n) => n + 1); }}
+            >
+              <Button>下载App</Button>
+            </HoverPopover>
+          </div>
 
           {/* Hamburger button — mobile only */}
           <button
@@ -103,22 +112,21 @@ export default function Nav() {
           >
             <span
               className="
-                block h-0.5 w-5 origin-center rounded-full bg-ink
-                transition-all duration-300
+                block h-0.5 w-5 origin-center rounded-full bg-ink transition-all
+                duration-300
               "
               style={open ? { transform: "translateY(6px) rotate(45deg)" } : undefined}
             />
             <span
               className="
-                block h-0.5 w-5 rounded-full bg-ink transition-all
-                duration-300
+                block h-0.5 w-5 rounded-full bg-ink transition-all duration-300
               "
               style={open ? { opacity: 0, transform: "scaleX(0)" } : undefined}
             />
             <span
               className="
-                block h-0.5 w-5 origin-center rounded-full bg-ink
-                transition-all duration-300
+                block h-0.5 w-5 origin-center rounded-full bg-ink transition-all
+                duration-300
               "
               style={open ? { transform: "translateY(-6px) rotate(-45deg)" } : undefined}
             />
@@ -158,6 +166,8 @@ export default function Nav() {
             ))}
             <a
               href="https://ai.ideaflow.pro/"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               className={`
                 ${LINK_CLASS}

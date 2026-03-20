@@ -1,7 +1,10 @@
+"use client";
+
 interface HoverPopoverProps {
   children: React.ReactNode;
   content: React.ReactNode;
   placement?: "top" | "bottom";
+  onHoverChange?: (hovered: boolean) => void;
 }
 
 /**
@@ -12,6 +15,7 @@ export default function HoverPopover({
   children,
   content,
   placement = "bottom",
+  onHoverChange,
 }: HoverPopoverProps) {
   const popoverPos =
     placement === "bottom"
@@ -19,7 +23,11 @@ export default function HoverPopover({
       : "bottom-[calc(100%+10px)]";
 
   return (
-    <div className="group/popover relative">
+    <div
+      className="group/popover relative"
+      onMouseEnter={() => onHoverChange?.(true)}
+      onMouseLeave={() => onHoverChange?.(false)}
+    >
       {children}
       <div
         className={`

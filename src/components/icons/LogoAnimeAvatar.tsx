@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const PLAYBACK_RATE = 2;
 
@@ -12,11 +12,20 @@ function applyPlaybackRate(el: HTMLVideoElement) {
 interface LogoAnimeAvatarProps {
   className?: string;
   priority?: boolean;
+  /** Increment this value to trigger a one-shot playback. */
+  playSignal?: number;
 }
 
-export function LogoAnimeAvatar({ className, priority }: LogoAnimeAvatarProps) {
+export function LogoAnimeAvatar({ className, priority, playSignal }: LogoAnimeAvatarProps) {
   const ref = useRef<HTMLVideoElement>(null);
   const [loopWhilePlaying, setLoopWhilePlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playSignal || !ref.current) return;
+    const el = ref.current;
+    applyPlaybackRate(el);
+    void el.play().then(() => applyPlaybackRate(el));
+  }, [playSignal]);
 
   const mergedClassName = [className, "overflow-hidden rounded-[50%]"]
     .filter(Boolean)
