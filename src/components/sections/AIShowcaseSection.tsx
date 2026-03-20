@@ -126,7 +126,7 @@ export default function AIShowcaseSection() {
 
         {/* Media area */}
         <FadeIn delay={100}>
-        <div className="relative w-full h-[648px] rounded-[48px] overflow-hidden">
+        <div className="relative w-full h-[648px] rounded-[48px] corner-squircle overflow-hidden">
           {ITEMS.map((item, idx) => (
             <Image
               key={item.title}

@@ -7,6 +7,11 @@ import feature3 from "@public/features/3.png";
 
 type CardConfig = FeatureCardProps & { delay?: number };
 
+/** Bottom row — same height; column sums must match so both stacks align at the bottom */
+const LAST_ROW_CARD_CLASS = "h-[321px]";
+// 445+300+321 === 280+RIGHT_MID+321 → RIGHT_MID = 465
+const RIGHT_MIDDLE_CARD_CLASS = "h-[465px]";
+
 const LEFT_CARDS: CardConfig[] = [
   {
     title: "低门槛的创造",
@@ -32,9 +37,9 @@ const LEFT_CARDS: CardConfig[] = [
     description: "基于创造力而非单纯消费的连接",
     color: "orange",
     textPosition: "top",
-    className: "h-[300px]",
+    className: LAST_ROW_CARD_CLASS,
     delay: 300,
-    image: { src: feature3, width: "100%", x: 0, y: 0, align: "center" },
+    image: { src: feature3, width: "80%", x: 0, y: 0, align: "center" },
   },
 ];
 
@@ -46,14 +51,14 @@ const RIGHT_CARDS: CardConfig[] = [
     textPosition: "bottom",
     className: "h-[280px]",
     delay: 0,
-    image: { src: "/features/4.svg", width: 631, height: 276, x: 32, y: 21, align: "bottom-left" },
+    image: { src: "/features/4.svg", width: '110%', x: 32, y: 21, align: "bottom-left" },
   },
   {
     title: "活跃社区",
     description: "你的IP有人玩、有人创造衍生内容",
     color: "green",
     textPosition: "bottom",
-    className: "h-[443px]",
+    className: RIGHT_MIDDLE_CARD_CLASS,
     delay: 150,
     image: { src: "/features/5.svg", width: "50%", x: 0, y: 0, align: "center" },
   },
@@ -62,7 +67,7 @@ const RIGHT_CARDS: CardConfig[] = [
     description: "内容能变现，创作能养活自己",
     color: "blue",
     textPosition: "top",
-    className: "h-[321px]",
+    className: LAST_ROW_CARD_CLASS,
     delay: 300,
     image: { src: "/features/6.svg", width: "100%", x: 0, y: 0, align: "bottom-left" },
   },
@@ -86,7 +91,6 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
 /**
  * "为什么是造梦次元" — two-column feature grid.
  * Left column targets individual users; right column targets creators.
- * Card heights match the Figma proportions.
  */
 export default function FeaturesSection() {
   return (

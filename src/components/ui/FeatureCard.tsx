@@ -55,7 +55,12 @@ const colorMap: Record<CardColor, string> = {
 };
 
 function positionStyle({ align = "top-left", x = 0, y = 0 }: CardImage): CSSProperties {
-  const style: CSSProperties = { position: "absolute" };
+  const style: CSSProperties = { position: "absolute",
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+   };
   const transforms: string[] = [];
 
   const anchorLeft   = align.includes("left");
@@ -118,48 +123,58 @@ export default function FeatureCard({
   image,
 }: FeatureCardProps) {
   const textColors = textThemeMap[textTheme];
+
+  const imageBlock = image ? (
+    <div style={wrapperStyle(image)}>
+      {isFluid(image) ? (
+        <Image
+          src={image.src}
+          alt=""
+          width={0}
+          height={0}
+          sizes="(max-width: 768px) 100vw, 640px"
+          style={{
+            width: image.width !== undefined ? toCSS(image.width) : "100%",
+            height: image.height !== undefined ? toCSS(image.height) : "auto",
+            objectFit:
+              image.width === "auto" && image.height === "100%"
+                ? "contain"
+                : "cover",
+          }}
+          className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+          placeholder={typeof image.src === "object" ? "blur" : undefined}
+        />
+      ) : (
+        <Image
+          src={image.src}
+          alt=""
+          width={image.width as number}
+          height={image.height as number}
+          style={{ objectFit: "cover" }}
+          className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
+          placeholder={typeof image.src === "object" ? "blur" : undefined}
+        />
+      )}
+    </div>
+  ) : null;
+
+  const textBlock = (
+    <div
+      className={`absolute left-8 z-10 ${
+        textPosition === "top" ? "top-8" : "bottom-8"
+      } max-w-[240px]`}
+    >
+      <p className={`text-xl font-bold leading-tight ${textColors.title}`}>{title}</p>
+      <p className={`mt-1 text-sm leading-5 ${textColors.description}`}>{description}</p>
+    </div>
+  );
+
   return (
     <div
-      className={`group relative w-full rounded-feature overflow-hidden transition-shadow duration-500 hover:shadow-[var(--shadow-card-hover)] ${colorMap[color]} ${className}`}
+      className={`group relative w-full overflow-hidden rounded-feature ${colorMap[color]} ${className}`}
     >
-      {image && (
-        <div style={wrapperStyle(image)}>
-          {isFluid(image) ? (
-            <Image
-              src={image.src}
-              alt=""
-              width={0}
-              height={0}
-              sizes="(max-width: 768px) 100vw, 640px"
-              style={{
-                width: "100%",
-                height: image.height !== undefined ? "100%" : "auto",
-                objectFit: "cover",
-              }}
-              className="origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
-              placeholder={typeof image.src === "object" ? "blur" : undefined}
-            />
-          ) : (
-            <Image
-              src={image.src}
-              alt=""
-              width={image.width as number}
-              height={image.height as number}
-              style={{ objectFit: "cover" }}
-              className="block origin-center transition-[scale] duration-500 ease-out group-hover:scale-101"
-              placeholder={typeof image.src === "object" ? "blur" : undefined}
-            />
-          )}
-        </div>
-      )}
-      <div
-        className={`absolute left-8 ${
-          textPosition === "top" ? "top-8" : "bottom-8"
-        } max-w-[240px]`}
-      >
-        <p className={`text-xl font-bold leading-tight ${textColors.title}`}>{title}</p>
-        <p className={`mt-1 text-sm leading-5 ${textColors.description}`}>{description}</p>
-      </div>
+      {imageBlock}
+      {textBlock}
     </div>
   );
 }

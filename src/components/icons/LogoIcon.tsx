@@ -1,14 +1,18 @@
 import Image from "next/image";
 import logoFullImg from "@public/logos/logo-full.png";
 import avatarImg from "@public/logos/avatar.png";
+import { LogoAnimeAvatar } from "./LogoAnimeAvatar";
 
-type LogoVariant = "full" | "text" | "avatar";
+type LogoVariant = "full" | "text" | "avatar" | "anime-avatar";
 
 const LOGO_CONFIG = {
   full:   { src: logoFullImg,            alt: "造梦次元", sizes: "120px" },
   text:   { src: "/logos/text-logo.svg", alt: "造梦次元", sizes: "72px"  },
   avatar: { src: avatarImg,              alt: "造梦次元", sizes: "60px"  },
-} satisfies Record<LogoVariant, { src: unknown; alt: string; sizes: string }>;
+} satisfies Record<
+  Exclude<LogoVariant, "anime-avatar">,
+  { src: unknown; alt: string; sizes: string }
+>;
 
 interface LogoIconProps {
   variant: LogoVariant;
@@ -23,6 +27,10 @@ interface LogoIconProps {
 }
 
 export function LogoIcon({ variant, className, priority }: LogoIconProps) {
+  if (variant === "anime-avatar") {
+    return <LogoAnimeAvatar className={className} priority={priority} />;
+  }
+
   const { src, alt, sizes } = LOGO_CONFIG[variant];
   return (
     <Image

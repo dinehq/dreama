@@ -43,11 +43,6 @@
   text-autospace: normal;
 }
 
-/* Adaptive shadow — used by FeatureCard hover */
-:root {
-  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.10);
-}
-
 /* Dark mode — variables only; components intentionally use no dark: classes */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -70,8 +65,6 @@
     --color-accent-yellow: #c99e00;
     --color-accent-orange: #c45f00;
     --color-accent-blue:   #0090bf;
-
-    --shadow-card-hover: 0 8px 30px rgba(255, 255, 255, 0.06);
   }
 
   img,
@@ -104,6 +97,16 @@ body {
     padding-left: calc(var(--spacing) * 20);
     padding-right: calc(var(--spacing) * 20);
   }
+}
+
+@utility corner-squircle {
+  corner-shape: squircle;
+}
+
+/* Squircle interpolation for theme card radii (supporting browsers only) */
+.rounded-feature,
+.rounded-card {
+  corner-shape: squircle;
 }
 
 @keyframes float {

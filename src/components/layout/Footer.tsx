@@ -13,7 +13,7 @@ export default function Footer() {
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
         <div className="hidden sm:flex absolute inset-y-4 left-1/2 -translate-x-1/2 items-center">
-          <LogoIcon variant="avatar" className="h-full w-auto" />
+          <LogoIcon variant="anime-avatar" className="h-full w-auto" />
         </div>
 
         {/* Right — ICP registration */}
