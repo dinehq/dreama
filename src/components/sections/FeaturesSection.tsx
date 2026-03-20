@@ -107,14 +107,14 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-[clamp(1rem,2.5vw,2rem)]">
       <FadeIn>
         <h3 className="text-center text-2xl font-bold text-ink">{label}</h3>
       </FadeIn>
-      {/* Fixed total height; cards divide it proportionally via flex-grow */}
+      {/* Aspect-ratio container — height scales with column width */}
       <div className="
-        flex h-[680px] flex-col gap-8
-        md:h-[1066px]
+        flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)]
+        md:aspect-624/1066
       ">
         {cards.map(({ delay, baseGrow, hoverGrow, imageHoverScale = 1, ...props }, i) => {
           const isHovered = hoveredIndex === i;
@@ -173,7 +173,8 @@ export default function FeaturesSection() {
 
         {/* Two-column grid */}
         <div className="
-          grid grid-cols-1 gap-8
+          grid grid-cols-1 gap-x-[clamp(1rem,2.5vw,2rem)]
+          gap-y-[clamp(2.5rem,6vw,3rem)]
           md:grid-cols-2
         ">
           <CardColumn label="给每个人" cards={LEFT_CARDS} />

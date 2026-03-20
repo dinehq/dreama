@@ -172,15 +172,18 @@ export default function FeatureCard({
   const textBlock = (
     <div
       className={`
-        absolute left-8 z-10
+        absolute left-[clamp(1rem,2.5vw,2rem)] z-10
         ${
-        textPosition === "top" ? "top-8" : "bottom-8"
+        textPosition === "top"
+          ? "top-[clamp(1rem,2.5vw,2rem)]"
+          : "bottom-[clamp(1rem,2.5vw,2rem)]"
       }
         max-w-60
       `}
     >
       <p className={`
-        text-2xl/tight font-bold
+        text-xl/tight font-bold
+        md:text-2xl/tight
         ${textColors.title}
       `}>{title}</p>
       <p className={`
