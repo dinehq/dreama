@@ -44,6 +44,7 @@ type SlidePhase = 'enter' | 'exit' | 'pre-enter';
 
 export default function TestimonialSection() {
   const [active, setActive] = useState(0);
+  const [blobColor, setBlobColor] = useState<string>(ITEMS[0].color);
   const [phase, setPhase] = useState<SlidePhase>('enter');
   const [dir, setDir] = useState<1 | -1>(1); // 1 = forward, -1 = backward
 
@@ -127,6 +128,7 @@ export default function TestimonialSection() {
   const goTo = (idx: number, dir: 1 | -1) => {
     clearAll();
     setDir(dir);
+    setBlobColor(ITEMS[idx].color); // update blob color immediately
     setPhase('exit');
     fadeRef.current = setTimeout(() => {
       activeRef.current = idx;
@@ -147,14 +149,14 @@ export default function TestimonialSection() {
 
   const item = ITEMS[active];
 
-  const exitY  = dir > 0 ? -6 : 6;   // exit slides in direction of travel
-  const enterY = dir > 0 ?   6 : -6; // enter arrives from the opposite side
+  const exitX  = dir > 0 ? -16 : 16;   // exit slides in direction of travel
+  const enterX = dir > 0 ?   16 : -16; // enter arrives from the opposite side
   const slideStyle = (delay = 0): React.CSSProperties =>
     phase === 'exit'
-      ? { opacity: 0, transform: `translateY(${exitY}px)`,  transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease` }
+      ? { opacity: 0, transform: `translateX(${exitX}px)`,  transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease` }
     : phase === 'pre-enter'
-      ? { opacity: 0, transform: `translateY(${enterY}px)`, transition: 'none' }
-    : { opacity: 1, transform: 'translateY(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
+      ? { opacity: 0, transform: `translateX(${enterX}px)`, transition: 'none' }
+    : { opacity: 1, transform: 'translateX(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
 
   return (
     <section ref={sectionRef} className="
@@ -186,7 +188,7 @@ export default function TestimonialSection() {
             {/* Green blob background */}
             <path
               d={BLOB_PATH}
-              style={{ fill: item.color, transition: "fill 0.4s ease" }}
+              style={{ fill: blobColor, transition: "fill 0.3s linear" }}
             />
             {/* Clip is on the static <g>; only the image inside moves with parallax */}
             <g clipPath="url(#blob-clip)">
@@ -200,7 +202,7 @@ export default function TestimonialSection() {
                 preserveAspectRatio="xMidYMid slice"
                 style={{
                   opacity: phase === 'enter' ? 1 : 0,
-                  transition: `opacity ${EXIT_MS}ms`,
+                  transition: phase === 'enter' ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) 180ms` : `opacity ${EXIT_MS}ms ease`,
                 }}
               />
             </g>

@@ -180,7 +180,7 @@ export default function AIShowcaseSection() {
                   ref={(el) => { progressBarRefs.current[idx] = el; }}
                   aria-hidden="true"
                   className={`
-                    absolute inset-y-0 left-0 rounded-3xl bg-brand-vivid
+                    absolute inset-y-0 left-0 rounded-none bg-brand-vivid
                     transition-opacity duration-300
                     ${isActive ? `opacity-100` : `opacity-0`}
                   `}

@@ -44,6 +44,8 @@ export interface FeatureCardProps {
   textTheme?: TextTheme;
   className?: string;
   image?: CardImage;
+  /** Scale applied to the image (default: 1). Animate by passing a different value on hover. */
+  imageScale?: number;
 }
 
 const colorMap: Record<CardColor, string> = {
@@ -113,6 +115,8 @@ const textThemeMap: Record<TextTheme, { title: string; description: string }> = 
   light: { title: "text-white",     description: "text-white/70" },
 };
 
+const IMAGE_SCALE_TRANSITION = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
+
 export default function FeatureCard({
   title,
   description,
@@ -121,6 +125,7 @@ export default function FeatureCard({
   textTheme = "dark",
   className = "",
   image,
+  imageScale = 1,
 }: FeatureCardProps) {
   const textColors = textThemeMap[textTheme];
 
@@ -140,11 +145,10 @@ export default function FeatureCard({
               image.width === "auto" && image.height === "100%"
                 ? "contain"
                 : "cover",
+            transform: `scale(${imageScale})`,
+            transition: IMAGE_SCALE_TRANSITION,
           }}
-          className="
-            origin-center transition-[scale] duration-500 ease-out
-            group-hover:scale-101
-          "
+          className="block origin-center"
           placeholder={typeof image.src === "object" ? "blur" : undefined}
         />
       ) : (
@@ -153,11 +157,12 @@ export default function FeatureCard({
           alt=""
           width={image.width as number}
           height={image.height as number}
-          style={{ objectFit: "cover" }}
-          className="
-            block origin-center transition-[scale] duration-500 ease-out
-            group-hover:scale-101
-          "
+          style={{
+            objectFit: "cover",
+            transform: `scale(${imageScale})`,
+            transition: IMAGE_SCALE_TRANSITION,
+          }}
+          className="block origin-center"
           placeholder={typeof image.src === "object" ? "blur" : undefined}
         />
       )}
@@ -175,7 +180,7 @@ export default function FeatureCard({
       `}
     >
       <p className={`
-        text-xl/tight font-bold
+        text-2xl/tight font-bold
         ${textColors.title}
       `}>{title}</p>
       <p className={`
@@ -188,7 +193,7 @@ export default function FeatureCard({
   return (
     <div
       className={`
-        group relative w-full overflow-hidden rounded-5xl
+        relative w-full overflow-hidden rounded-5xl
         ${colorMap[color]}
         ${className}
       `}
