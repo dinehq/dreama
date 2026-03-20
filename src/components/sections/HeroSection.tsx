@@ -69,28 +69,24 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="
-        relative h-[480px] w-full overflow-hidden
-        md:h-[810px]
-      "
+      className="relative h-[90vh] min-h-[680px] w-full overflow-hidden"
     >
       <Image src={heroBg} alt="" fill className="object-cover" priority placeholder="blur" />
 
-      <div className="
-        absolute top-[19%] left-1/2 flex -translate-x-1/2 flex-col items-center
-        gap-10
+      {/* Title: bottom edge sits 40px above the cloud top (cloud center = 50%) */}
+      <h1 className="
+        absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center
+        text-4xl font-bold whitespace-nowrap text-ink
+        sm:text-5xl
+        md:text-5xl
       ">
-        <h1 className="
-          text-center text-3xl font-bold whitespace-nowrap text-ink
-          md:text-5xl
-        ">
-          让想像发生
-        </h1>
+        让想像发生
+      </h1>
 
-        <div className="animate-float">
-          <div ref={cloudRef} style={{ willChange: "transform" }}>
-            <Image src="/hero-cloud.svg" alt="" width={321} height={241} priority />
-          </div>
+      {/* Cloud: vertically and horizontally centered */}
+      <div className="animate-float absolute top-1/2 left-1/2 -translate-1/2">
+        <div ref={cloudRef} style={{ willChange: "transform" }}>
+          <Image src="/hero-cloud.svg" alt="" width={321} height={241} priority />
         </div>
       </div>
     </section>
