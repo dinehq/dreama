@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { LogoIcon } from "@/components/icons/LogoIcon";
 
@@ -8,31 +7,15 @@ export const APP_DOWNLOAD_URL = "https://a.app.qq.com/o/simple.jsp?pkgname=com.i
 const SIZE = 152;
 const LOGO_SIZE = 38;
 
-function getInkColor(): string {
-  return (
-    getComputedStyle(document.documentElement)
-      .getPropertyValue("--color-ink")
-      .trim() || "#242424"
-  );
-}
-
 interface DownloadQRCodeProps {
   playSignal?: number;
 }
 
 export function DownloadQRCode({ playSignal }: DownloadQRCodeProps) {
-  const [fgColor, setFgColor] = useState("#242424");
-
-  useEffect(() => {
-    const update = () => setFgColor(getInkColor());
-    update();
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
   return (
-    <div className="relative" style={{ width: SIZE, height: SIZE }}>
+    // text-ink → color: var(--color-ink); SVG fill="currentColor" inherits it,
+    // so the QR modules automatically follow the dark-mode design token.
+    <div className="relative text-ink" style={{ width: SIZE, height: SIZE }}>
       {/* SVG filter — rounds each QR module via gooey blur threshold */}
       <svg style={{ position: "absolute", width: 0, height: 0 }}>
         <defs>
@@ -56,7 +39,7 @@ export function DownloadQRCode({ playSignal }: DownloadQRCodeProps) {
         <QRCodeSVG
           value={APP_DOWNLOAD_URL}
           size={SIZE}
-          fgColor={fgColor}
+          fgColor="currentColor"
           bgColor="transparent"
           level="H"
         />
