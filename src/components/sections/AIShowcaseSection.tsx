@@ -37,7 +37,7 @@ const DURATION_MS = 4000;
  *  ├──────────────────────────────────────┤
  *  │  large media area (changes on tab)   │
  *  ├──────────────────────────────────────┤
- *  │  [tab 1 ▓▓▓░░] [tab 2] [tab 3]      │  ← auto-play with progress fill
+ *  │  [tab 1 ▓▓▓░░] [tab 2] [tab 3]       │  ← auto-play with progress fill
  *  └──────────────────────────────────────┘
  *
  * Clicking a tab immediately activates it and restarts the timer.
@@ -46,26 +46,16 @@ const DURATION_MS = 4000;
  * Progress bar width is written directly to the DOM via refs to avoid
  * 60 React re-renders/second during the RAF animation loop.
  */
-const FADE_MS = 300; // must match transition-opacity duration below
-
 export default function AIShowcaseSection() {
   const [active, setActive] = useState(0);
-  // Only tracks the outgoing tab's frozen bar width — set once per transition.
-  const [exiting, setExiting] = useState<{ index: number; frozenWidth: number } | null>(null);
 
   const rafRef = useRef<number | null>(null);
-  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Tracks current progress (0–100) without triggering re-renders.
   const progressRef = useRef(0);
   // Direct refs to each tab's progress bar span.
+  // Width is managed entirely via these refs so React never overwrites a
+  // frozen outgoing bar — the CSS transition-opacity handles the fade-out.
   const progressBarRefs = useRef<(HTMLSpanElement | null)[]>([]);
-
-  /** Freeze the outgoing tab's bar at `width` and fade it out after FADE_MS. */
-  const beginFadeOut = (outgoing: number, width: number) => {
-    setExiting({ index: outgoing, frozenWidth: width });
-    if (fadeTimerRef.current !== null) clearTimeout(fadeTimerRef.current);
-    fadeTimerRef.current = setTimeout(() => setExiting(null), FADE_MS);
-  };
 
   useEffect(() => {
     let startTime: number | null = null;
@@ -80,7 +70,6 @@ export default function AIShowcaseSection() {
       if (pct < 100) {
         rafRef.current = requestAnimationFrame(tick);
       } else {
-        beginFadeOut(active, 100);
         progressRef.current = 0;
         setActive((prev) => (prev + 1) % ITEMS.length);
       }
@@ -108,7 +97,6 @@ export default function AIShowcaseSection() {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    beginFadeOut(active, progressRef.current);
     progressRef.current = 0;
     setActive(idx);
   };
@@ -184,9 +172,6 @@ export default function AIShowcaseSection() {
                     transition-opacity duration-300
                     ${isActive ? `opacity-100` : `opacity-0`}
                   `}
-                  style={{
-                    width: `${isActive ? 0 : idx === exiting?.index ? exiting.frozenWidth : 0}%`,
-                  }}
                 />
 
                 {/* Text — always above the fill */}

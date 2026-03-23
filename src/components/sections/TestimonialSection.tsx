@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
 import ChevronRightIcon from "@/components/icons/chevron-right.svg";
 import FadeIn from "@/components/ui/FadeIn";
+import { useParallaxMouse } from "@/hooks/useParallaxMouse";
 
 const BLOB_PATH =
   "M724.1 0C816.386 0 891.2 74.813 891.2 167.1V288.9C891.2 381.187 816.386 456 724.1 456C671.157 456 623.968 431.378 593.352 392.961C589.076 387.596 580.623 387.595 576.347 392.961C545.731 431.378 498.542 456 445.6 456C392.657 456 345.468 431.378 314.852 392.961C310.576 387.596 302.123 387.595 297.847 392.961C267.231 431.378 220.042 456 167.1 456C74.8131 456 0.00023831 381.187 0 288.9V167.1C0.000230964 74.8131 74.8131 0.000214411 167.1 0C220.042 0 267.231 24.622 297.847 63.0384C302.123 68.4037 310.576 68.4036 314.852 63.0383C345.468 24.6219 392.658 0.000123001 445.6 0C498.542 0 545.731 24.622 576.347 63.0384C580.623 68.4037 589.076 68.4036 593.352 63.0383C623.968 24.6219 671.158 0.000123001 724.1 0Z";
@@ -55,57 +56,13 @@ export default function TestimonialSection() {
   const enterRafRef = useRef<number | null>(null);
 
   // Parallax — no state, pure RAF + direct DOM mutation.
-  const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<SVGImageElement>(null);
-  const rafRef = useRef<number | null>(null);
-  const mouse = useRef({ x: 0, y: 0 });
-  const pos = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const startRAF = () => {
-      if (rafRef.current) return;
-      const tick = () => {
-        const dx = mouse.current.x - pos.current.x;
-        const dy = mouse.current.y - pos.current.y;
-        pos.current.x += dx * LERP_FACTOR;
-        pos.current.y += dy * LERP_FACTOR;
-        imageRef.current?.setAttribute(
-          "transform",
-          `translate(${-pos.current.x * PARALLAX_STRENGTH}, ${-pos.current.y * PARALLAX_STRENGTH})`
-        );
-        // Stop looping once position has converged within 0.01 SVG units.
-        if (Math.abs(dx) < 0.001 && Math.abs(dy) < 0.001) {
-          rafRef.current = null;
-          return;
-        }
-        rafRef.current = requestAnimationFrame(tick);
-      };
-      rafRef.current = requestAnimationFrame(tick);
-    };
-
-    const onMove = (e: MouseEvent) => {
-      const r = section.getBoundingClientRect();
-      mouse.current.x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-      mouse.current.y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-      startRAF();
-    };
-    const onLeave = () => {
-      mouse.current.x = 0;
-      mouse.current.y = 0;
-      startRAF();
-    };
-
-    section.addEventListener("mousemove", onMove);
-    section.addEventListener("mouseleave", onLeave);
-    return () => {
-      section.removeEventListener("mousemove", onMove);
-      section.removeEventListener("mouseleave", onLeave);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+  const sectionRef = useParallaxMouse(LERP_FACTOR, (x, y) => {
+    imageRef.current?.setAttribute(
+      "transform",
+      `translate(${-x * PARALLAX_STRENGTH}, ${-y * PARALLAX_STRENGTH})`
+    );
+  });
 
   const clearAll = () => {
     if (autoRef.current)     clearTimeout(autoRef.current);
