@@ -116,10 +116,7 @@ export default function TestimonialSection() {
     : { opacity: 1, transform: 'translateX(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
 
   return (
-    <section ref={sectionRef} className="
-      py-10 page-gutter
-      md:py-20
-    ">
+    <section ref={sectionRef} className="page-gutter">
       <FadeIn className="mx-auto max-w-[891px]">
 
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
@@ -213,7 +210,10 @@ export default function TestimonialSection() {
             >
               <ChevronRightIcon width={36} height={36} />
             </button>
-            <span className="block h-px w-12 bg-ink/40" aria-hidden="true" />
+            <span className="
+              block h-px w-6 bg-ink/40
+              md:w-12
+            " aria-hidden="true" />
             <span className="text-sm text-ink/60 tabular-nums">
               {String(active + 1).padStart(2, "0")}/{String(ITEMS.length).padStart(2, "0")}
             </span>

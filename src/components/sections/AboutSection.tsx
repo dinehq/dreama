@@ -7,15 +7,15 @@ import FadeIn from "@/components/ui/FadeIn";
 export default function AboutSection() {
   return (
     <section id="about" className="
-      page-gutter pb-10
-      md:pb-20
+      py-10 page-gutter
+      md:py-0
     ">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <div className="
-            flex flex-col items-center justify-center rounded-5xl
+            flex flex-col items-center justify-center rounded-4xl
             bg-accent-yellow px-8 py-16 text-center
-            md:h-187.5 md:px-[15%] md:py-0
+            md:h-187.5 md:rounded-5xl md:px-[15%] md:py-0
           ">
             <h2 className="
               text-3xl font-bold text-ink

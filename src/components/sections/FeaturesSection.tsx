@@ -154,10 +154,7 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
  */
 export default function FeaturesSection() {
   return (
-    <section id="features" className="
-      mt-10 page-gutter pb-10
-      md:mt-20 md:pb-20
-    ">
+    <section id="features" className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
 
         {/* Section header */}

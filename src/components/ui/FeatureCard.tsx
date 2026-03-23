@@ -196,7 +196,8 @@ export default function FeatureCard({
   return (
     <div
       className={`
-        relative w-full overflow-hidden rounded-5xl
+        relative w-full overflow-hidden rounded-4xl
+        md:rounded-5xl
         ${colorMap[color]}
         ${className}
       `}

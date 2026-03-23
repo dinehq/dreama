@@ -102,10 +102,7 @@ export default function AIShowcaseSection() {
   };
 
   return (
-    <section className="
-      py-10 page-gutter
-      md:py-20
-    ">
+    <section className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
 
         {/* Heading */}
