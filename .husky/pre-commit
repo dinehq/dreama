@@ -1,3 +1,5 @@
+export PATH="$HOME/Library/pnpm:$PATH"
+
 STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$' || true)
 
 if [ -n "$STAGED" ]; then

@@ -9,7 +9,7 @@ export default function Footer() {
       ">
 
         {/* Left — text logo + copyright */}
-        <div className="flex min-w-0 flex-col gap-0.5">
+        <div className="flex min-w-0 flex-col gap-2">
           <LogoIcon variant="text" className="invert-dark h-4 w-auto self-start" />
           <p className="text-xs whitespace-nowrap text-ink/50">© 2026 深圳想法流科技有限公司</p>
         </div>
@@ -23,7 +23,7 @@ export default function Footer() {
         </div>
 
         {/* Right — ICP registration */}
-        <div className="flex shrink-0 flex-col items-end gap-0.5">
+        <div className="flex shrink-0 flex-col items-end gap-1">
           <p className="text-xs whitespace-nowrap text-ink/50">粤ICP备2023079495号</p>
           <p className="text-xs whitespace-nowrap text-ink/50">粤公网安备44030002002060</p>
         </div>

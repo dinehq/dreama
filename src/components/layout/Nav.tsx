@@ -51,7 +51,10 @@ export default function Nav() {
       ">
 
         {/* Left — logo */}
-        <Link href="/" className="min-w-0 shrink-0">
+        <Link href="/" className="
+          min-w-0 shrink-0
+          md:flex-1
+        ">
           <LogoIcon variant="full" className="h-9 w-auto" priority />
         </Link>
 
@@ -72,7 +75,7 @@ export default function Nav() {
         {/* Right — CTA + hamburger */}
         <div className="
           flex shrink-0 items-center gap-4
-          md:gap-6
+          md:flex-1 md:justify-end md:gap-6
         ">
           <a href="https://ai.ideaflow.pro/" target="_blank" rel="noopener noreferrer" className={`
             hidden

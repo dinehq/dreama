@@ -115,6 +115,13 @@ export default function TestimonialSection() {
       ? { opacity: 0, transform: `translateX(${enterX}px)`, transition: 'none' }
     : { opacity: 1, transform: 'translateX(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
 
+  const imageSlideStyle: React.CSSProperties =
+    phase === 'exit'
+      ? { transform: `translateX(${exitX}px)`, transition: `transform ${EXIT_MS}ms ease` }
+    : phase === 'pre-enter'
+      ? { transform: `translateX(${enterX}px)`, transition: 'none' }
+    : { transform: 'translateX(0)',             transition: `transform 520ms cubic-bezier(0.22,1,0.36,1) 60ms` };
+
   return (
     <section ref={sectionRef} className="page-gutter">
       <FadeIn className="mx-auto max-w-[891px]">
@@ -146,19 +153,21 @@ export default function TestimonialSection() {
             />
             {/* Clip is on the static <g>; only the image inside moves with parallax */}
             <g clipPath="url(#blob-clip)">
-              <image
-                ref={imageRef}
-                href={item.avatar}
-                x={-14}
-                y={-110}
-                width={924}
-                height={584}
-                preserveAspectRatio="xMidYMid slice"
-                style={{
-                  opacity: phase === 'enter' ? 1 : 0,
-                  transition: phase === 'enter' ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) 180ms` : `opacity ${EXIT_MS}ms ease`,
-                }}
-              />
+              <g style={imageSlideStyle}>
+                <image
+                  ref={imageRef}
+                  href={item.avatar}
+                  x={-14}
+                  y={-110}
+                  width={924}
+                  height={584}
+                  preserveAspectRatio="xMidYMid slice"
+                  style={{
+                    opacity: phase === 'enter' ? 1 : 0,
+                    transition: phase === 'enter' ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) 180ms` : `opacity ${EXIT_MS}ms ease`,
+                  }}
+                />
+              </g>
             </g>
           </svg>
         </div>
@@ -211,9 +220,20 @@ export default function TestimonialSection() {
               <ChevronRightIcon width={36} height={36} />
             </button>
             <span className="
-              block h-px w-6 bg-ink/40
+              relative block h-px w-6 overflow-hidden bg-ink/10
               md:w-12
-            " aria-hidden="true" />
+            " aria-hidden="true">
+              <span
+                key={active}
+                className="
+                  absolute inset-y-0 left-0 w-full origin-left bg-ink/40
+                "
+                style={{
+                  transform: phase === 'enter' ? 'scaleX(1)' : 'scaleX(0)',
+                  transition: phase === 'enter' ? `transform ${DURATION_MS}ms linear` : 'none',
+                }}
+              />
+            </span>
             <span className="text-sm text-ink/60 tabular-nums">
               {String(active + 1).padStart(2, "0")}/{String(ITEMS.length).padStart(2, "0")}
             </span>

@@ -42,6 +42,11 @@
   text-autospace: normal;
 }
 
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
 /* Dark mode — variables only; components intentionally use no dark: classes */
 @media (prefers-color-scheme: dark) {
   :root {

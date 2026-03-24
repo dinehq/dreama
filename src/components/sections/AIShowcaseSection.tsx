@@ -153,7 +153,7 @@ export default function AIShowcaseSection() {
                   relative w-full flex-1 cursor-pointer overflow-hidden
                   rounded-3xl p-4 text-left transition-colors
                   ${
-                  isActive ? "bg-brand-mint" : `
+                  isActive ? "bg-brand/8" : `
                     bg-surface-alt
                     hover:bg-surface
                   `
@@ -165,7 +165,7 @@ export default function AIShowcaseSection() {
                   ref={(el) => { progressBarRefs.current[idx] = el; }}
                   aria-hidden="true"
                   className={`
-                    absolute inset-y-0 left-0 rounded-none bg-brand-vivid
+                    absolute inset-y-0 left-0 rounded-none bg-brand/12
                     transition-opacity duration-300
                     ${isActive ? `opacity-100` : `opacity-0`}
                   `}
