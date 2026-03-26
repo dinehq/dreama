@@ -3,7 +3,8 @@
 import { QRCodeSVG } from "qrcode.react";
 import { LogoIcon } from "@/components/icons/LogoIcon";
 
-export const APP_DOWNLOAD_URL = "https://a.app.qq.com/o/simple.jsp?pkgname=com.ideaflow.zmcy";
+export const APP_DOWNLOAD_URL =
+  "https://a.app.qq.com/o/simple.jsp?pkgname=com.ideaflow.zmcy";
 const SIZE = 152;
 const LOGO_SIZE = 38;
 
@@ -21,12 +22,20 @@ export function DownloadQRCode({ playSignal }: DownloadQRCodeProps) {
         <defs>
           <filter
             id="qr-round"
-            x="-5%" y="-5%" width="110%" height="110%"
+            x="-5%"
+            y="-5%"
+            width="110%"
+            height="110%"
             colorInterpolationFilters="sRGB"
           >
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.6" result="blur" />
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="1.6"
+              result="blur"
+            />
             <feColorMatrix
-              in="blur" mode="matrix"
+              in="blur"
+              mode="matrix"
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -8"
               result="rounded"
             />
@@ -46,11 +55,13 @@ export function DownloadQRCode({ playSignal }: DownloadQRCodeProps) {
       </div>
 
       {/* Animated logo overlay — QR level H tolerates up to 30% occlusion */}
-      <div className="
-        pointer-events-none absolute inset-0 flex items-center justify-center
-      ">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <div style={{ width: LOGO_SIZE, height: LOGO_SIZE }}>
-          <LogoIcon variant="anime-avatar" className="size-full" playSignal={playSignal} />
+          <LogoIcon
+            variant="anime-avatar"
+            className="size-full"
+            playSignal={playSignal}
+          />
         </div>
       </div>
     </div>

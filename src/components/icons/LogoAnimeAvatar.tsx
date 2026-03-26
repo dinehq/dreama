@@ -16,7 +16,11 @@ interface LogoAnimeAvatarProps {
   playSignal?: number;
 }
 
-export function LogoAnimeAvatar({ className, priority, playSignal }: LogoAnimeAvatarProps) {
+export function LogoAnimeAvatar({
+  className,
+  priority,
+  playSignal,
+}: LogoAnimeAvatarProps) {
   const ref = useRef<HTMLVideoElement>(null);
   const [loopWhilePlaying, setLoopWhilePlaying] = useState(true);
 
@@ -34,7 +38,7 @@ export function LogoAnimeAvatar({ className, priority, playSignal }: LogoAnimeAv
   return (
     <video
       ref={ref}
-      src="/logos/avatar-anime.mp4"
+      src="/logos/avatar-anime-opt.mp4"
       loop={loopWhilePlaying}
       muted
       playsInline

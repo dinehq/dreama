@@ -65,11 +65,13 @@ export const en: Dict = {
       },
       {
         title: "Active Community",
-        description: "Your IP has fans who play with it and create derivative content",
+        description:
+          "Your IP has fans who play with it and create derivative content",
       },
       {
         title: "Commercial Opportunity",
-        description: "Monetize your content — let your creativity sustain itself",
+        description:
+          "Monetize your content — let your creativity sustain itself",
       },
     ],
   },

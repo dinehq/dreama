@@ -9,15 +9,17 @@ import { useEffect, useLayoutEffect, useRef } from "react";
  */
 export function useParallaxMouse(
   lerp: number,
-  onTick: (x: number, y: number) => void
+  onTick: (x: number, y: number) => void,
 ) {
   const sectionRef = useRef<HTMLElement>(null);
   // Keep onTick current without re-running the effect on every render.
   const onTickRef = useRef(onTick);
-  useLayoutEffect(() => { onTickRef.current = onTick; });
+  useLayoutEffect(() => {
+    onTickRef.current = onTick;
+  });
 
   const mouse = useRef({ x: 0, y: 0 });
-  const pos   = useRef({ x: 0, y: 0 });
+  const pos = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -43,8 +45,8 @@ export function useParallaxMouse(
 
     const onMove = (e: MouseEvent) => {
       const r = section.getBoundingClientRect();
-      mouse.current.x = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
-      mouse.current.y = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      mouse.current.x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      mouse.current.y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
       startRAF();
     };
     const onLeave = () => {

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import FeatureCard, { type FeatureCardProps } from "@/components/ui/FeatureCard";
+import FeatureCard, {
+  type FeatureCardProps,
+} from "@/components/ui/FeatureCard";
 import FadeIn from "@/components/ui/FadeIn";
 import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@public/features/1.png";
@@ -51,7 +53,14 @@ const LEFT_CARD_VISUALS: CardVisual[] = [
     hoverGrow: 430,
     imageHoverScale: 1,
     delay: 150,
-    image: { src: feature2, width: "100%", height: "100%", x: 0, y: 0, align: "center" },
+    image: {
+      src: feature2,
+      width: "100%",
+      height: "100%",
+      x: 0,
+      y: 0,
+      align: "center",
+    },
   },
   {
     color: "orange",
@@ -72,7 +81,13 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     hoverGrow: 400,
     imageHoverScale: 1,
     delay: 0,
-    image: { src: "/features/4.svg", width: "110%", x: 32, y: 21, align: "bottom-left" },
+    image: {
+      src: "/features/4.svg",
+      width: "110%",
+      x: 32,
+      y: 21,
+      align: "bottom-left",
+    },
   },
   {
     color: "green",
@@ -81,7 +96,13 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     hoverGrow: 700,
     imageHoverScale: 1,
     delay: 150,
-    image: { src: "/features/5.svg", width: "70%", x: 0, y: 0, align: "center" },
+    image: {
+      src: "/features/5.svg",
+      width: "70%",
+      x: 0,
+      y: 0,
+      align: "center",
+    },
   },
   {
     color: "blue",
@@ -90,16 +111,28 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     hoverGrow: 460,
     imageHoverScale: 1,
     delay: 300,
-    image: { src: "/features/6.svg", width: "100%", x: 0, y: 0, align: "bottom-left" },
+    image: {
+      src: "/features/6.svg",
+      width: "100%",
+      x: 0,
+      y: 0,
+      align: "bottom-left",
+    },
   },
 ];
 
-function CardColumn({ label, visuals, texts }: {
+function CardColumn({
+  label,
+  visuals,
+  texts,
+}: {
   label: string;
   visuals: CardVisual[];
   texts: { title: string; description: string }[];
 }) {
-  const cards: CardConfig[] = visuals.map((v, i) => ({ ...v, ...texts[i] }) as CardConfig);
+  const cards: CardConfig[] = visuals.map(
+    (v, i) => ({ ...v, ...texts[i] }) as CardConfig,
+  );
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -108,37 +141,41 @@ function CardColumn({ label, visuals, texts }: {
         <h3 className="text-center text-2xl font-bold text-ink">{label}</h3>
       </FadeIn>
       {/* Aspect-ratio container — height scales with column width */}
-      <div className="
-        flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)]
-        md:aspect-624/1066
-      ">
-        {cards.map(({ delay, baseGrow, hoverGrow, imageHoverScale = 1, ...props }, i) => {
-          const isHovered = hoveredIndex === i;
-          const flexGrow = isHovered ? (hoverGrow ?? baseGrow * 1.8) : baseGrow;
+      <div className="flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)] md:aspect-624/1066">
+        {cards.map(
+          (
+            { delay, baseGrow, hoverGrow, imageHoverScale = 1, ...props },
+            i,
+          ) => {
+            const isHovered = hoveredIndex === i;
+            const flexGrow = isHovered
+              ? (hoverGrow ?? baseGrow * 1.8)
+              : baseGrow;
 
-          return (
-            <div
-              key={props.title}
-              style={{
-                flexGrow,
-                flexShrink: 1,
-                flexBasis: 0,
-                minHeight: 0,
-                transition: `flex-grow 0.5s ${FLEX_EASING}`,
-              }}
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <FadeIn delay={delay} className="h-full">
-                <FeatureCard
-                  {...props}
-                  className="h-full"
-                  imageScale={isHovered ? imageHoverScale : 1}
-                />
-              </FadeIn>
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={props.title}
+                style={{
+                  flexGrow,
+                  flexShrink: 1,
+                  flexBasis: 0,
+                  minHeight: 0,
+                  transition: `flex-grow 0.5s ${FLEX_EASING}`,
+                }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <FadeIn delay={delay} className="h-full">
+                  <FeatureCard
+                    {...props}
+                    className="h-full"
+                    imageScale={isHovered ? imageHoverScale : 1}
+                  />
+                </FadeIn>
+              </div>
+            );
+          },
+        )}
       </div>
     </div>
   );
@@ -152,28 +189,27 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
   return (
     <section id="features" className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
-
         {/* Section header */}
         <FadeIn className="mb-16 text-center">
-          <h2 className="
-            text-3xl font-bold text-ink
-            md:text-5xl
-          ">{dict.heading}</h2>
-          <p className="mt-4 text-base text-ink/60">
-            {dict.subheading}
-          </p>
+          <h2 className="text-3xl font-bold text-ink md:text-5xl">
+            {dict.heading}
+          </h2>
+          <p className="mt-4 text-base text-ink/60">{dict.subheading}</p>
         </FadeIn>
 
         {/* Two-column grid */}
-        <div className="
-          grid grid-cols-1 gap-x-[clamp(1rem,2.5vw,2rem)]
-          gap-y-[clamp(2.5rem,6vw,3rem)]
-          md:grid-cols-2
-        ">
-          <CardColumn label={dict.forEveryone} visuals={LEFT_CARD_VISUALS} texts={dict.left} />
-          <CardColumn label={dict.forCreators} visuals={RIGHT_CARD_VISUALS} texts={dict.right} />
+        <div className="grid grid-cols-1 gap-x-[clamp(1rem,2.5vw,2rem)] gap-y-[clamp(2.5rem,6vw,3rem)] md:grid-cols-2">
+          <CardColumn
+            label={dict.forEveryone}
+            visuals={LEFT_CARD_VISUALS}
+            texts={dict.left}
+          />
+          <CardColumn
+            label={dict.forCreators}
+            visuals={RIGHT_CARD_VISUALS}
+            texts={dict.right}
+          />
         </div>
-
       </FadeInGroup>
     </section>
   );

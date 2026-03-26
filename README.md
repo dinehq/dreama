@@ -43,7 +43,7 @@ Drop any `.svg` file into `src/components/icons/` and import it directly as a Re
 ```tsx
 import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
 
-<ChevronLeftIcon width={24} height={24} className="text-brand" />
+<ChevronLeftIcon width={24} height={24} className="text-brand" />;
 ```
 
 Powered by `@svgr/webpack` via Turbopack loader rules (`next.config.ts`). Types declared in `src/svg.d.ts`. For complex icons, use `_template.tsx` as a starting point.

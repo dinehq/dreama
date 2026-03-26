@@ -13,7 +13,11 @@ interface FadeInProps {
 // Smooth expo-out deceleration — feels natural rather than mechanical.
 const EASING = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-export default function FadeIn({ children, delay = 0, className }: FadeInProps) {
+export default function FadeIn({
+  children,
+  delay = 0,
+  className,
+}: FadeInProps) {
   const groupVisible = useFadeInGroup();
   const ref = useRef<HTMLDivElement>(null);
   // When inside a FadeInGroup the group's observer handles the trigger.

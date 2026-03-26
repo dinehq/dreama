@@ -17,22 +17,26 @@ const ITEM_VISUALS = [
 ] as const;
 
 const DURATION_MS = 5000;
-const EXIT_MS     = 160; // exit transition duration
+const EXIT_MS = 160; // exit transition duration
 const PARALLAX_STRENGTH = 6; // max SVG-unit offset
-const LERP_FACTOR = 0.1;      // smoothing — lower = lazier
+const LERP_FACTOR = 0.1; // smoothing — lower = lazier
 
-type SlidePhase = 'enter' | 'exit' | 'pre-enter';
+type SlidePhase = "enter" | "exit" | "pre-enter";
 
-export default function TestimonialSection({ dict }: { dict: Dict["testimonials"] }) {
+export default function TestimonialSection({
+  dict,
+}: {
+  dict: Dict["testimonials"];
+}) {
   const [active, setActive] = useState(0);
   const [blobColor, setBlobColor] = useState<string>(ITEM_VISUALS[0].color);
-  const [phase, setPhase] = useState<SlidePhase>('enter');
+  const [phase, setPhase] = useState<SlidePhase>("enter");
   const [dir, setDir] = useState<1 | -1>(1); // 1 = forward, -1 = backward
 
   // Ref so timer callbacks always read the latest index without stale closures.
-  const activeRef   = useRef(0);
-  const autoRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const fadeRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activeRef = useRef(0);
+  const autoRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enterRafRef = useRef<number | null>(null);
 
   // Parallax — no state, pure RAF + direct DOM mutation.
@@ -40,13 +44,13 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
   const sectionRef = useParallaxMouse(LERP_FACTOR, (x, y) => {
     imageRef.current?.setAttribute(
       "transform",
-      `translate(${-x * PARALLAX_STRENGTH}, ${-y * PARALLAX_STRENGTH})`
+      `translate(${-x * PARALLAX_STRENGTH}, ${-y * PARALLAX_STRENGTH})`,
     );
   });
 
   const clearAll = () => {
-    if (autoRef.current)     clearTimeout(autoRef.current);
-    if (fadeRef.current)     clearTimeout(fadeRef.current);
+    if (autoRef.current) clearTimeout(autoRef.current);
+    if (fadeRef.current) clearTimeout(fadeRef.current);
     if (enterRafRef.current) cancelAnimationFrame(enterRafRef.current);
   };
 
@@ -66,14 +70,14 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
     clearAll();
     setDir(dir);
     setBlobColor(ITEM_VISUALS[idx].color); // update blob color immediately
-    setPhase('exit');
+    setPhase("exit");
     fadeRef.current = setTimeout(() => {
       activeRef.current = idx;
       setActive(idx);
-      setPhase('pre-enter');
+      setPhase("pre-enter");
       // One frame later: start enter animation so the pre-enter position commits first.
       enterRafRef.current = requestAnimationFrame(() => {
-        setPhase('enter');
+        setPhase("enter");
         scheduleAutoPlay();
       });
     }, EXIT_MS);
@@ -87,31 +91,45 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
   const visual = ITEM_VISUALS[active];
   const item = dict.items[active];
 
-  const exitX  = dir > 0 ? -16 : 16;   // exit slides in direction of travel
-  const enterX = dir > 0 ?   16 : -16; // enter arrives from the opposite side
+  const exitX = dir > 0 ? -16 : 16; // exit slides in direction of travel
+  const enterX = dir > 0 ? 16 : -16; // enter arrives from the opposite side
   const slideStyle = (delay = 0): React.CSSProperties =>
-    phase === 'exit'
-      ? { opacity: 0, transform: `translateX(${exitX}px)`,  transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease` }
-    : phase === 'pre-enter'
-      ? { opacity: 0, transform: `translateX(${enterX}px)`, transition: 'none' }
-    : { opacity: 1, transform: 'translateX(0)',              transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms` };
+    phase === "exit"
+      ? {
+          opacity: 0,
+          transform: `translateX(${exitX}px)`,
+          transition: `opacity ${EXIT_MS}ms ease, transform ${EXIT_MS}ms ease`,
+        }
+      : phase === "pre-enter"
+        ? {
+            opacity: 0,
+            transform: `translateX(${enterX}px)`,
+            transition: "none",
+          }
+        : {
+            opacity: 1,
+            transform: "translateX(0)",
+            transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
+          };
 
   const imageSlideStyle: React.CSSProperties =
-    phase === 'exit'
-      ? { transform: `translateX(${exitX}px)`, transition: `transform ${EXIT_MS}ms ease` }
-    : phase === 'pre-enter'
-      ? { transform: `translateX(${enterX}px)`, transition: 'none' }
-    : { transform: 'translateX(0)',             transition: `transform 520ms cubic-bezier(0.22,1,0.36,1) 60ms` };
+    phase === "exit"
+      ? {
+          transform: `translateX(${exitX}px)`,
+          transition: `transform ${EXIT_MS}ms ease`,
+        }
+      : phase === "pre-enter"
+        ? { transform: `translateX(${enterX}px)`, transition: "none" }
+        : {
+            transform: "translateX(0)",
+            transition: `transform 520ms cubic-bezier(0.22,1,0.36,1) 60ms`,
+          };
 
   return (
     <section ref={sectionRef} className="page-gutter">
-      <FadeIn className="mx-auto max-w-[891px]">
-
+      <FadeIn className="mx-auto max-w-222">
         {/* Wrapper pt gives space for the person's head to overflow above the blob */}
-        <div className="
-          pt-12
-          md:pt-24
-        ">
+        <div className="pt-12 md:pt-24">
           <svg
             viewBox="0 0 892 456"
             xmlns="http://www.w3.org/2000/svg"
@@ -144,8 +162,11 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
                   height={584}
                   preserveAspectRatio="xMidYMid slice"
                   style={{
-                    opacity: phase === 'enter' ? 1 : 0,
-                    transition: phase === 'enter' ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) 180ms` : `opacity ${EXIT_MS}ms ease`,
+                    opacity: phase === "enter" ? 1 : 0,
+                    transition:
+                      phase === "enter"
+                        ? `opacity 520ms cubic-bezier(0.22,1,0.36,1) 180ms`
+                        : `opacity ${EXIT_MS}ms ease`,
                   }}
                 />
               </g>
@@ -157,18 +178,12 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
         {/* All quotes are rendered stacked in the same grid cell so the
             container always holds the height of the tallest quote,
             preventing layout shift during transitions. */}
-        <div className="
-          mt-16 px-4
-          md:px-[6%]
-        ">
+        <div className="mt-16 px-4 md:px-[6%]">
           <div className="grid">
             {dict.items.map((it, i) => (
               <blockquote
                 key={i}
-                className="
-                  text-2xl/snug font-bold text-ink [grid-area:1/1]
-                  md:text-4xl
-                "
+                className="text-2xl/snug font-bold text-ink [grid-area:1/1] md:text-4xl"
                 aria-hidden={i !== active}
                 style={
                   i === active
@@ -183,60 +198,57 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
         </div>
 
         {/* ── Stable area: buttons and counter never animate ── */}
-        <div className="
-          mt-10 flex flex-wrap items-center gap-3 px-4
-          md:px-[6%]
-        ">
-          <p className="
-            text-lg text-ink/80
-            md:text-2xl
-          " style={slideStyle(80)}>
-            {item.author}{dict.separator}{item.role}
+        <div className="mt-10 flex flex-wrap items-center gap-3 px-4 md:px-[6%]">
+          <p className="text-lg text-ink/80 md:text-2xl" style={slideStyle(80)}>
+            {item.author}
+            {dict.separator}
+            {item.role}
           </p>
           <div className="ml-auto flex items-center gap-3">
             <button
-              onClick={() => goTo((activeRef.current - 1 + ITEM_VISUALS.length) % ITEM_VISUALS.length, -1)}
+              onClick={() =>
+                goTo(
+                  (activeRef.current - 1 + ITEM_VISUALS.length) %
+                    ITEM_VISUALS.length,
+                  -1,
+                )
+              }
               aria-label={dict.prev}
-              className="
-                flex size-9 cursor-pointer items-center justify-center
-                rounded-full bg-ink/8 text-ink transition-colors
-                hover:bg-ink/12
-              "
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-ink/8 text-ink transition-colors hover:bg-ink/12"
             >
               <ChevronLeftIcon width={36} height={36} />
             </button>
             <button
-              onClick={() => goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1)}
+              onClick={() =>
+                goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1)
+              }
               aria-label={dict.next}
-              className="
-                flex size-9 cursor-pointer items-center justify-center
-                rounded-full bg-ink/8 text-ink transition-colors
-                hover:bg-ink/12
-              "
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-ink/8 text-ink transition-colors hover:bg-ink/12"
             >
               <ChevronRightIcon width={36} height={36} />
             </button>
-            <span className="
-              relative block h-px w-6 overflow-hidden bg-ink/10
-              md:w-12
-            " aria-hidden="true">
+            <span
+              className="relative block h-px w-6 overflow-hidden bg-ink/10 md:w-12"
+              aria-hidden="true"
+            >
               <span
                 key={active}
-                className="
-                  absolute inset-y-0 left-0 w-full origin-left bg-ink/40
-                "
+                className="absolute inset-y-0 left-0 w-full origin-left bg-ink/40"
                 style={{
-                  transform: phase === 'enter' ? 'scaleX(1)' : 'scaleX(0)',
-                  transition: phase === 'enter' ? `transform ${DURATION_MS}ms linear` : 'none',
+                  transform: phase === "enter" ? "scaleX(1)" : "scaleX(0)",
+                  transition:
+                    phase === "enter"
+                      ? `transform ${DURATION_MS}ms linear`
+                      : "none",
                 }}
               />
             </span>
-            <span className="text-sm text-ink/60 tabular-nums">
-              {String(active + 1).padStart(2, "0")}/{String(ITEM_VISUALS.length).padStart(2, "0")}
+            <span className="text-base text-ink/60 tabular-nums">
+              {String(active + 1).padStart(2, "0")}/
+              {String(ITEM_VISUALS.length).padStart(2, "0")}
             </span>
           </div>
         </div>
-
       </FadeIn>
     </section>
   );

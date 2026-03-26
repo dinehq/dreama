@@ -1,6 +1,6 @@
 import Image from "next/image";
-import logoFullImg from "@public/logos/logo-full.png";
-import logoFullEnImg from "@public/logos/logo-full-en.png";
+import logoZhImg from "@public/logos/logo-en.png";
+import logoEnImg from "@public/logos/logo-zh.png";
 import avatarImg from "@public/logos/avatar.png";
 import TextLogoZh from "@public/logos/text-logo.svg";
 import TextLogoEn from "@public/logos/text-logo-en.svg";
@@ -9,15 +9,15 @@ import { LogoAnimeAvatar } from "./LogoAnimeAvatar";
 type LogoVariant = "full" | "text" | "avatar" | "anime-avatar";
 
 const LOGO_CONFIG = {
-  full:   { src: logoFullImg,  alt: "造梦次元", sizes: "120px" },
-  avatar: { src: avatarImg,    alt: "造梦次元", sizes: "60px"  },
+  full: { src: logoZhImg, alt: "造梦次元", sizes: "120px" },
+  avatar: { src: avatarImg, alt: "造梦次元", sizes: "60px" },
 } satisfies Record<
   "full" | "avatar",
   { src: unknown; alt: string; sizes: string }
 >;
 
 const LOGO_CONFIG_EN: Partial<typeof LOGO_CONFIG> = {
-  full: { src: logoFullEnImg, alt: "Dreama", sizes: "120px" },
+  full: { src: logoEnImg, alt: "Dreama", sizes: "120px" },
 };
 
 interface LogoIconProps {
@@ -35,14 +35,31 @@ interface LogoIconProps {
   locale?: "zh" | "en";
 }
 
-export function LogoIcon({ variant, className, priority, playSignal, locale }: LogoIconProps) {
+export function LogoIcon({
+  variant,
+  className,
+  priority,
+  playSignal,
+  locale,
+}: LogoIconProps) {
   if (variant === "anime-avatar") {
-    return <LogoAnimeAvatar className={className} priority={priority} playSignal={playSignal} />;
+    return (
+      <LogoAnimeAvatar
+        className={className}
+        priority={priority}
+        playSignal={playSignal}
+      />
+    );
   }
 
   if (variant === "text") {
     const TextLogo = locale === "en" ? TextLogoEn : TextLogoZh;
-    return <TextLogo className={className} aria-label={locale === "en" ? "Dreama" : "造梦次元"} />;
+    return (
+      <TextLogo
+        className={className}
+        aria-label={locale === "en" ? "Dreama" : "造梦次元"}
+      />
+    );
   }
 
   const enOverride = locale === "en" ? LOGO_CONFIG_EN[variant] : undefined;

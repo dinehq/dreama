@@ -5,9 +5,15 @@ type TextPosition = "top" | "bottom";
 type CardColor = "gray" | "yellow" | "orange" | "green" | "blue";
 type TextTheme = "light" | "dark";
 type ImageAlign =
-  | "top-left"  | "top"    | "top-right"
-  | "left"      | "center" | "right"
-  | "bottom-left" | "bottom" | "bottom-right";
+  | "top-left"
+  | "top"
+  | "top-right"
+  | "left"
+  | "center"
+  | "right"
+  | "bottom-left"
+  | "bottom"
+  | "bottom-right";
 
 /** px number, percentage string (e.g. "50%"), or "auto" */
 type SizeValue = number | `${number}%` | "auto";
@@ -49,34 +55,45 @@ export interface FeatureCardProps {
 }
 
 const colorMap: Record<CardColor, string> = {
-  gray:   "bg-surface-alt",
+  gray: "bg-surface-alt",
   yellow: "bg-accent-yellow",
   orange: "bg-accent-orange",
-  green:  "bg-brand",
-  blue:   "bg-accent-blue",
+  green: "bg-brand",
+  blue: "bg-accent-blue",
 };
 
-function positionStyle({ align = "top-left", x = 0, y = 0 }: CardImage): CSSProperties {
-  const style: CSSProperties = { position: "absolute",
+function positionStyle({
+  align = "top-left",
+  x = 0,
+  y = 0,
+}: CardImage): CSSProperties {
+  const style: CSSProperties = {
+    position: "absolute",
 
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-   };
+  };
   const transforms: string[] = [];
 
-  const anchorLeft   = align.includes("left");
-  const anchorRight  = align.includes("right");
-  const anchorTop    = align.includes("top");
+  const anchorLeft = align.includes("left");
+  const anchorRight = align.includes("right");
+  const anchorTop = align.includes("top");
   const anchorBottom = align.includes("bottom");
 
-  if (anchorLeft)        style.left   = x;
-  else if (anchorRight)  style.right  = x;
-  else { style.left = "50%"; transforms.push("translateX(-50%)"); }
+  if (anchorLeft) style.left = x;
+  else if (anchorRight) style.right = x;
+  else {
+    style.left = "50%";
+    transforms.push("translateX(-50%)");
+  }
 
-  if (anchorTop)         style.top    = y;
+  if (anchorTop) style.top = y;
   else if (anchorBottom) style.bottom = y;
-  else { style.top = "50%"; transforms.push("translateY(-50%)"); }
+  else {
+    style.top = "50%";
+    transforms.push("translateY(-50%)");
+  }
 
   if (transforms.length) style.transform = transforms.join(" ");
   return style;
@@ -98,9 +115,9 @@ function toCSS(v: SizeValue | undefined): string | number {
  */
 function wrapperStyle(image: CardImage): CSSProperties {
   const style: CSSProperties = { ...positionStyle(image) };
-  if (image.width     !== undefined) style.width     = toCSS(image.width);
-  if (image.height    !== undefined) style.height    = toCSS(image.height);
-  if (image.minWidth  !== undefined) style.minWidth  = toCSS(image.minWidth);
+  if (image.width !== undefined) style.width = toCSS(image.width);
+  if (image.height !== undefined) style.height = toCSS(image.height);
+  if (image.minWidth !== undefined) style.minWidth = toCSS(image.minWidth);
   if (image.minHeight !== undefined) style.minHeight = toCSS(image.minHeight);
   return style;
 }
@@ -110,10 +127,11 @@ function wrapperStyle(image: CardImage): CSSProperties {
  * image.align controls which corner/edge the illustration is anchored to.
  * image.x / image.y are pixel offsets inward from the anchored edge(s).
  */
-const textThemeMap: Record<TextTheme, { title: string; description: string }> = {
-  dark:  { title: "text-ink",       description: "text-ink/70" },
-  light: { title: "text-white",     description: "text-white/70" },
-};
+const textThemeMap: Record<TextTheme, { title: string; description: string }> =
+  {
+    dark: { title: "text-ink", description: "text-ink/70" },
+    light: { title: "text-white", description: "text-white/70" },
+  };
 
 const IMAGE_SCALE_TRANSITION = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
 
@@ -171,36 +189,26 @@ export default function FeatureCard({
 
   const textBlock = (
     <div
-      className={`
-        absolute left-[clamp(1rem,2.5vw,2rem)] z-10
-        ${
+      className={`absolute left-[clamp(1rem,2.5vw,2rem)] z-10 ${
         textPosition === "top"
           ? "top-[clamp(1rem,2.5vw,2rem)]"
           : "bottom-[clamp(1rem,2.5vw,2rem)]"
-      }
-        max-w-60
-      `}
+      } max-w-60`}
     >
-      <p className={`
-        text-xl/tight font-bold
-        md:text-2xl/tight
-        ${textColors.title}
-      `}>{title}</p>
-      <p className={`
-        mt-1 text-sm/5
-        ${textColors.description}
-      `}>{description}</p>
+      <p
+        className={`text-xl/tight font-bold md:text-2xl/tight ${textColors.title} `}
+      >
+        {title}
+      </p>
+      <p className={`mt-1 text-base/5 ${textColors.description} `}>
+        {description}
+      </p>
     </div>
   );
 
   return (
     <div
-      className={`
-        relative w-full overflow-hidden rounded-4xl
-        md:rounded-5xl
-        ${colorMap[color]}
-        ${className}
-      `}
+      className={`relative w-full overflow-hidden rounded-4xl md:rounded-5xl ${colorMap[color]} ${className} `}
     >
       {imageBlock}
       {textBlock}

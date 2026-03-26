@@ -30,14 +30,7 @@ export default function HoverPopover({
     >
       {children}
       <div
-        className={`
-          pointer-events-none absolute
-          ${popoverPos}
-          left-1/2 -translate-x-1/2 rounded-2xl bg-nav-bg p-3 opacity-0
-          shadow-lg ring-1 ring-border transition-opacity duration-200
-          group-hover/popover:pointer-events-auto
-          group-hover/popover:opacity-100
-        `}
+        className={`pointer-events-none absolute ${popoverPos} left-1/2 -translate-x-1/2 rounded-2xl bg-nav-bg p-3 opacity-0 shadow-lg ring-1 ring-border transition-opacity duration-200 group-hover/popover:pointer-events-auto group-hover/popover:opacity-100`}
       >
         {content}
       </div>

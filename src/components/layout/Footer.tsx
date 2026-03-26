@@ -18,37 +18,32 @@ export default function Footer({
 
   return (
     <footer className="border-t border-border">
-      <div className="
-        relative mx-auto flex min-h-17 max-w-360 items-center justify-between
-        gap-4 py-4 page-gutter
-      ">
-
+      <div className="relative mx-auto flex min-h-17 max-w-360 items-center justify-between gap-4 py-4 page-gutter">
         {/* Left — text logo + lang switch + copyright (zh only) */}
         <div className="flex min-w-0 flex-col gap-2">
           <div className="flex items-center gap-3">
-            <LogoIcon variant="text" className={`
-              ${locale === "en" ? "h-3" : "h-4"}
-              w-auto text-ink/40
-            `} locale={locale} />
+            <LogoIcon
+              variant="text"
+              className={` ${locale === "en" ? "h-3" : "h-4"} w-auto text-ink/40`}
+              locale={locale}
+            />
             <LocaleLink locale={locale} />
           </div>
           {copyright}
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
-        <div className="
-          absolute inset-y-4 left-1/2 hidden -translate-x-1/2 items-center
-          sm:flex
-        ">
+        <div className="absolute inset-y-4 left-1/2 hidden -translate-x-1/2 items-center sm:flex">
           <LogoIcon variant="anime-avatar" className="h-full w-auto" />
         </div>
 
         {/* Right — ICP registration + copyright (en) */}
         <div className="flex shrink-0 flex-col items-end gap-1">
           <p className="text-xs whitespace-nowrap text-ink/50">{ICP_NUMBER}</p>
-          <p className="text-xs whitespace-nowrap text-ink/50">{NETWORK_SECURITY}</p>
+          <p className="text-xs whitespace-nowrap text-ink/50">
+            {NETWORK_SECURITY}
+          </p>
         </div>
-
       </div>
     </footer>
   );

@@ -7,7 +7,7 @@ import { RefObject, useEffect, useState } from "react";
  */
 export function useIntersectionOnce<T extends Element>(
   ref: RefObject<T | null>,
-  disabled = false
+  disabled = false,
 ): boolean {
   const [visible, setVisible] = useState(false);
 
@@ -22,7 +22,7 @@ export function useIntersectionOnce<T extends Element>(
           obs.disconnect();
         }
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     obs.observe(el);
     return () => obs.disconnect();

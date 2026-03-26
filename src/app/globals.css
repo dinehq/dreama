@@ -2,40 +2,40 @@
 
 @theme {
   /* Brand colors */
-  --color-brand:         #06c755;
-  --color-brand-light:   #44e775;
-  --color-brand-mint:    #9ef2b7;
-  --color-brand-vivid:   #27df72;
+  --color-brand: #06c755;
+  --color-brand-light: #44e775;
+  --color-brand-mint: #9ef2b7;
+  --color-brand-vivid: #27df72;
   --color-accent-yellow: #ffe23c;
   --color-accent-orange: #ff830f;
-  --color-accent-blue:   #45c7ff;
+  --color-accent-blue: #45c7ff;
 
   /* Neutrals — light-mode defaults; overridden in dark mode below */
-  --color-page-bg:     #ffffff;
-  --color-nav-bg:      #ffffff;
-  --color-surface:     #f8f8f8;
+  --color-page-bg: #ffffff;
+  --color-nav-bg: #ffffff;
+  --color-surface: #f8f8f8;
   --color-surface-alt: #f0f0f0;
-  --color-ink:         #242424;
-  --color-hero-bg:     #e4e4e4;
-  --color-border:      rgba(0,0,0,0.06);
+  --color-ink: #242424;
+  --color-hero-bg: #e4e4e4;
+  --color-border: rgba(0, 0, 0, 0.06);
 
   /* Radius */
-  --radius-5xl:  4rem;
+  --radius-5xl: 4rem;
   --radius-pill: 9999px;
 }
 
 @font-face {
-  font-family: 'OPPO Sans 4.0 SC';
-  src: url('/fonts/OPPOSans.subset.woff2') format('woff2');
+  font-family: "OPPO Sans 4.0 SC";
+  src: url("/fonts/OPPOSans.subset.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @theme inline {
-  --font-display: 'OPPO Sans 4.0 SC', system-ui, sans-serif;
-  --font-body:    'OPPO Sans 4.0 SC', system-ui, sans-serif;
-  --font-nav:     'OPPO Sans 4.0 SC', system-ui, sans-serif;
+  --font-display: "OPPO Sans 4.0 SC", system-ui, sans-serif;
+  --font-body: "OPPO Sans 4.0 SC", system-ui, sans-serif;
+  --font-nav: "OPPO Sans 4.0 SC", system-ui, sans-serif;
 }
 
 :root {
@@ -51,24 +51,24 @@ img {
 @media (prefers-color-scheme: dark) {
   :root {
     /* Neutrals */
-    --color-page-bg:     #0a0a0a;
-    --color-nav-bg:      #111111;
-    --color-surface:     #1c1c1e;
+    --color-page-bg: #0a0a0a;
+    --color-nav-bg: #111111;
+    --color-surface: #1c1c1e;
     --color-surface-alt: #141416;
-    --color-ink:         #ededed;
-    --color-hero-bg:     #1e1e1e;
-    --color-border:      rgba(255,255,255,0.08);
+    --color-ink: #ededed;
+    --color-hero-bg: #1e1e1e;
+    --color-border: rgba(255, 255, 255, 0.08);
 
     /* Brand — keep hue, reduce lightness */
-    --color-brand:         #05b34a;
-    --color-brand-light:   #164d28;
-    --color-brand-mint:    #0d3318;
-    --color-brand-vivid:   #1a8540;
+    --color-brand: #05b34a;
+    --color-brand-light: #164d28;
+    --color-brand-mint: #0d3318;
+    --color-brand-vivid: #1a8540;
 
     /* Accents — keep hue, reduce to avoid harshness on dark bg */
     --color-accent-yellow: #c99e00;
     --color-accent-orange: #c45f00;
-    --color-accent-blue:   #0090bf;
+    --color-accent-blue: #0090bf;
   }
 
   img,
@@ -117,8 +117,13 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-0.625rem); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.625rem);
+  }
 }
 
 .animate-float {

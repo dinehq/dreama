@@ -39,9 +39,10 @@ src/
 **Styling:** Tailwind CSS v4 with design tokens defined as CSS custom properties in `globals.css`. Dark mode is CSS-var-only — do not use `dark:` Tailwind classes.
 
 **SVG Icons:** Import `.svg` files directly as React components:
+
 ```tsx
 import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
-<ChevronLeftIcon width={24} height={24} className="text-brand" />
+<ChevronLeftIcon width={24} height={24} className="text-brand" />;
 ```
 
 **Path alias:** `@/*` → `./src/*`
