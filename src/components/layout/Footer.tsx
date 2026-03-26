@@ -11,11 +11,15 @@ export default function Footer({
   dict: Dict["footer"];
   locale: "zh" | "en";
 }) {
+  const copyright = (
+    <p className="text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
+  );
+
   return (
     <footer className="border-t border-border">
       <div className="
-        relative mx-auto box-content flex min-h-9 max-w-360 items-center
-        justify-between gap-4 py-4 page-gutter
+        relative mx-auto flex min-h-17 max-w-360 items-center justify-between
+        gap-4 py-4 page-gutter
       ">
 
         {/* Left — text logo + copyright (zh only) */}
@@ -24,9 +28,7 @@ export default function Footer({
             ${locale === "en" ? "h-3" : "h-4"}
             w-auto self-start text-ink/40
           `} locale={locale} />
-          {locale === "zh" && (
-            <p className="text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
-          )}
+          {locale === "zh" && copyright}
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
@@ -44,7 +46,7 @@ export default function Footer({
             <p className="text-xs whitespace-nowrap text-ink/50">{NETWORK_SECURITY}</p>
           </div>
         ) : (
-          <p className="shrink-0 text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
+          copyright
         )}
 
       </div>
