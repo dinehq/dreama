@@ -158,7 +158,7 @@ export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
-                  <span className="text-base font-bold text-ink">{item.title}</span>
+                  <span className="text-base font-semibold text-ink">{item.title}</span>
                   <span className="mt-1 text-sm/5 text-ink/70">
                     {item.description}
                   </span>

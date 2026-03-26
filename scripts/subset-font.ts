@@ -11,7 +11,7 @@ import subsetFont from "subset-font";
 
 const ROOT       = process.cwd();
 const SRC_DIR    = join(ROOT, "src");
-const FONT_IN    = join(ROOT, "public/fonts/OPPOSans.woff2");
+const FONT_IN    = join(ROOT, "public/fonts/OPPO_Sans_40_SC.woff2");
 const FONT_OUT   = join(ROOT, "public/fonts/OPPOSans.subset.woff2");
 const EXTENSIONS = new Set([".tsx", ".ts", ".css"]);
 

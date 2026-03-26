@@ -182,7 +182,7 @@ export default function FeatureCard({
       `}
     >
       <p className={`
-        text-xl/tight font-bold
+        text-xl/tight font-semibold
         md:text-2xl/tight
         ${textColors.title}
       `}>{title}</p>

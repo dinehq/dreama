@@ -166,7 +166,7 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
               <blockquote
                 key={i}
                 className="
-                  text-2xl/snug font-bold text-ink [grid-area:1/1]
+                  text-2xl/snug font-medium text-ink [grid-area:1/1]
                   md:text-4xl
                 "
                 aria-hidden={i !== active}
