@@ -193,10 +193,10 @@ export default function FeatureCard({
         textPosition === "top"
           ? "top-[clamp(1rem,2.5vw,2rem)]"
           : "bottom-[clamp(1rem,2.5vw,2rem)]"
-      } max-w-60`}
+      } max-w-72`}
     >
       <p
-        className={`text-xl/tight font-semibold md:text-2xl/tight ${textColors.title} `}
+        className={`text-xl/tight font-medium md:text-2xl/tight ${textColors.title} `}
       >
         {title}
       </p>

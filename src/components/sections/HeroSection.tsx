@@ -37,7 +37,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
       />
 
       {/* Title: bottom edge sits above the cloud top (cloud center = 50%) */}
-      <h1 className="absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center text-5xl font-bold tracking-tight whitespace-nowrap text-ink sm:text-6xl md:text-7xl">
+      <h1 className="absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center text-5xl font-medium tracking-tight whitespace-nowrap text-ink sm:text-6xl md:text-7xl">
         <MarkerHighlight variant={1}>{dict.tagline}</MarkerHighlight>
       </h1>
 

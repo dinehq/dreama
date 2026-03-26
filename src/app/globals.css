@@ -131,16 +131,6 @@ body {
   font-family: "OwnersTextTRIAL", system-ui, sans-serif;
 }
 
-:root:lang(en) blockquote,
-:root:lang(en) h3,
-:root:lang(en) h4 {
-  font-weight: 500;
-}
-
-/* Downgrade bold to medium on non-heading elements in English */
-:root:lang(en) :is(p, span, button).font-bold {
-  font-weight: 500;
-}
 
 /* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
 @utility page-gutter {

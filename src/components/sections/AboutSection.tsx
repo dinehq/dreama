@@ -15,7 +15,7 @@ export default function AboutSection({
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <div className="flex flex-col items-center justify-center rounded-4xl bg-accent-yellow px-8 py-16 text-center md:h-187.5 md:rounded-5xl md:px-[15%] md:py-0">
-            <h2 className="text-3xl font-bold text-ink md:text-5xl">
+            <h2 className="text-3xl font-medium text-ink md:text-5xl">
               <MarkerHighlight variant={1} color="white">
                 {dict.heading}
               </MarkerHighlight>

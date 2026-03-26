@@ -96,7 +96,7 @@ export default function AIShowcaseSection({
       <FadeInGroup className="mx-auto max-w-7xl">
         {/* Heading */}
         <FadeIn>
-          <h2 className="mb-10 text-center text-3xl font-bold text-ink md:text-5xl">
+          <h2 className="mb-10 text-center text-3xl font-medium text-ink md:text-5xl">
             <BrushUnderline variant={1}>{dict.heading}</BrushUnderline>
           </h2>
         </FadeIn>
@@ -141,7 +141,7 @@ export default function AIShowcaseSection({
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
-                  <span className="text-base font-semibold text-ink">
+                  <span className="text-base font-medium text-ink">
                     {item.title}
                   </span>
                   <span className="mt-1 text-sm text-ink/70">
