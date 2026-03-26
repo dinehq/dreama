@@ -79,7 +79,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
           ))}
         </div>
 
-        {/* Right — CTA + lang switcher + hamburger */}
+        {/* Right — CTA + hamburger */}
         <div className="
           flex shrink-0 items-center gap-4
           md:flex-1 md:justify-end md:gap-6
@@ -108,38 +108,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
             >
               <Button>{dict.download}</Button>
             </HoverPopover>
-          </div>
-
-          {/* Language switcher — desktop */}
-          <div className="
-            hidden items-center gap-1 text-sm
-            md:flex
-          ">
-            <Link
-              href="/"
-              className={`
-                transition-opacity
-                ${locale === "zh" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
-            >
-              中
-            </Link>
-            <span className="text-ink/20">/</span>
-            <Link
-              href="/en"
-              className={`
-                transition-opacity
-                ${locale === "en" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
-            >
-              EN
-            </Link>
           </div>
 
           {/* Hamburger button — mobile only */}
@@ -218,24 +186,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
             >
               {dict.login}
             </a>
-            {/* Language switcher — mobile */}
-            <div className="flex items-center gap-2 py-3 text-sm">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className={locale === "zh" ? "text-ink" : "text-ink/40"}
-              >
-                中文
-              </Link>
-              <span className="text-ink/20">/</span>
-              <Link
-                href="/en"
-                onClick={() => setOpen(false)}
-                className={locale === "en" ? "text-ink" : "text-ink/40"}
-              >
-                English
-              </Link>
-            </div>
           </div>
         </div>
       </div>

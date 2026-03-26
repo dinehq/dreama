@@ -1,4 +1,5 @@
 import { LogoIcon } from "@/components/icons";
+import LocaleLink from "@/components/layout/LocaleLink";
 import type { Dict } from "@/i18n/zh";
 
 const ICP_NUMBER = "粤ICP备2023079495号";
@@ -22,13 +23,16 @@ export default function Footer({
         gap-4 py-4 page-gutter
       ">
 
-        {/* Left — text logo + copyright (zh only) */}
+        {/* Left — text logo + lang switch + copyright (zh only) */}
         <div className="flex min-w-0 flex-col gap-2">
-          <LogoIcon variant="text" className={`
-            ${locale === "en" ? "h-3" : "h-4"}
-            w-auto self-start text-ink/40
-          `} locale={locale} />
-          {locale === "zh" && copyright}
+          <div className="flex items-center gap-3">
+            <LogoIcon variant="text" className={`
+              ${locale === "en" ? "h-3" : "h-4"}
+              w-auto text-ink/40
+            `} locale={locale} />
+            <LocaleLink locale={locale} />
+          </div>
+          {copyright}
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
@@ -39,15 +43,11 @@ export default function Footer({
           <LogoIcon variant="anime-avatar" className="h-full w-auto" />
         </div>
 
-        {/* Right — ICP registration (zh) or copyright (en) */}
-        {locale === "zh" ? (
-          <div className="flex shrink-0 flex-col items-end gap-1">
-            <p className="text-xs whitespace-nowrap text-ink/50">{ICP_NUMBER}</p>
-            <p className="text-xs whitespace-nowrap text-ink/50">{NETWORK_SECURITY}</p>
-          </div>
-        ) : (
-          copyright
-        )}
+        {/* Right — ICP registration + copyright (en) */}
+        <div className="flex shrink-0 flex-col items-end gap-1">
+          <p className="text-xs whitespace-nowrap text-ink/50">{ICP_NUMBER}</p>
+          <p className="text-xs whitespace-nowrap text-ink/50">{NETWORK_SECURITY}</p>
+        </div>
 
       </div>
     </footer>
