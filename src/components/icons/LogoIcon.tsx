@@ -16,12 +16,9 @@ const LOGO_CONFIG = {
   { src: unknown; alt: string; sizes: string }
 >;
 
-const LOGO_CONFIG_EN = {
+const LOGO_CONFIG_EN: Partial<typeof LOGO_CONFIG> = {
   full: { src: logoFullEnImg, alt: "Dreama", sizes: "120px" },
-} satisfies Partial<Record<
-  "full" | "avatar",
-  { src: unknown; alt: string; sizes: string }
->>;
+};
 
 interface LogoIconProps {
   variant: LogoVariant;

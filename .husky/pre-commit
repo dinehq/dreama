@@ -6,3 +6,5 @@ if [ -n "$STAGED" ]; then
   echo "$STAGED" | xargs pnpm exec eslint --fix
   echo "$STAGED" | xargs git add
 fi
+
+pnpm typecheck
