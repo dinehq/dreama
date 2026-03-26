@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoIcon } from "@/components/icons";
-import GlobeIcon from "@/components/icons/globe.svg";
 import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
 import { DownloadQRCode, APP_DOWNLOAD_URL } from "@/components/ui/DownloadQRCode";
@@ -80,7 +79,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
           ))}
         </div>
 
-        {/* Right — CTA + lang switcher + hamburger */}
+        {/* Right — CTA + hamburger */}
         <div className="
           flex shrink-0 items-center gap-4
           md:flex-1 md:justify-end md:gap-6
@@ -108,54 +107,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
               onHoverChange={(hovered) => { if (hovered) setQrPlaySignal((n) => n + 1); }}
             >
               <Button>{dict.download}</Button>
-            </HoverPopover>
-          </div>
-
-          {/* Language switcher — desktop */}
-          <div className="
-            hidden
-            md:block
-          ">
-            <HoverPopover
-              content={
-                <div className="flex flex-col gap-1 text-sm whitespace-nowrap">
-                  <Link
-                    href="/"
-                    className={`
-                      rounded-lg px-3 py-1.5 transition-colors
-                      ${locale === "zh" ? "bg-brand/10 text-brand" : `
-                        text-ink
-                        hover:bg-ink/5
-                      `}
-                    `}
-                  >
-                    中文
-                  </Link>
-                  <Link
-                    href="/en"
-                    className={`
-                      rounded-lg px-3 py-1.5 transition-colors
-                      ${locale === "en" ? "bg-brand/10 text-brand" : `
-                        text-ink
-                        hover:bg-ink/5
-                      `}
-                    `}
-                  >
-                    English
-                  </Link>
-                </div>
-              }
-            >
-              <button
-                className="
-                  flex size-8 items-center justify-center rounded-full
-                  text-ink/60 transition-colors
-                  hover:bg-ink/5 hover:text-ink
-                "
-                aria-label={locale === "zh" ? "切换语言" : "Switch language"}
-              >
-                <GlobeIcon width={20} height={20} />
-              </button>
             </HoverPopover>
           </div>
 
@@ -235,24 +186,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
             >
               {dict.login}
             </a>
-            {/* Language switcher — mobile */}
-            <div className="flex items-center gap-2 py-3 text-sm">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className={locale === "zh" ? "text-ink" : "text-ink/40"}
-              >
-                中文
-              </Link>
-              <span className="text-ink/20">/</span>
-              <Link
-                href="/en"
-                onClick={() => setOpen(false)}
-                className={locale === "en" ? "text-ink" : "text-ink/40"}
-              >
-                English
-              </Link>
-            </div>
           </div>
         </div>
       </div>

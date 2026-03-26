@@ -38,6 +38,8 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "esbuild",
+      "react-grab",
       "sharp",
       "unrs-resolver"
     ]
