@@ -74,7 +74,7 @@ export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }
         rafRef.current = null;
       }
     };
-  }, [active]);
+  }, [active, dict.items.length]);
 
   const handleSelect = (idx: number) => {
     if (idx === active) return;

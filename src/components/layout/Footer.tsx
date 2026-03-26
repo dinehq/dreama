@@ -20,7 +20,10 @@ export default function Footer({
 
         {/* Left — text logo + copyright */}
         <div className="flex min-w-0 flex-col gap-2">
-          <LogoIcon variant="text" className="h-4 w-auto self-start text-ink/40" locale={locale} />
+          <LogoIcon variant="text" className={`
+            ${locale === "en" ? "h-3" : "h-4"}
+            w-auto self-start text-ink/40
+          `} locale={locale} />
           <p className="text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
         </div>
 
