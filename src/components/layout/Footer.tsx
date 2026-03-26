@@ -14,17 +14,19 @@ export default function Footer({
   return (
     <footer className="border-t border-border">
       <div className="
-        relative mx-auto flex max-w-360 items-center justify-between gap-4 py-4
-        page-gutter
+        relative mx-auto box-content flex min-h-9 max-w-360 items-center
+        justify-between gap-4 py-4 page-gutter
       ">
 
-        {/* Left — text logo + copyright */}
+        {/* Left — text logo + copyright (zh only) */}
         <div className="flex min-w-0 flex-col gap-2">
           <LogoIcon variant="text" className={`
             ${locale === "en" ? "h-3" : "h-4"}
             w-auto self-start text-ink/40
           `} locale={locale} />
-          <p className="text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
+          {locale === "zh" && (
+            <p className="text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
+          )}
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
@@ -35,12 +37,14 @@ export default function Footer({
           <LogoIcon variant="anime-avatar" className="h-full w-auto" />
         </div>
 
-        {/* Right — ICP registration (Chinese only) */}
-        {locale === "zh" && (
+        {/* Right — ICP registration (zh) or copyright (en) */}
+        {locale === "zh" ? (
           <div className="flex shrink-0 flex-col items-end gap-1">
             <p className="text-xs whitespace-nowrap text-ink/50">{ICP_NUMBER}</p>
             <p className="text-xs whitespace-nowrap text-ink/50">{NETWORK_SECURITY}</p>
           </div>
+        ) : (
+          <p className="shrink-0 text-xs whitespace-nowrap text-ink/50">{dict.copyright}</p>
         )}
 
       </div>
