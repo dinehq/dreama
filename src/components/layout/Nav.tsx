@@ -6,12 +6,15 @@ import { usePathname } from "next/navigation";
 import { LogoIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
-import { DownloadQRCode, APP_DOWNLOAD_URL } from "@/components/ui/DownloadQRCode";
+import {
+  DownloadQRCode,
+  APP_DOWNLOAD_URL,
+} from "@/components/ui/DownloadQRCode";
 import type { Dict } from "@/i18n/zh";
 
 type NavDict = Dict["nav"];
 
-const LINK_CLASS = "text-sm text-ink hover:text-brand transition-colors";
+const LINK_CLASS = "text-base text-ink hover:text-brand transition-colors";
 const SCROLL_OFFSET = 120;
 
 function scrollToHash(href: string) {
@@ -39,150 +42,114 @@ export default function Nav({ dict }: { dict: NavDict }) {
 
   const navLinks = [
     { href: "#features", label: dict.creators },
-    { href: "#about",    label: dict.about },
-    { href: "#join",     label: dict.join },
+    { href: "#about", label: dict.about },
+    { href: "#join", label: dict.join },
   ];
 
   return (
-    <nav className={`
-      fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300
-      ${
-      scrolled || open ? "border-border bg-nav-bg/90 backdrop-blur-sm" : `
-        border-transparent bg-transparent
-      `
-    }
-    `}>
-      <div className="
-        mx-auto flex h-14 max-w-360 items-center justify-between gap-4
-        page-gutter
-      ">
-
+    <nav
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled || open
+          ? `bg-nav-bg/90 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)] backdrop-blur-sm`
+          : "bg-transparent shadow-none"
+      } `}
+    >
+      <div className="mx-auto flex h-14 max-w-360 items-center justify-between gap-4 pt-[env(safe-area-inset-top)] page-gutter">
         {/* Left — logo */}
-        <Link href={locale === "en" ? "/en" : "/"} className="
-          min-w-0 shrink-0
-          md:flex-1
-        ">
-          <LogoIcon variant="full" className="h-9 w-auto" priority locale={locale} />
+        <Link
+          href={locale === "en" ? "/en" : "/"}
+          className="min-w-0 shrink-0 md:flex-1"
+        >
+          <LogoIcon
+            variant="full"
+            className="h-9 w-auto"
+            priority
+            locale={locale}
+          />
         </Link>
 
         {/* Center — nav links (hidden below md) */}
-        <div className="
-          hidden items-center gap-9
-          md:flex
-        ">
+        <div className="hidden items-center gap-9 md:flex">
           {navLinks.map(({ href, label }) => (
-            <a key={href} href={href} className={LINK_CLASS}
-              onClick={(e) => { e.preventDefault(); scrollToHash(href); }}
+            <a
+              key={href}
+              href={href}
+              className={LINK_CLASS}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToHash(href);
+              }}
             >
               {label}
             </a>
           ))}
         </div>
 
-        {/* Right — CTA + lang switcher + hamburger */}
-        <div className="
-          flex shrink-0 items-center gap-4
-          md:flex-1 md:justify-end md:gap-6
-        ">
-          <a href="https://ai.ideaflow.pro/" target="_blank" rel="noopener noreferrer" className={`
-            hidden
-            md:block
-            ${LINK_CLASS}
-          `}>
+        {/* Right — CTA + hamburger */}
+        <div className="flex shrink-0 items-center gap-4 md:flex-1 md:justify-end md:gap-6">
+          <a
+            href="https://ai.ideaflow.pro/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`hidden md:block ${LINK_CLASS} `}
+          >
             {dict.login}
           </a>
           {/* Mobile — direct link */}
-          <a href={APP_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer" className="
-            md:hidden
-          ">
+          <a
+            href={APP_DOWNLOAD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden"
+          >
             <Button>{dict.download}</Button>
           </a>
           {/* Desktop — QR popover */}
-          <div className="
-            hidden
-            md:block
-          ">
+          <div className="hidden md:block">
             <HoverPopover
               content={<DownloadQRCode playSignal={qrPlaySignal} />}
-              onHoverChange={(hovered) => { if (hovered) setQrPlaySignal((n) => n + 1); }}
+              onHoverChange={(hovered) => {
+                if (hovered) setQrPlaySignal((n) => n + 1);
+              }}
             >
               <Button>{dict.download}</Button>
             </HoverPopover>
           </div>
 
-          {/* Language switcher — desktop */}
-          <div className="
-            hidden items-center gap-1 text-sm
-            md:flex
-          ">
-            <Link
-              href="/"
-              className={`
-                transition-opacity
-                ${locale === "zh" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
-            >
-              中
-            </Link>
-            <span className="text-ink/20">/</span>
-            <Link
-              href="/en"
-              className={`
-                transition-opacity
-                ${locale === "en" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
-            >
-              EN
-            </Link>
-          </div>
-
           {/* Hamburger button — mobile only */}
           <button
-            className="
-              flex size-8 flex-col items-center justify-center gap-1
-              md:hidden
-            "
+            className="flex size-8 flex-col items-center justify-center gap-1 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? dict.closeMenu : dict.openMenu}
             aria-expanded={open}
           >
             <span
-              className="
-                block h-0.5 w-5 origin-center rounded-full bg-ink transition-all
-                duration-300
-              "
-              style={open ? { transform: "translateY(6px) rotate(45deg)" } : undefined}
+              className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+              style={
+                open
+                  ? { transform: "translateY(6px) rotate(45deg)" }
+                  : undefined
+              }
             />
             <span
-              className="
-                block h-0.5 w-5 rounded-full bg-ink transition-all duration-300
-              "
+              className="block h-0.5 w-5 rounded-full bg-ink transition-all duration-300"
               style={open ? { opacity: 0, transform: "scaleX(0)" } : undefined}
             />
             <span
-              className="
-                block h-0.5 w-5 origin-center rounded-full bg-ink transition-all
-                duration-300
-              "
-              style={open ? { transform: "translateY(-6px) rotate(-45deg)" } : undefined}
+              className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+              style={
+                open
+                  ? { transform: "translateY(-6px) rotate(-45deg)" }
+                  : undefined
+              }
             />
           </button>
         </div>
-
       </div>
 
       {/* Mobile dropdown */}
       <div
-        className="
-          overflow-hidden transition-all duration-300 ease-in-out
-          md:hidden
-        "
+        className="overflow-hidden transition-all duration-300 ease-in-out md:hidden"
         style={{ maxHeight: open ? "360px" : "0px" }}
       >
         <div
@@ -197,11 +164,12 @@ export default function Nav({ dict }: { dict: NavDict }) {
               <a
                 key={href}
                 href={href}
-                onClick={(e) => { e.preventDefault(); setOpen(false); scrollToHash(href); }}
-                className={`
-                  ${LINK_CLASS}
-                  border-b border-border py-3
-                `}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(false);
+                  scrollToHash(href);
+                }}
+                className={` ${LINK_CLASS} border-b border-border py-3`}
               >
                 {label}
               </a>
@@ -211,35 +179,13 @@ export default function Nav({ dict }: { dict: NavDict }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className={`
-                ${LINK_CLASS}
-                border-b border-border py-3
-              `}
+              className={` ${LINK_CLASS} border-b border-border py-3`}
             >
               {dict.login}
             </a>
-            {/* Language switcher — mobile */}
-            <div className="flex items-center gap-2 py-3 text-sm">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className={locale === "zh" ? "text-ink" : "text-ink/40"}
-              >
-                中文
-              </Link>
-              <span className="text-ink/20">/</span>
-              <Link
-                href="/en"
-                onClick={() => setOpen(false)}
-                className={locale === "en" ? "text-ink" : "text-ink/40"}
-              >
-                English
-              </Link>
-            </div>
           </div>
         </div>
       </div>
-
     </nav>
   );
 }

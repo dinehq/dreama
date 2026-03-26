@@ -31,7 +31,11 @@ const DURATION_MS = 4000;
  * Progress bar width is written directly to the DOM via refs to avoid
  * 60 React re-renders/second during the RAF animation loop.
  */
-export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }) {
+export default function AIShowcaseSection({
+  dict,
+}: {
+  dict: Dict["aiShowcase"];
+}) {
   const [active, setActive] = useState(0);
 
   const rafRef = useRef<number | null>(null);
@@ -89,77 +93,57 @@ export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }
   return (
     <section className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
-
         {/* Heading */}
         <FadeIn>
-          <h2 className="
-            mb-10 text-center text-3xl font-bold text-ink
-            md:text-5xl
-          ">
+          <h2 className="mb-10 text-center text-3xl font-bold text-ink md:text-5xl">
             {dict.heading}
           </h2>
         </FadeIn>
 
         {/* Media area */}
         <FadeIn delay={100}>
-        <div className="
-          relative h-[260px] w-full overflow-hidden rounded-3xl
-          md:h-[648px]
-        ">
-          {dict.items.map((item, idx) => (
-            <Image
-              key={item.title}
-              src={CAROUSEL_IMAGES[idx]}
-              alt={item.title}
-              fill
-              className={`
-                object-cover transition-opacity duration-500
-                ${idx === active ? `opacity-100` : `opacity-0`}
-              `}
-              priority={idx === 0}
-              placeholder="blur"
-            />
-          ))}
-        </div>
+          <div className="relative h-65 w-full overflow-hidden rounded-3xl md:h-162">
+            {dict.items.map((item, idx) => (
+              <Image
+                key={item.title}
+                src={CAROUSEL_IMAGES[idx]}
+                alt={item.title}
+                fill
+                className={`object-cover transition-opacity duration-500 ${idx === active ? `opacity-100` : `opacity-0`} `}
+                priority={idx === 0}
+                placeholder="blur"
+              />
+            ))}
+          </div>
         </FadeIn>
 
         {/* Tab bar */}
-        <div className="
-          mt-8 flex flex-col gap-4
-          md:flex-row
-        ">
+        <div className="mt-8 flex flex-col gap-4 md:flex-row">
           {dict.items.map((item, idx) => {
             const isActive = idx === active;
             return (
               <button
                 key={item.title}
                 onClick={() => handleSelect(idx)}
-                className={`
-                  relative w-full flex-1 cursor-pointer overflow-hidden
-                  rounded-3xl p-4 text-left transition-colors
-                  ${
-                  isActive ? "bg-brand/8" : `
-                    bg-surface-alt
-                    hover:bg-surface
-                  `
-                }
-                `}
+                className={`relative w-full flex-1 cursor-pointer overflow-hidden rounded-3xl p-4 text-left transition-colors ${
+                  isActive ? "bg-brand/8" : `bg-surface-alt hover:bg-surface`
+                } `}
               >
                 {/* Progress fill — width written directly by RAF for the active tab */}
                 <span
-                  ref={(el) => { progressBarRefs.current[idx] = el; }}
+                  ref={(el) => {
+                    progressBarRefs.current[idx] = el;
+                  }}
                   aria-hidden="true"
-                  className={`
-                    absolute inset-y-0 left-0 rounded-none bg-brand/12
-                    transition-opacity duration-300
-                    ${isActive ? `opacity-100` : `opacity-0`}
-                  `}
+                  className={`absolute inset-y-0 left-0 rounded-none bg-brand/12 transition-opacity duration-300 ${isActive ? `opacity-100` : `opacity-0`} `}
                 />
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
-                  <span className="text-base font-semibold text-ink">{item.title}</span>
-                  <span className="mt-1 text-sm/5 text-ink/70">
+                  <span className="text-base font-bold text-ink">
+                    {item.title}
+                  </span>
+                  <span className="mt-1 text-sm text-ink/70">
                     {item.description}
                   </span>
                 </span>
@@ -167,7 +151,6 @@ export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }
             );
           })}
         </div>
-
       </FadeInGroup>
     </section>
   );

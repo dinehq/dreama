@@ -7,10 +7,7 @@ import AboutSection from "@/components/sections/AboutSection";
 
 export default function Home() {
   return (
-    <main className="
-      flex flex-col gap-10 pb-10
-      md:gap-20 md:pb-20
-    ">
+    <main className="flex flex-col gap-10 pb-10 md:gap-20 md:pb-20">
       <HeroSection dict={zh.hero} />
       <AIShowcaseSection dict={zh.aiShowcase} />
       <FeaturesSection dict={zh.features} />

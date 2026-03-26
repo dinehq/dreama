@@ -3,6 +3,7 @@ export PATH="$HOME/Library/pnpm:$PATH"
 STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|js|jsx)$' || true)
 
 if [ -n "$STAGED" ]; then
+  echo "$STAGED" | xargs pnpm exec prettier --write
   echo "$STAGED" | xargs pnpm exec eslint --fix
   echo "$STAGED" | xargs git add
 fi

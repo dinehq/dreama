@@ -4,6 +4,7 @@ import "../globals.css";
 import { zh } from "@/i18n/zh";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import LocaleRedirect from "@/components/layout/LocaleRedirect";
 
 export const metadata: Metadata = {
   title: zh.meta.title,
@@ -34,6 +35,7 @@ export default function ZhLayout({
         )}
       </head>
       <body className="min-h-full font-nav">
+        <LocaleRedirect />
         <Nav dict={zh.nav} />
         {children}
         <Footer dict={zh.footer} locale="zh" />
