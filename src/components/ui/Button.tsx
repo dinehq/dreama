@@ -14,7 +14,7 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center px-5 h-9 rounded-pill bg-brand text-white text-base font-medium transition-opacity hover:opacity-90 " +
+    "inline-flex items-center justify-center whitespace-nowrap px-5 h-9 rounded-pill bg-brand text-white text-base font-medium transition-opacity hover:opacity-90 " +
     className;
 
   if (href) {

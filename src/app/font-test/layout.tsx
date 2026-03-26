@@ -1,6 +1,10 @@
 import "../globals.css";
 
-export default function FontTestLayout({ children }: { children: React.ReactNode }) {
+export default function FontTestLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="zh-CN" className="antialiased">
       <head>
@@ -13,7 +17,12 @@ export default function FontTestLayout({ children }: { children: React.ReactNode
           }
         `}</style>
       </head>
-      <body style={{ fontFamily: "'OPPO Sans Full', 'OPPO Sans 4.0 SC', system-ui, sans-serif" }}>
+      <body
+        style={{
+          fontFamily:
+            "'OPPO Sans Full', 'OPPO Sans 4.0 SC', system-ui, sans-serif",
+        }}
+      >
         {children}
       </body>
     </html>

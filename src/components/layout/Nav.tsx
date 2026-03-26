@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoIcon } from "@/components/icons";
@@ -14,7 +14,8 @@ import type { Dict } from "@/i18n/zh";
 
 type NavDict = Dict["nav"];
 
-const LINK_CLASS = "text-base text-ink hover:text-brand transition-colors";
+const LINK_CLASS =
+  "text-base text-ink hover:text-brand transition-colors whitespace-nowrap";
 const SCROLL_OFFSET = 120;
 
 function scrollToHash(href: string) {
@@ -30,6 +31,13 @@ export default function Nav({ dict }: { dict: NavDict }) {
   const [scrolled, setScrolled] = useState(false);
   const [qrPlaySignal, setQrPlaySignal] = useState(0);
 
+  // null = CSS `md:` classes control layout (SSR + first paint, no flash either side)
+  // true/false = JS probe has measured and takes over
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+
+  const navRef = useRef<HTMLElement>(null);
+  const probeRef = useRef<HTMLDivElement>(null);
+
   const pathname = usePathname();
   const locale = pathname.startsWith("/en") ? "en" : "zh";
 
@@ -40,25 +48,114 @@ export default function Nav({ dict }: { dict: NavDict }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Dynamic breakpoint: switch to desktop nav only when all content actually fits.
+  // The probe renders all desktop items at natural width (no flex distribution).
+  // probe.scrollWidth = minimum nav width needed, including page gutters.
+  useEffect(() => {
+    const nav = navRef.current;
+    const probe = probeRef.current;
+    if (!nav || !probe) return;
+
+    const check = () => {
+      const fits = nav.clientWidth >= probe.scrollWidth;
+      setIsDesktop(fits);
+      if (fits) setOpen(false);
+    };
+
+    // Observe nav (viewport resize) and probe (e.g. logo image load)
+    const ro = new ResizeObserver(check);
+    ro.observe(nav);
+    ro.observe(probe);
+    check();
+    return () => ro.disconnect();
+  }, []);
+
   const navLinks = [
     { href: "#features", label: dict.creators },
     { href: "#about", label: dict.about },
     { href: "#join", label: dict.join },
   ];
 
+  // In CSS mode (null): open controls mobile dropdown; CSS hides it on desktop.
+  // In JS mode: also gate on !isDesktop.
+  const expanded = isDesktop === null ? open : !isDesktop && open;
+
+  // Helpers: show desktop/mobile items in CSS mode via md: classes;
+  // show unconditionally once JS has confirmed the layout.
+  const desktopOnly =
+    isDesktop === null ? "hidden md:block" : isDesktop ? "" : "hidden";
+  const mobileOnly =
+    isDesktop === null ? "md:hidden" : isDesktop ? "hidden" : "";
+
   return (
     <nav
+      ref={navRef}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? `bg-nav-bg/90 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)] backdrop-blur-sm`
+          ? "bg-nav-bg/90 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)] backdrop-blur-sm"
           : "bg-transparent shadow-none"
-      } `}
+      }`}
     >
-      <div className="mx-auto flex h-14 max-w-360 items-center justify-between gap-4 pt-[env(safe-area-inset-top)] page-gutter">
-        {/* Left — logo */}
+      {/*
+       * Measurement probe — invisible, out of flow.
+       * Mirrors all desktop nav items at their natural (unsqueezed) width
+       * including page gutters. probe.scrollWidth = minimum nav width needed.
+       */}
+      <div
+        ref={probeRef}
+        aria-hidden="true"
+        className="invisible absolute top-0 left-0 flex items-center gap-9 page-gutter whitespace-nowrap"
+        style={{ pointerEvents: "none" }}
+      >
+        {/*
+         * Fixed-size logo placeholder: avoids measuring 0 before the image
+         * loads. Dimensions from the source PNGs (297×72 zh, 293×72 en) at
+         * h-9 (36px): width = 36 × (w/h). Both locales round to ~148px.
+         */}
+        <div
+          style={{
+            width: locale === "en" ? "146px" : "149px",
+            height: "36px",
+            flexShrink: 0,
+          }}
+        />
+        <div className="flex shrink-0 items-center gap-9">
+          {navLinks.map(({ href, label }) => (
+            <span key={href} className="text-base">
+              {label}
+            </span>
+          ))}
+        </div>
+        <div className="flex shrink-0 items-center gap-6">
+          <span className="text-base">{dict.login}</span>
+          <span className="inline-flex items-center px-5 text-base font-medium">
+            {dict.download}
+          </span>
+        </div>
+      </div>
+
+      {/* Mobile: plain flex — logo flex-none, right ml-auto, no layout math.
+          Desktop: grid 1fr auto 1fr — center column truly page-centered. */}
+      <div
+        className={`mx-auto h-14 max-w-360 items-center pt-[env(safe-area-inset-top)] page-gutter ${
+          isDesktop === null
+            ? "flex md:grid md:grid-cols-[1fr_auto_1fr] md:gap-x-9"
+            : isDesktop
+              ? "grid grid-cols-[1fr_auto_1fr] gap-x-9"
+              : "flex"
+        }`}
+      >
+        {/* Left — logo. flex-none in flex mode; justify-self-start in grid mode
+            (prevents grid stretching the Link, which would deform w-auto image). */}
         <Link
           href={locale === "en" ? "/en" : "/"}
-          className="min-w-0 shrink-0 md:flex-1"
+          className={
+            isDesktop === null
+              ? "flex-none md:justify-self-start"
+              : isDesktop
+                ? "justify-self-start"
+                : "flex-none"
+          }
         >
           <LogoIcon
             variant="full"
@@ -68,8 +165,16 @@ export default function Nav({ dict }: { dict: NavDict }) {
           />
         </Link>
 
-        {/* Center — nav links (hidden below md) */}
-        <div className="hidden items-center gap-9 md:flex">
+        {/* Center — nav links (desktop only) */}
+        <div
+          className={
+            isDesktop === null
+              ? "hidden items-center gap-9 md:flex"
+              : isDesktop
+                ? "flex items-center gap-9"
+                : "hidden"
+          }
+        >
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
@@ -85,27 +190,37 @@ export default function Nav({ dict }: { dict: NavDict }) {
           ))}
         </div>
 
-        {/* Right — CTA + hamburger */}
-        <div className="flex shrink-0 items-center gap-4 md:flex-1 md:justify-end md:gap-6">
+        {/* Right — ml-auto works for both flex (pushes to right edge) and grid
+            (right-aligns within col3). col-start-3 only needed in grid mode. */}
+        <div
+          className={`ml-auto flex items-center justify-end ${
+            isDesktop === null
+              ? "gap-4 md:col-start-3 md:gap-6"
+              : isDesktop
+                ? "col-start-3 gap-6"
+                : "gap-4"
+          }`}
+        >
+          {/* Login — desktop only */}
           <a
             href="https://ai.ideaflow.pro/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`hidden md:block ${LINK_CLASS} `}
+            className={`${desktopOnly} ${LINK_CLASS}`}
           >
             {dict.login}
           </a>
-          {/* Mobile — direct link */}
+
+          {/* Download — mobile: direct link, desktop: QR popover */}
           <a
             href={APP_DOWNLOAD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="md:hidden"
+            className={mobileOnly}
           >
             <Button>{dict.download}</Button>
           </a>
-          {/* Desktop — QR popover */}
-          <div className="hidden md:block">
+          <div className={desktopOnly}>
             <HoverPopover
               content={<DownloadQRCode playSignal={qrPlaySignal} />}
               onHoverChange={(hovered) => {
@@ -116,12 +231,12 @@ export default function Nav({ dict }: { dict: NavDict }) {
             </HoverPopover>
           </div>
 
-          {/* Hamburger button — mobile only */}
+          {/* Hamburger — mobile only */}
           <button
-            className="flex size-8 flex-col items-center justify-center gap-1 md:hidden"
+            className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1`}
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? dict.closeMenu : dict.openMenu}
-            aria-expanded={open}
+            aria-label={expanded ? dict.closeMenu : dict.openMenu}
+            aria-expanded={expanded}
           >
             <span
               className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
@@ -149,14 +264,18 @@ export default function Nav({ dict }: { dict: NavDict }) {
 
       {/* Mobile dropdown */}
       <div
-        className="overflow-hidden transition-all duration-300 ease-in-out md:hidden"
-        style={{ maxHeight: open ? "360px" : "0px" }}
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          isDesktop === null ? "md:hidden" : ""
+        }`}
+        style={{ maxHeight: expanded ? "360px" : "0px" }}
+        aria-hidden={!expanded}
+        inert={!expanded}
       >
         <div
           className="transition-all duration-300 ease-in-out"
           style={{
-            opacity: open ? 1 : 0,
-            transform: open ? "translateY(0)" : "translateY(-8px)",
+            opacity: expanded ? 1 : 0,
+            transform: expanded ? "translateY(0)" : "translateY(-8px)",
           }}
         >
           <div className="flex flex-col gap-1 border-t border-border px-4 py-2">
@@ -169,7 +288,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
                   setOpen(false);
                   scrollToHash(href);
                 }}
-                className={` ${LINK_CLASS} border-b border-border py-3`}
+                className={`${LINK_CLASS} border-b border-border py-3`}
               >
                 {label}
               </a>
@@ -179,7 +298,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className={` ${LINK_CLASS} border-b border-border py-3`}
+              className={`${LINK_CLASS} py-3`}
             >
               {dict.login}
             </a>

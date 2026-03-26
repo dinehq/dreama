@@ -131,7 +131,6 @@ body {
   font-family: "OwnersTextTRIAL", system-ui, sans-serif;
 }
 
-
 /* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
 @utility page-gutter {
   padding-left: calc(var(--spacing) * 5);
