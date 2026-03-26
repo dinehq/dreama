@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoIcon } from "@/components/icons";
+import GlobeIcon from "@/components/icons/globe.svg";
 import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
 import { DownloadQRCode, APP_DOWNLOAD_URL } from "@/components/ui/DownloadQRCode";
@@ -112,34 +113,50 @@ export default function Nav({ dict }: { dict: NavDict }) {
 
           {/* Language switcher — desktop */}
           <div className="
-            hidden items-center gap-1 text-sm
-            md:flex
+            hidden
+            md:block
           ">
-            <Link
-              href="/"
-              className={`
-                transition-opacity
-                ${locale === "zh" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
+            <HoverPopover
+              content={
+                <div className="flex flex-col gap-1 text-sm whitespace-nowrap">
+                  <Link
+                    href="/"
+                    className={`
+                      rounded-lg px-3 py-1.5 transition-colors
+                      ${locale === "zh" ? "bg-brand/10 text-brand" : `
+                        text-ink
+                        hover:bg-ink/5
+                      `}
+                    `}
+                  >
+                    中文
+                  </Link>
+                  <Link
+                    href="/en"
+                    className={`
+                      rounded-lg px-3 py-1.5 transition-colors
+                      ${locale === "en" ? "bg-brand/10 text-brand" : `
+                        text-ink
+                        hover:bg-ink/5
+                      `}
+                    `}
+                  >
+                    English
+                  </Link>
+                </div>
+              }
             >
-              中
-            </Link>
-            <span className="text-ink/20">/</span>
-            <Link
-              href="/en"
-              className={`
-                transition-opacity
-                ${locale === "en" ? "text-ink" : `
-                  text-ink/40
-                  hover:text-ink/70
-                `}
-              `}
-            >
-              EN
-            </Link>
+              <button
+                className="
+                  flex size-8 items-center justify-center rounded-full
+                  text-ink/60 transition-colors
+                  hover:bg-ink/5 hover:text-ink
+                "
+                aria-label={locale === "zh" ? "切换语言" : "Switch language"}
+              >
+                <GlobeIcon width={20} height={20} />
+              </button>
+            </HoverPopover>
           </div>
 
           {/* Hamburger button — mobile only */}
