@@ -5,6 +5,8 @@ import FeatureCard, {
   type FeatureCardProps,
 } from "@/components/ui/FeatureCard";
 import FadeIn from "@/components/ui/FadeIn";
+import BrushUnderline from "@/components/ui/BrushUnderline";
+import MarkerHighlight from "@/components/ui/MarkerHighlight";
 import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@public/features/1.png";
 import feature2 from "@public/features/2.jpg";
@@ -138,7 +140,9 @@ function CardColumn({
   return (
     <div className="flex flex-col gap-[clamp(1rem,2.5vw,2rem)]">
       <FadeIn>
-        <h3 className="text-center text-2xl font-bold text-ink">{label}</h3>
+        <h3 className="text-center text-2xl font-bold text-ink">
+          <MarkerHighlight>{label}</MarkerHighlight>
+        </h3>
       </FadeIn>
       {/* Aspect-ratio container — height scales with column width */}
       <div className="flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)] md:aspect-624/1066">
@@ -192,7 +196,7 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
         {/* Section header */}
         <FadeIn className="mb-16 text-center">
           <h2 className="text-3xl font-bold text-ink md:text-5xl">
-            {dict.heading}
+            <BrushUnderline variant={2}>{dict.heading}</BrushUnderline>
           </h2>
           <p className="mt-4 text-base text-ink/60">{dict.subheading}</p>
         </FadeIn>

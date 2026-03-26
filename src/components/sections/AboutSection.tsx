@@ -1,4 +1,5 @@
 import FadeIn from "@/components/ui/FadeIn";
+import MarkerHighlight from "@/components/ui/MarkerHighlight";
 
 /**
  * About Us section — yellow rounded card with team description.
@@ -15,7 +16,9 @@ export default function AboutSection({
         <FadeIn>
           <div className="flex flex-col items-center justify-center rounded-4xl bg-accent-yellow px-8 py-16 text-center md:h-187.5 md:rounded-5xl md:px-[15%] md:py-0">
             <h2 className="text-3xl font-bold text-ink md:text-5xl">
-              {dict.heading}
+              <MarkerHighlight variant={1} color="white">
+                {dict.heading}
+              </MarkerHighlight>
             </h2>
             <p className="mt-6 max-w-170 text-base/normal text-ink/80 md:text-2xl">
               {dict.body}

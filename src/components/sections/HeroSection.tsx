@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import heroBg from "@public/hero.png";
 import { useParallaxMouse } from "@/hooks/useParallaxMouse";
-
+import MarkerHighlight from "@/components/ui/MarkerHighlight";
 const TILT_STRENGTH = 8;
 const LERP = 0.12;
 
@@ -25,7 +25,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[90vh] min-h-[680px] w-full overflow-hidden"
+      className="relative h-[90vh] min-h-170 w-full overflow-hidden"
     >
       <Image
         src={heroBg}
@@ -36,9 +36,9 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
         placeholder="blur"
       />
 
-      {/* Title: bottom edge sits 40px above the cloud top (cloud center = 50%) */}
-      <h1 className="absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center text-4xl font-bold whitespace-nowrap text-ink sm:text-5xl md:text-5xl">
-        {dict.tagline}
+      {/* Title: bottom edge sits above the cloud top (cloud center = 50%) */}
+      <h1 className="absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center text-5xl font-bold whitespace-nowrap text-ink sm:text-6xl md:text-7xl">
+        <MarkerHighlight variant={1}>{dict.tagline}</MarkerHighlight>
       </h1>
 
       {/* Cloud: vertically and horizontally centered */}
