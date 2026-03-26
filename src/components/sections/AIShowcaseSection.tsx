@@ -140,7 +140,7 @@ export default function AIShowcaseSection({
 
                 {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
-                  <span className="text-base font-bold text-ink">
+                  <span className="text-base font-semibold text-ink">
                     {item.title}
                   </span>
                   <span className="mt-1 text-sm text-ink/70">
