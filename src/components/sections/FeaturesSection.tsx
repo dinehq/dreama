@@ -7,6 +7,7 @@ import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@public/features/1.png";
 import feature2 from "@public/features/2.jpg";
 import feature3 from "@public/features/3.png";
+import type { Dict } from "@/i18n/zh";
 
 type CardConfig = Omit<FeatureCardProps, "className" | "imageScale"> & {
   delay?: number;
@@ -28,12 +29,12 @@ type CardConfig = Omit<FeatureCardProps, "className" | "imageScale"> & {
   imageHoverScale?: number;
 };
 
+type CardVisual = Omit<CardConfig, "title" | "description">;
+
 const FLEX_EASING = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-const LEFT_CARDS: CardConfig[] = [
+const LEFT_CARD_VISUALS: CardVisual[] = [
   {
-    title: "低门槛的创造",
-    description: "AI帮你，想到就能做到",
     color: "gray",
     textPosition: "bottom",
     baseGrow: 445,
@@ -43,8 +44,6 @@ const LEFT_CARDS: CardConfig[] = [
     image: { src: feature1, width: "120%", x: 0, y: 0, align: "center" },
   },
   {
-    title: "有意思的玩法",
-    description: "不只是看，是真的参与和生成",
     color: "gray",
     textPosition: "bottom",
     textTheme: "light",
@@ -55,8 +54,6 @@ const LEFT_CARDS: CardConfig[] = [
     image: { src: feature2, width: "100%", height: "100%", x: 0, y: 0, align: "center" },
   },
   {
-    title: "找到同类",
-    description: "基于创造力而非单纯消费的连接",
     color: "orange",
     textPosition: "top",
     baseGrow: 321,
@@ -67,10 +64,8 @@ const LEFT_CARDS: CardConfig[] = [
   },
 ];
 
-const RIGHT_CARDS: CardConfig[] = [
+const RIGHT_CARD_VISUALS: CardVisual[] = [
   {
-    title: "强大工具",
-    description: "AI帮你，从创造到创作的进阶路径",
     color: "yellow",
     textPosition: "bottom",
     baseGrow: 280,
@@ -80,8 +75,6 @@ const RIGHT_CARDS: CardConfig[] = [
     image: { src: "/features/4.svg", width: "110%", x: 32, y: 21, align: "bottom-left" },
   },
   {
-    title: "活跃社区",
-    description: "你的IP有人玩、有人创造衍生内容",
     color: "green",
     textPosition: "bottom",
     baseGrow: 465,
@@ -91,8 +84,6 @@ const RIGHT_CARDS: CardConfig[] = [
     image: { src: "/features/5.svg", width: "70%", x: 0, y: 0, align: "center" },
   },
   {
-    title: "商业空间",
-    description: "内容能变现，创作能养活自己",
     color: "blue",
     textPosition: "top",
     baseGrow: 321,
@@ -103,7 +94,12 @@ const RIGHT_CARDS: CardConfig[] = [
   },
 ];
 
-function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
+function CardColumn({ label, visuals, texts }: {
+  label: string;
+  visuals: CardVisual[];
+  texts: { title: string; description: string }[];
+}) {
+  const cards: CardConfig[] = visuals.map((v, i) => ({ ...v, ...texts[i] }) as CardConfig);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -152,7 +148,7 @@ function CardColumn({ label, cards }: { label: string; cards: CardConfig[] }) {
  * "为什么是造梦次元" — two-column feature grid.
  * Left column targets individual users; right column targets creators.
  */
-export default function FeaturesSection() {
+export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
   return (
     <section id="features" className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
@@ -162,9 +158,9 @@ export default function FeaturesSection() {
           <h2 className="
             text-3xl font-bold text-ink
             md:text-5xl
-          ">为什么是造梦次元</h2>
+          ">{dict.heading}</h2>
           <p className="mt-4 text-base text-ink/60">
-            与AI共创内容，让每个参与者既是创造者也是世界的延续者。
+            {dict.subheading}
           </p>
         </FadeIn>
 
@@ -174,8 +170,8 @@ export default function FeaturesSection() {
           gap-y-[clamp(2.5rem,6vw,3rem)]
           md:grid-cols-2
         ">
-          <CardColumn label="给每个人" cards={LEFT_CARDS} />
-          <CardColumn label="给创作者" cards={RIGHT_CARDS} />
+          <CardColumn label={dict.forEveryone} visuals={LEFT_CARD_VISUALS} texts={dict.left} />
+          <CardColumn label={dict.forCreators} visuals={RIGHT_CARD_VISUALS} texts={dict.right} />
         </div>
 
       </FadeInGroup>

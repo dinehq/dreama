@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  images: { unoptimized: true },
   turbopack: {
     rules: {
       // Transform .svg imports into React components via @svgr/webpack.

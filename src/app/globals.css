@@ -87,6 +87,10 @@ body {
   font-family: var(--font-body);
 }
 
+:root:lang(en) body {
+  font-family: system-ui, sans-serif;
+}
+
 /* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
 @utility page-gutter {
   padding-left: calc(var(--spacing) * 5);

@@ -5,35 +5,15 @@ import ChevronLeftIcon from "@/components/icons/chevron-left.svg";
 import ChevronRightIcon from "@/components/icons/chevron-right.svg";
 import FadeIn from "@/components/ui/FadeIn";
 import { useParallaxMouse } from "@/hooks/useParallaxMouse";
+import type { Dict } from "@/i18n/zh";
 
 const BLOB_PATH =
   "M724.1 0C816.386 0 891.2 74.813 891.2 167.1V288.9C891.2 381.187 816.386 456 724.1 456C671.157 456 623.968 431.378 593.352 392.961C589.076 387.596 580.623 387.595 576.347 392.961C545.731 431.378 498.542 456 445.6 456C392.657 456 345.468 431.378 314.852 392.961C310.576 387.596 302.123 387.595 297.847 392.961C267.231 431.378 220.042 456 167.1 456C74.8131 456 0.00023831 381.187 0 288.9V167.1C0.000230964 74.8131 74.8131 0.000214411 167.1 0C220.042 0 267.231 24.622 297.847 63.0384C302.123 68.4037 310.576 68.4036 314.852 63.0383C345.468 24.6219 392.658 0.000123001 445.6 0C498.542 0 545.731 24.622 576.347 63.0384C580.623 68.4037 589.076 68.4036 593.352 63.0383C623.968 24.6219 671.158 0.000123001 724.1 0Z";
 
-const ITEMS = [
-  {
-    quote:
-      "Dreama 让我的角色真正活了起来。观众不再只是旁观者，他们可以参与到故事中，这种体验是前所未有的。",
-    author: "张明轩",
-    role: "独立创作者",
-    avatar: "/creators/1.png",
-    color: "var(--color-brand)",
-  },
-  {
-    quote:
-      "在造梦次元，我的故事不再只是我的故事。玩家带着自己的创意延续了我的世界，这才是真正的共创。",
-    author: "李晓雯",
-    role: "漫画作者",
-    avatar: "/creators/2.png",
-    color: "var(--color-accent-blue)",
-  },
-  {
-    quote:
-      "以前变现是最头疼的问题，现在内容本身就是产品。造梦次元让我第一次感受到创作可以养活自己。",
-    author: "陈建国",
-    role: "独立游戏开发者",
-    avatar: "/creators/3.png",
-    color: "var(--color-accent-yellow)",
-  },
+const ITEM_VISUALS = [
+  { avatar: "/creators/1.png", color: "var(--color-brand)" },
+  { avatar: "/creators/2.png", color: "var(--color-accent-blue)" },
+  { avatar: "/creators/3.png", color: "var(--color-accent-yellow)" },
 ] as const;
 
 const DURATION_MS = 5000;
@@ -43,9 +23,9 @@ const LERP_FACTOR = 0.1;      // smoothing — lower = lazier
 
 type SlidePhase = 'enter' | 'exit' | 'pre-enter';
 
-export default function TestimonialSection() {
+export default function TestimonialSection({ dict }: { dict: Dict["testimonials"] }) {
   const [active, setActive] = useState(0);
-  const [blobColor, setBlobColor] = useState<string>(ITEMS[0].color);
+  const [blobColor, setBlobColor] = useState<string>(ITEM_VISUALS[0].color);
   const [phase, setPhase] = useState<SlidePhase>('enter');
   const [dir, setDir] = useState<1 | -1>(1); // 1 = forward, -1 = backward
 
@@ -72,7 +52,7 @@ export default function TestimonialSection() {
 
   const scheduleAutoPlay = () => {
     autoRef.current = setTimeout(() => {
-      goTo((activeRef.current + 1) % ITEMS.length, 1);
+      goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1);
     }, DURATION_MS);
   };
 
@@ -85,7 +65,7 @@ export default function TestimonialSection() {
   const goTo = (idx: number, dir: 1 | -1) => {
     clearAll();
     setDir(dir);
-    setBlobColor(ITEMS[idx].color); // update blob color immediately
+    setBlobColor(ITEM_VISUALS[idx].color); // update blob color immediately
     setPhase('exit');
     fadeRef.current = setTimeout(() => {
       activeRef.current = idx;
@@ -104,7 +84,8 @@ export default function TestimonialSection() {
     return clearAll;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const item = ITEMS[active];
+  const visual = ITEM_VISUALS[active];
+  const item = dict.items[active];
 
   const exitX  = dir > 0 ? -16 : 16;   // exit slides in direction of travel
   const enterX = dir > 0 ?   16 : -16; // enter arrives from the opposite side
@@ -156,7 +137,7 @@ export default function TestimonialSection() {
               <g style={imageSlideStyle}>
                 <image
                   ref={imageRef}
-                  href={item.avatar}
+                  href={visual.avatar}
                   x={-14}
                   y={-110}
                   width={924}
@@ -194,12 +175,12 @@ export default function TestimonialSection() {
             text-lg text-ink/80
             md:text-2xl
           " style={slideStyle(80)}>
-            {item.author}，{item.role}
+            {item.author}{dict.separator}{item.role}
           </p>
           <div className="ml-auto flex items-center gap-3">
             <button
-              onClick={() => goTo((activeRef.current - 1 + ITEMS.length) % ITEMS.length, -1)}
-              aria-label="上一条"
+              onClick={() => goTo((activeRef.current - 1 + ITEM_VISUALS.length) % ITEM_VISUALS.length, -1)}
+              aria-label={dict.prev}
               className="
                 flex size-9 cursor-pointer items-center justify-center
                 rounded-full bg-ink/8 text-ink transition-colors
@@ -209,8 +190,8 @@ export default function TestimonialSection() {
               <ChevronLeftIcon width={36} height={36} />
             </button>
             <button
-              onClick={() => goTo((activeRef.current + 1) % ITEMS.length, 1)}
-              aria-label="下一条"
+              onClick={() => goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1)}
+              aria-label={dict.next}
               className="
                 flex size-9 cursor-pointer items-center justify-center
                 rounded-full bg-ink/8 text-ink transition-colors
@@ -235,7 +216,7 @@ export default function TestimonialSection() {
               />
             </span>
             <span className="text-sm text-ink/60 tabular-nums">
-              {String(active + 1).padStart(2, "0")}/{String(ITEMS.length).padStart(2, "0")}
+              {String(active + 1).padStart(2, "0")}/{String(ITEM_VISUALS.length).padStart(2, "0")}
             </span>
           </div>
         </div>

@@ -13,7 +13,7 @@ import { useParallaxMouse } from "@/hooks/useParallaxMouse";
 const TILT_STRENGTH = 8;
 const LERP = 0.12;
 
-export default function HeroSection() {
+export default function HeroSection({ dict }: { dict: { tagline: string } }) {
   const cloudRef = useRef<HTMLDivElement>(null);
   const sectionRef = useParallaxMouse(LERP, (x, y) => {
     if (!cloudRef.current) return;
@@ -37,7 +37,7 @@ export default function HeroSection() {
         sm:text-5xl
         md:text-5xl
       ">
-        让想像发生
+        {dict.tagline}
       </h1>
 
       {/* Cloud: vertically and horizontally centered */}

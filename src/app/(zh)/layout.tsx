@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import "./globals.css";
+import "../globals.css";
+import { zh } from "@/i18n/zh";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "造梦次元 — 让想像发生",
-  description: "造梦次元 Dreama — AI 驱动的沉浸式创作平台，让每个参与者既是创造者也是世界的延续者。",
+  title: zh.meta.title,
+  description: zh.meta.description,
+  alternates: {
+    languages: { en: "/en" },
+  },
 };
 
-export default function RootLayout({
+export default function ZhLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN" className="h-full antialiased">
       <head>
@@ -31,10 +33,10 @@ export default function RootLayout({
           />
         )}
       </head>
-<body className="min-h-full font-nav">
-        <Nav />
+      <body className="min-h-full font-nav">
+        <Nav dict={zh.nav} />
         {children}
-        <Footer />
+        <Footer dict={zh.footer} locale="zh" />
       </body>
     </html>
   );

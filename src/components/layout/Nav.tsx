@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LogoIcon } from "@/components/icons";
 import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
 import { DownloadQRCode, APP_DOWNLOAD_URL } from "@/components/ui/DownloadQRCode";
+import type { Dict } from "@/i18n/zh";
 
-const NAV_LINKS = [
-  { href: "#features", label: "创作者" },
-  { href: "#about",    label: "关于我们" },
-  { href: "#join",     label: "加入我们" },
-] as const;
+type NavDict = Dict["nav"];
 
 const LINK_CLASS = "text-sm text-ink hover:text-brand transition-colors";
 const SCROLL_OFFSET = 120;
@@ -24,10 +22,13 @@ function scrollToHash(href: string) {
   window.scrollTo({ top, behavior: "smooth" });
 }
 
-export default function Nav() {
+export default function Nav({ dict }: { dict: NavDict }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [qrPlaySignal, setQrPlaySignal] = useState(0);
+
+  const pathname = usePathname();
+  const locale = pathname.startsWith("/en") ? "en" : "zh";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0);
@@ -35,6 +36,12 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navLinks = [
+    { href: "#features", label: dict.creators },
+    { href: "#about",    label: dict.about },
+    { href: "#join",     label: dict.join },
+  ];
 
   return (
     <nav className={`
@@ -51,11 +58,11 @@ export default function Nav() {
       ">
 
         {/* Left — logo */}
-        <Link href="/" className="
+        <Link href={locale === "en" ? "/en" : "/"} className="
           min-w-0 shrink-0
           md:flex-1
         ">
-          <LogoIcon variant="full" className="h-9 w-auto" priority />
+          <LogoIcon variant="full" className="h-9 w-auto" priority locale={locale} />
         </Link>
 
         {/* Center — nav links (hidden below md) */}
@@ -63,7 +70,7 @@ export default function Nav() {
           hidden items-center gap-9
           md:flex
         ">
-          {NAV_LINKS.map(({ href, label }) => (
+          {navLinks.map(({ href, label }) => (
             <a key={href} href={href} className={LINK_CLASS}
               onClick={(e) => { e.preventDefault(); scrollToHash(href); }}
             >
@@ -72,7 +79,7 @@ export default function Nav() {
           ))}
         </div>
 
-        {/* Right — CTA + hamburger */}
+        {/* Right — CTA + lang switcher + hamburger */}
         <div className="
           flex shrink-0 items-center gap-4
           md:flex-1 md:justify-end md:gap-6
@@ -82,13 +89,13 @@ export default function Nav() {
             md:block
             ${LINK_CLASS}
           `}>
-            创作者登录
+            {dict.login}
           </a>
           {/* Mobile — direct link */}
           <a href={APP_DOWNLOAD_URL} target="_blank" rel="noopener noreferrer" className="
             md:hidden
           ">
-            <Button>下载App</Button>
+            <Button>{dict.download}</Button>
           </a>
           {/* Desktop — QR popover */}
           <div className="
@@ -99,8 +106,40 @@ export default function Nav() {
               content={<DownloadQRCode playSignal={qrPlaySignal} />}
               onHoverChange={(hovered) => { if (hovered) setQrPlaySignal((n) => n + 1); }}
             >
-              <Button>下载App</Button>
+              <Button>{dict.download}</Button>
             </HoverPopover>
+          </div>
+
+          {/* Language switcher — desktop */}
+          <div className="
+            hidden items-center gap-1 text-sm
+            md:flex
+          ">
+            <Link
+              href="/"
+              className={`
+                transition-opacity
+                ${locale === "zh" ? "text-ink" : `
+                  text-ink/40
+                  hover:text-ink/70
+                `}
+              `}
+            >
+              中
+            </Link>
+            <span className="text-ink/20">/</span>
+            <Link
+              href="/en"
+              className={`
+                transition-opacity
+                ${locale === "en" ? "text-ink" : `
+                  text-ink/40
+                  hover:text-ink/70
+                `}
+              `}
+            >
+              EN
+            </Link>
           </div>
 
           {/* Hamburger button — mobile only */}
@@ -110,7 +149,7 @@ export default function Nav() {
               md:hidden
             "
             onClick={() => setOpen((v) => !v)}
-            aria-label={open ? "关闭菜单" : "打开菜单"}
+            aria-label={open ? dict.closeMenu : dict.openMenu}
             aria-expanded={open}
           >
             <span
@@ -144,7 +183,7 @@ export default function Nav() {
           overflow-hidden transition-all duration-300 ease-in-out
           md:hidden
         "
-        style={{ maxHeight: open ? "300px" : "0px" }}
+        style={{ maxHeight: open ? "360px" : "0px" }}
       >
         <div
           className="transition-all duration-300 ease-in-out"
@@ -154,7 +193,7 @@ export default function Nav() {
           }}
         >
           <div className="flex flex-col gap-1 border-t border-border px-4 py-2">
-            {NAV_LINKS.map(({ href, label }) => (
+            {navLinks.map(({ href, label }) => (
               <a
                 key={href}
                 href={href}
@@ -174,11 +213,29 @@ export default function Nav() {
               onClick={() => setOpen(false)}
               className={`
                 ${LINK_CLASS}
-                py-3
+                border-b border-border py-3
               `}
             >
-              创作者登录
+              {dict.login}
             </a>
+            {/* Language switcher — mobile */}
+            <div className="flex items-center gap-2 py-3 text-sm">
+              <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className={locale === "zh" ? "text-ink" : "text-ink/40"}
+              >
+                中文
+              </Link>
+              <span className="text-ink/20">/</span>
+              <Link
+                href="/en"
+                onClick={() => setOpen(false)}
+                className={locale === "en" ? "text-ink" : "text-ink/40"}
+              >
+                English
+              </Link>
+            </div>
           </div>
         </div>
       </div>

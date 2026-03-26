@@ -1,18 +1,27 @@
 import Image from "next/image";
 import logoFullImg from "@public/logos/logo-full.png";
+import logoFullEnImg from "@public/logos/logo-full-en.png";
 import avatarImg from "@public/logos/avatar.png";
+import TextLogoZh from "@public/logos/text-logo.svg";
+import TextLogoEn from "@public/logos/text-logo-en.svg";
 import { LogoAnimeAvatar } from "./LogoAnimeAvatar";
 
 type LogoVariant = "full" | "text" | "avatar" | "anime-avatar";
 
 const LOGO_CONFIG = {
-  full:   { src: logoFullImg,            alt: "造梦次元", sizes: "120px" },
-  text:   { src: "/logos/text-logo.svg", alt: "造梦次元", sizes: "72px"  },
-  avatar: { src: avatarImg,              alt: "造梦次元", sizes: "60px"  },
+  full:   { src: logoFullImg,  alt: "造梦次元", sizes: "120px" },
+  avatar: { src: avatarImg,    alt: "造梦次元", sizes: "60px"  },
 } satisfies Record<
-  Exclude<LogoVariant, "anime-avatar">,
+  "full" | "avatar",
   { src: unknown; alt: string; sizes: string }
 >;
+
+const LOGO_CONFIG_EN = {
+  full: { src: logoFullEnImg, alt: "Dreama", sizes: "120px" },
+} satisfies Partial<Record<
+  "full" | "avatar",
+  { src: unknown; alt: string; sizes: string }
+>>;
 
 interface LogoIconProps {
   variant: LogoVariant;
@@ -26,14 +35,21 @@ interface LogoIconProps {
   priority?: boolean;
   /** Increment to trigger a one-shot playback (anime-avatar only). */
   playSignal?: number;
+  locale?: "zh" | "en";
 }
 
-export function LogoIcon({ variant, className, priority, playSignal }: LogoIconProps) {
+export function LogoIcon({ variant, className, priority, playSignal, locale }: LogoIconProps) {
   if (variant === "anime-avatar") {
     return <LogoAnimeAvatar className={className} priority={priority} playSignal={playSignal} />;
   }
 
-  const { src, alt, sizes } = LOGO_CONFIG[variant];
+  if (variant === "text") {
+    const TextLogo = locale === "en" ? TextLogoEn : TextLogoZh;
+    return <TextLogo className={className} aria-label={locale === "en" ? "Dreama" : "造梦次元"} />;
+  }
+
+  const enOverride = locale === "en" ? LOGO_CONFIG_EN[variant] : undefined;
+  const { src, alt, sizes } = enOverride ?? LOGO_CONFIG[variant];
   return (
     <Image
       src={src}

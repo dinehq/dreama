@@ -7,24 +7,9 @@ import FadeInGroup from "@/components/ui/FadeInGroup";
 import carousel1 from "@public/primary-carousel/1.jpg";
 import carousel2 from "@public/primary-carousel/2.jpg";
 import carousel3 from "@public/primary-carousel/3.jpg";
+import type { Dict } from "@/i18n/zh";
 
-const ITEMS = [
-  {
-    title: "先进AI模型",
-    description: "集成最前沿的生成式AI技术，从文本到图像，从角色到世界",
-    src: carousel1,
-  },
-  {
-    title: "强大创作工具",
-    description: "直观的创作界面，让复杂的AI能力触手可及",
-    src: carousel2,
-  },
-  {
-    title: "用户体验",
-    description: "技术持续迭代升级，创作能力无限延展",
-    src: carousel3,
-  },
-] as const;
+const CAROUSEL_IMAGES = [carousel1, carousel2, carousel3] as const;
 
 const DURATION_MS = 4000;
 
@@ -46,7 +31,7 @@ const DURATION_MS = 4000;
  * Progress bar width is written directly to the DOM via refs to avoid
  * 60 React re-renders/second during the RAF animation loop.
  */
-export default function AIShowcaseSection() {
+export default function AIShowcaseSection({ dict }: { dict: Dict["aiShowcase"] }) {
   const [active, setActive] = useState(0);
 
   const rafRef = useRef<number | null>(null);
@@ -71,7 +56,7 @@ export default function AIShowcaseSection() {
         rafRef.current = requestAnimationFrame(tick);
       } else {
         progressRef.current = 0;
-        setActive((prev) => (prev + 1) % ITEMS.length);
+        setActive((prev) => (prev + 1) % dict.items.length);
       }
     };
 
@@ -111,7 +96,7 @@ export default function AIShowcaseSection() {
             mb-10 text-center text-3xl font-bold text-ink
             md:text-5xl
           ">
-            AI 让这一切发生
+            {dict.heading}
           </h2>
         </FadeIn>
 
@@ -121,10 +106,10 @@ export default function AIShowcaseSection() {
           relative h-[260px] w-full overflow-hidden rounded-3xl
           md:h-[648px]
         ">
-          {ITEMS.map((item, idx) => (
+          {dict.items.map((item, idx) => (
             <Image
               key={item.title}
-              src={item.src}
+              src={CAROUSEL_IMAGES[idx]}
               alt={item.title}
               fill
               className={`
@@ -143,7 +128,7 @@ export default function AIShowcaseSection() {
           mt-8 flex flex-col gap-4
           md:flex-row
         ">
-          {ITEMS.map((item, idx) => {
+          {dict.items.map((item, idx) => {
             const isActive = idx === active;
             return (
               <button
