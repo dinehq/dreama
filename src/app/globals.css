@@ -32,6 +32,46 @@
   font-display: swap;
 }
 
+/* @font-face {
+  font-family: "OwnersTRIAL";
+  src: url("/fonts/OwnersTRIAL-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OwnersTRIAL";
+  src: url("/fonts/OwnersTRIAL-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+} */
+
+@font-face {
+  font-family: "OwnersTextTRIAL";
+  src: url("/fonts/OwnersTRIALText-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OwnersTextTRIAL";
+  src: url("/fonts/OwnersTRIALText-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OwnersTextTRIAL";
+  src: url("/fonts/OwnersTRIALText-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-display: "OPPO Sans 4.0 SC", system-ui, sans-serif;
   --font-body: "OPPO Sans 4.0 SC", system-ui, sans-serif;
@@ -88,7 +128,18 @@ body {
 }
 
 :root:lang(en) body {
-  font-family: system-ui, sans-serif;
+  font-family: "OwnersTextTRIAL", system-ui, sans-serif;
+}
+
+:root:lang(en) blockquote,
+:root:lang(en) h3,
+:root:lang(en) h4 {
+  font-weight: 500;
+}
+
+/* Downgrade bold to medium on non-heading elements in English */
+:root:lang(en) :is(p, span, button).font-bold {
+  font-weight: 500;
 }
 
 /* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
