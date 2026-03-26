@@ -154,16 +154,32 @@ export default function TestimonialSection({ dict }: { dict: Dict["testimonials"
         </div>
 
         {/* ── Animated area: quote + author slide on slide change ── */}
+        {/* All quotes are rendered stacked in the same grid cell so the
+            container always holds the height of the tallest quote,
+            preventing layout shift during transitions. */}
         <div className="
           mt-16 px-4
           md:px-[6%]
-        " style={slideStyle()}>
-          <blockquote className="
-            text-2xl/snug font-bold text-ink
-            md:text-4xl
-          ">
-            &ldquo;{item.quote}&rdquo;
-          </blockquote>
+        ">
+          <div className="grid">
+            {dict.items.map((it, i) => (
+              <blockquote
+                key={i}
+                className="
+                  text-2xl/snug font-bold text-ink [grid-area:1/1]
+                  md:text-4xl
+                "
+                aria-hidden={i !== active}
+                style={
+                  i === active
+                    ? slideStyle()
+                    : { opacity: 0, pointerEvents: "none", userSelect: "none" }
+                }
+              >
+                &ldquo;{it.quote}&rdquo;
+              </blockquote>
+            ))}
+          </div>
         </div>
 
         {/* ── Stable area: buttons and counter never animate ── */}
