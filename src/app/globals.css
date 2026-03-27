@@ -26,7 +26,7 @@
 
 @font-face {
   font-family: "OPPO Sans 4.0 SC";
-  src: url("../assets/fonts/OPPOSans.subset.woff2") format("woff2");
+  src: url("/fonts/OPPOSans.subset.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -34,7 +34,7 @@
 
 /* @font-face {
   font-family: "OwnersTRIAL";
-  src: url("../assets/fonts/OwnersTRIAL-Medium.otf") format("opentype");
+  src: url("/fonts/OwnersTRIAL-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -42,7 +42,7 @@
 
 @font-face {
   font-family: "OwnersTRIAL";
-  src: url("../assets/fonts/OwnersTRIAL-Bold.otf") format("opentype");
+  src: url("/fonts/OwnersTRIAL-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -50,7 +50,7 @@
 
 @font-face {
   font-family: "OwnersTextTRIAL";
-  src: url("../assets/fonts/OwnersTRIALText-Regular.otf") format("opentype");
+  src: url("/fonts/OwnersTRIALText-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -58,7 +58,7 @@
 
 @font-face {
   font-family: "OwnersTextTRIAL";
-  src: url("../assets/fonts/OwnersTRIALText-Medium.otf") format("opentype");
+  src: url("/fonts/OwnersTRIALText-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -66,7 +66,7 @@
 
 @font-face {
   font-family: "OwnersTextTRIAL";
-  src: url("../assets/fonts/OwnersTRIALText-Bold.otf") format("opentype");
+  src: url("/fonts/OwnersTRIALText-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
