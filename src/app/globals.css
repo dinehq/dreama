@@ -16,6 +16,7 @@
   --color-surface: #f8f8f8;
   --color-surface-alt: #f0f0f0;
   --color-ink: #242424;
+  --color-ink-base: #242424; /* never overridden — use on elements with a fixed light bg */
   --color-hero-bg: #e4e4e4;
   --color-border: rgba(0, 0, 0, 0.06);
 

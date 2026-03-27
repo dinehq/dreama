@@ -1,6 +1,7 @@
 import Image from "next/image";
 import aboutBg from "@/assets/about.webp";
 import FadeIn from "@/components/ui/FadeIn";
+import Button from "@/components/ui/Button";
 
 export default function AboutSection({
   dict,
@@ -45,18 +46,12 @@ export default function AboutSection({
                 {dict.body}
               </p>
               <div className="flex gap-4">
-                <a
-                  href="#"
-                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-[#242424] transition-colors hover:bg-white"
-                >
+                <Button variant="light" href="#">
                   {dict.press}
-                </a>
-                <a
-                  href="#"
-                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-[#242424] transition-colors hover:bg-white"
-                >
+                </Button>
+                <Button variant="light" href="#">
                   {dict.join}
-                </a>
+                </Button>
               </div>
             </div>
           </div>
