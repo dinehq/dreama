@@ -15,8 +15,8 @@ export default function Footer({
   const copyright = <p className="text-xs text-ink/50">{dict.copyright}</p>;
 
   return (
-    <footer className="border-t border-border">
-      <div className="relative mx-auto flex min-h-17 max-w-360 items-center justify-between gap-4 py-4 page-gutter">
+    <footer className="pb-20">
+      <div className="relative mx-auto flex min-h-17 max-w-360 items-center justify-between gap-4 page-gutter">
         {/* Left — text logo + lang switch + copyright (zh only) */}
         <div className="flex min-w-0 flex-col gap-2">
           <div className="flex items-center gap-3">

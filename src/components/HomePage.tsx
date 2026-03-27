@@ -1,0 +1,20 @@
+import HeroSection from "@/components/sections/HeroSection";
+import EcosystemSection from "@/components/sections/EcosystemSection";
+import AIShowcaseSection from "@/components/sections/AIShowcaseSection";
+import FeaturesSection from "@/components/sections/FeaturesSection";
+import TestimonialSection from "@/components/sections/TestimonialSection";
+import AboutSection from "@/components/sections/AboutSection";
+import type { Dict } from "@/i18n/zh";
+
+export default function HomePage({ dict }: { dict: Dict }) {
+  return (
+    <main className="flex flex-col gap-20 pb-20 md:gap-50 md:pb-50">
+      <HeroSection dict={dict.hero} />
+      <EcosystemSection dict={dict.ecosystem} />
+      <AIShowcaseSection dict={dict.aiShowcase} />
+      <FeaturesSection dict={dict.features} />
+      <TestimonialSection dict={dict.testimonials} />
+      <AboutSection dict={dict.about} />
+    </main>
+  );
+}

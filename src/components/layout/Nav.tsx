@@ -56,7 +56,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
 
   // Dynamic breakpoint: switch to desktop nav only when all content actually fits.
   // The probe renders all desktop items at natural width (no flex distribution).
-  // probe.scrollWidth = minimum nav width needed, including page gutters.
+  // probe.scrollWidth = minimum nav width needed, including page gutters + pill padding.
   useEffect(() => {
     const nav = navRef.current;
     const probe = probeRef.current;
@@ -68,7 +68,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
       if (fits) setOpen(false);
     };
 
-    // Observe nav (viewport resize) and probe (e.g. logo image load)
     const ro = new ResizeObserver(check);
     ro.observe(nav);
     ro.observe(probe);
@@ -88,220 +87,210 @@ export default function Nav({ dict }: { dict: NavDict }) {
     isDesktop === null ? "md:hidden" : isDesktop ? "hidden" : "";
 
   return (
-    <nav
-      ref={navRef}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled || open
-          ? "bg-nav-bg/90 shadow-[0_1px_3px_0_rgb(0_0_0/0.06)] backdrop-blur-sm"
-          : "bg-transparent shadow-none"
-      }`}
-    >
+    <nav ref={navRef} className="fixed inset-x-0 top-0 z-50">
       {/*
        * Measurement probe — invisible, out of flow.
-       * Mirrors all desktop nav items at their natural (unsqueezed) width
-       * including page gutters. probe.scrollWidth = minimum nav width needed.
+       * Outer div: page-gutter padding (block absolute, shrink-to-fit).
+       * Inner div: px-2 simulates pill's p-2 padding on each side.
+       * probe.scrollWidth = gutters + pill-padding + all desktop items at natural width.
        */}
       <div
         ref={probeRef}
         aria-hidden="true"
-        className="invisible absolute top-0 left-0 flex items-center gap-9 page-gutter whitespace-nowrap"
+        className="invisible absolute top-0 left-0 page-gutter whitespace-nowrap"
         style={{ pointerEvents: "none" }}
       >
-        {/*
-         * Fixed-size logo placeholder: avoids measuring 0 before the image
-         * loads. Dimensions from the source PNGs (297×72 zh, 293×72 en) at
-         * h-9 (36px): width = 36 × (w/h). Both locales round to ~148px.
-         */}
-        <div
-          style={{
-            width: locale === "en" ? "146px" : "149px",
-            height: "36px",
-            flexShrink: 0,
-          }}
-        />
-        <div className="flex shrink-0 items-center gap-9">
-          {NAV_LINKS.map(({ href, dictKey }) => (
-            <span key={href} className="text-base">
-              {dict[dictKey]}
+        <div className="flex items-center gap-9 px-2">
+          {/*
+           * Fixed-size logo placeholder: avoids measuring 0 before the image
+           * loads. Dimensions from the source PNGs (297×72 zh, 293×72 en) at
+           * h-9 (36px): width = 36 × (w/h). Both locales round to ~148px.
+           */}
+          <div
+            style={{
+              width: locale === "en" ? "146px" : "149px",
+              height: "36px",
+              flexShrink: 0,
+            }}
+          />
+          <div className="flex shrink-0 items-center gap-9">
+            {NAV_LINKS.map(({ href, dictKey }) => (
+              <span key={href} className="text-base">
+                {dict[dictKey]}
+              </span>
+            ))}
+          </div>
+          <div className="flex shrink-0 items-center gap-6">
+            <span className="text-base">{dict.login}</span>
+            <span className="inline-flex items-center px-4 text-base font-medium">
+              {dict.download}
             </span>
-          ))}
-        </div>
-        <div className="flex shrink-0 items-center gap-6">
-          <span className="text-base">{dict.login}</span>
-          <span className="inline-flex items-center px-5 text-base font-medium">
-            {dict.download}
-          </span>
+          </div>
         </div>
       </div>
 
-      {/* Mobile: plain flex — logo flex-none, right ml-auto, no layout math.
-          Desktop: grid 1fr auto 1fr — center column truly page-centered. */}
+      {/* Outer container — applies page gutters, max-width, and top spacing */}
       <div
-        className={`mx-auto h-14 max-w-360 items-center pt-[env(safe-area-inset-top)] page-gutter ${
-          isDesktop === null
-            ? "flex md:grid md:grid-cols-[1fr_auto_1fr] md:gap-x-9"
-            : isDesktop
-              ? "grid grid-cols-[1fr_auto_1fr] gap-x-9"
-              : "flex"
-        }`}
+        className="mx-auto max-w-360 page-gutter"
+        style={{ paddingTop: "calc(env(safe-area-inset-top) + 0.75rem)" }}
       >
-        {/* Left — logo. flex-none in flex mode; justify-self-start in grid mode
-            (prevents grid stretching the Link, which would deform w-auto image). */}
-        <Link
-          href={locale === "en" ? "/en" : "/"}
-          className={
-            isDesktop === null
-              ? "flex-none md:justify-self-start"
-              : isDesktop
-                ? "justify-self-start"
-                : "flex-none"
-          }
-        >
-          <LogoIcon
-            variant="full"
-            className="h-9 w-auto"
-            priority
-            locale={locale}
-          />
-        </Link>
-
-        {/* Center — nav links (desktop only) */}
+        {/* Pill nav bar */}
         <div
-          className={
-            isDesktop === null
-              ? "hidden items-center gap-9 md:flex"
-              : isDesktop
-                ? "flex items-center gap-9"
-                : "hidden"
-          }
-        >
-          {NAV_LINKS.map(({ href, dictKey }) => (
-            <a
-              key={href}
-              href={href}
-              className={LINK_CLASS}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToHash(href);
-              }}
-            >
-              {dict[dictKey]}
-            </a>
-          ))}
-        </div>
-
-        {/* Right — ml-auto works for both flex (pushes to right edge) and grid
-            (right-aligns within col3). col-start-3 only needed in grid mode. */}
-        <div
-          className={`ml-auto flex items-center justify-end ${
-            isDesktop === null
-              ? "gap-4 md:col-start-3 md:gap-6"
-              : isDesktop
-                ? "col-start-3 gap-6"
-                : "gap-4"
+          className={`flex items-center justify-between rounded-full bg-nav-bg/90 p-2 backdrop-blur-sm transition-shadow duration-300 ${
+            scrolled ? "shadow-[0_2px_12px_0_rgb(0_0_0/0.08)]" : "shadow-none"
           }`}
         >
-          {/* Login — desktop only */}
-          <a
-            href="https://ai.ideaflow.pro/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${desktopOnly} ${LINK_CLASS}`}
-          >
-            {dict.login}
-          </a>
-
-          {/* Download — mobile: direct link, desktop: QR popover */}
-          <a
-            href={APP_DOWNLOAD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={mobileOnly}
-          >
-            <Button>{dict.download}</Button>
-          </a>
-          <div className={desktopOnly}>
-            <HoverPopover
-              content={<DownloadQRCode playSignal={qrPlaySignal} />}
-              onHoverChange={(hovered) => {
-                if (hovered) setQrPlaySignal((n) => n + 1);
-              }}
-            >
-              <Button>{dict.download}</Button>
-            </HoverPopover>
+          {/* Left — logo */}
+          <div className="flex flex-1 items-center">
+            <Link href={locale === "en" ? "/en" : "/"}>
+              <LogoIcon
+                variant="full"
+                className="h-9 w-auto"
+                priority
+                locale={locale}
+              />
+            </Link>
           </div>
 
-          {/* Hamburger — mobile only */}
-          <button
-            className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1`}
-            onClick={() => setOpen((v) => !v)}
-            aria-label={expanded ? dict.closeMenu : dict.openMenu}
-            aria-expanded={expanded}
+          {/* Center — nav links (desktop only) */}
+          <div
+            className={
+              isDesktop === null
+                ? "hidden items-center gap-9 md:flex"
+                : isDesktop
+                  ? "flex items-center gap-9"
+                  : "hidden"
+            }
           >
-            <span
-              className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
-              style={
-                open
-                  ? { transform: "translateY(6px) rotate(45deg)" }
-                  : undefined
-              }
-            />
-            <span
-              className="block h-0.5 w-5 rounded-full bg-ink transition-all duration-300"
-              style={open ? { opacity: 0, transform: "scaleX(0)" } : undefined}
-            />
-            <span
-              className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
-              style={
-                open
-                  ? { transform: "translateY(-6px) rotate(-45deg)" }
-                  : undefined
-              }
-            />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown */}
-      <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isDesktop === null ? "md:hidden" : ""
-        }`}
-        style={{ maxHeight: expanded ? "360px" : "0px" }}
-        aria-hidden={!expanded}
-        inert={!expanded}
-      >
-        <div
-          className="transition-all duration-300 ease-in-out"
-          style={{
-            opacity: expanded ? 1 : 0,
-            transform: expanded ? "translateY(0)" : "translateY(-8px)",
-          }}
-        >
-          <div className="flex flex-col gap-1 border-t border-border px-4 py-2">
             {NAV_LINKS.map(({ href, dictKey }) => (
               <a
                 key={href}
                 href={href}
+                className={LINK_CLASS}
                 onClick={(e) => {
                   e.preventDefault();
-                  setOpen(false);
                   scrollToHash(href);
                 }}
-                className={`${LINK_CLASS} border-b border-border py-3`}
               >
                 {dict[dictKey]}
               </a>
             ))}
+          </div>
+
+          {/* Right — actions */}
+          <div
+            className={`flex flex-1 items-center justify-end ${
+              isDesktop === null
+                ? "gap-4 md:gap-6"
+                : isDesktop
+                  ? "gap-6"
+                  : "gap-4"
+            }`}
+          >
+            {/* Login — desktop only */}
             <a
               href="https://ai.ideaflow.pro/"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setOpen(false)}
-              className={`${LINK_CLASS} py-3`}
+              className={`${desktopOnly} ${LINK_CLASS}`}
             >
               {dict.login}
             </a>
+
+            {/* Download — mobile: direct link, desktop: QR popover */}
+            <a
+              href={APP_DOWNLOAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={mobileOnly}
+            >
+              <Button>{dict.download}</Button>
+            </a>
+            <div className={desktopOnly}>
+              <HoverPopover
+                content={<DownloadQRCode playSignal={qrPlaySignal} />}
+                onHoverChange={(hovered) => {
+                  if (hovered) setQrPlaySignal((n) => n + 1);
+                }}
+              >
+                <Button>{dict.download}</Button>
+              </HoverPopover>
+            </div>
+
+            {/* Hamburger — mobile only */}
+            <button
+              className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1 pr-2`}
+              onClick={() => setOpen((v) => !v)}
+              aria-label={expanded ? dict.closeMenu : dict.openMenu}
+              aria-expanded={expanded}
+            >
+              <span
+                className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+                style={
+                  open
+                    ? { transform: "translateY(6px) rotate(45deg)" }
+                    : undefined
+                }
+              />
+              <span
+                className="block h-0.5 w-5 rounded-full bg-ink transition-all duration-300"
+                style={
+                  open ? { opacity: 0, transform: "scaleX(0)" } : undefined
+                }
+              />
+              <span
+                className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+                style={
+                  open
+                    ? { transform: "translateY(-6px) rotate(-45deg)" }
+                    : undefined
+                }
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile dropdown */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            isDesktop === null ? "md:hidden" : ""
+          }`}
+          style={{ maxHeight: expanded ? "360px" : "0px" }}
+          aria-hidden={!expanded}
+          inert={!expanded}
+        >
+          <div
+            className="transition-all duration-300 ease-in-out"
+            style={{
+              opacity: expanded ? 1 : 0,
+              transform: expanded ? "translateY(0)" : "translateY(-8px)",
+            }}
+          >
+            <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-nav-bg/90 px-4 py-2 backdrop-blur-sm">
+              {NAV_LINKS.map(({ href, dictKey }) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpen(false);
+                    scrollToHash(href);
+                  }}
+                  className={`${LINK_CLASS} border-b border-border py-3`}
+                >
+                  {dict[dictKey]}
+                </a>
+              ))}
+              <a
+                href="https://ai.ideaflow.pro/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className={`${LINK_CLASS} py-3`}
+              >
+                {dict.login}
+              </a>
+            </div>
           </div>
         </div>
       </div>

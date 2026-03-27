@@ -121,3 +121,20 @@ body {
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@theme {
+  --animate-marquee: marquee 32s linear infinite;
+}
+
+.animate-marquee {
+  will-change: transform;
+}

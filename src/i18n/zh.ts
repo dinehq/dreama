@@ -16,6 +16,11 @@ const zh = {
   hero: {
     tagline: "让想像发生",
   },
+  ecosystem: {
+    heading1: "从想象到创造",
+    heading2: "从创造到生态",
+    body: "一句话，就是一个角色的起点；一个念头，就能长成一整个世界。AI把创造力交还给每一个人，有人在这里写下故事，有人在这里延续它。内容从此不再被消费，而是被不断地共同创造。",
+  },
   aiShowcase: {
     heading: "AI 让这一切发生",
     items: [

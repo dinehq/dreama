@@ -18,6 +18,11 @@ export const en: Dict = {
   hero: {
     tagline: "Let Imagination Happen",
   },
+  ecosystem: {
+    heading1: "From Imagination to Creation",
+    heading2: "From Creation to Ecosystem",
+    body: "One idea sparks a character; one thought grows into an entire world. AI returns creativity to everyone — some come here to write stories, others to continue them. Content is no longer just consumed. It is endlessly co-created.",
+  },
   aiShowcase: {
     heading: "AI Makes It All Possible",
     items: [

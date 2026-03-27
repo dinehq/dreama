@@ -142,7 +142,7 @@ function CardColumn({
   return (
     <div className="flex flex-col gap-[clamp(1rem,2.5vw,2rem)]">
       <FadeIn>
-        <h3 className="text-center text-2xl font-medium text-ink">
+        <h3 className="text-center text-2xl font-semibold text-ink">
           <MarkerHighlight>{label}</MarkerHighlight>
         </h3>
       </FadeIn>
@@ -197,7 +197,7 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
       <FadeInGroup className="mx-auto max-w-7xl">
         {/* Section header */}
         <FadeIn className="mb-16 text-center">
-          <h2 className="text-3xl font-medium text-ink md:text-5xl">
+          <h2 className="text-3xl font-semibold text-ink md:text-5xl">
             <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
           </h2>
           <p className="mt-4 text-base text-ink/60">{dict.subheading}</p>
