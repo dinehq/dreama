@@ -47,13 +47,13 @@ export default function AboutSection({
               <div className="flex gap-4">
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-[#242424] transition-colors hover:bg-white"
                 >
                   {dict.press}
                 </a>
                 <a
                   href="#"
-                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-[#242424] transition-colors hover:bg-white"
                 >
                   {dict.join}
                 </a>
