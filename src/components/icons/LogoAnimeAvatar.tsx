@@ -38,7 +38,7 @@ export function LogoAnimeAvatar({
   return (
     <video
       ref={ref}
-      src="/logos/avatar-anime-opt.mp4"
+      src="/avatar-anime-opt.mp4"
       loop={loopWhilePlaying}
       muted
       playsInline

@@ -1,28 +1,57 @@
+import Image from "next/image";
+import aboutBg from "@/assets/about.webp";
 import FadeIn from "@/components/ui/FadeIn";
-import MarkerHighlight from "@/components/ui/MarkerHighlight";
 
-/**
- * About Us section — yellow rounded card with team description.
- * Matches the Figma "About Us Container" (1280 × 445 px, accent-yellow bg).
- */
 export default function AboutSection({
   dict,
 }: {
-  dict: { heading: string; body: string };
+  dict: { heading: string; body: string; press: string; join: string };
 }) {
   return (
     <section id="about" className="py-10 page-gutter md:py-0">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
-          <div className="flex flex-col items-center justify-center rounded-4xl bg-accent-yellow px-8 py-16 text-center md:h-187.5 md:rounded-5xl md:px-[15%] md:py-0">
-            <h2 className="text-3xl font-medium text-ink md:text-5xl">
-              <MarkerHighlight variant={1} color="white">
+          <div className="relative aspect-1280/750 overflow-clip rounded-4xl md:rounded-5xl">
+            <Image
+              src={aboutBg}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 1280px) 100vw, 1280px"
+            />
+
+            {/* gradient overlay */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)",
+              }}
+            />
+
+            {/* text content */}
+            <div className="absolute inset-x-6 bottom-6 flex flex-col gap-3 text-white md:inset-x-10 md:bottom-10 md:max-w-160 md:gap-4">
+              <h2 className="text-2xl font-bold md:text-[32px] md:leading-12">
                 {dict.heading}
-              </MarkerHighlight>
-            </h2>
-            <p className="mt-6 max-w-170 text-base/normal text-ink/80 md:text-2xl">
-              {dict.body}
-            </p>
+              </h2>
+              <p className="text-base/relaxed md:text-2xl/relaxed">
+                {dict.body}
+              </p>
+              <div className="flex gap-2">
+                <a
+                  href="#"
+                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+                >
+                  {dict.press}
+                </a>
+                <a
+                  href="#"
+                  className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
+                >
+                  {dict.join}
+                </a>
+              </div>
+            </div>
           </div>
         </FadeIn>
       </div>

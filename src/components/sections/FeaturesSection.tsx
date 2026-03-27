@@ -8,9 +8,12 @@ import FadeIn from "@/components/ui/FadeIn";
 import BrushUnderline from "@/components/ui/BrushUnderline";
 import MarkerHighlight from "@/components/ui/MarkerHighlight";
 import FadeInGroup from "@/components/ui/FadeInGroup";
-import feature1 from "@public/features/1.png";
-import feature2 from "@public/features/2.jpg";
-import feature3 from "@public/features/3.png";
+import feature1 from "@/assets/features/1.webp";
+import feature2 from "@/assets/features/2.webp";
+import feature3 from "@/assets/features/3.webp";
+import Feature4 from "@/assets/features/4.svg";
+import Feature5 from "@/assets/features/5.svg";
+import Feature6 from "@/assets/features/6.svg";
 import type { Dict } from "@/i18n/zh";
 
 type CardConfig = Omit<FeatureCardProps, "className" | "imageScale"> & {
@@ -84,7 +87,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 0,
     image: {
-      src: "/features/4.svg",
+      src: Feature4,
       width: "110%",
       x: 32,
       y: 21,
@@ -99,7 +102,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 150,
     image: {
-      src: "/features/5.svg",
+      src: Feature5,
       width: "70%",
       x: 0,
       y: 0,
@@ -114,7 +117,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 300,
     image: {
-      src: "/features/6.svg",
+      src: Feature6,
       width: "100%",
       x: 0,
       y: 0,

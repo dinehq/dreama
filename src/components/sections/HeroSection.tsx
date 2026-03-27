@@ -7,7 +7,8 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import heroBg from "@public/hero.png";
+import heroBg from "@/assets/hero.webp";
+import HeroCloud from "@/components/icons/hero-cloud.svg";
 import { useParallaxMouse } from "@/hooks/useParallaxMouse";
 import MarkerHighlight from "@/components/ui/MarkerHighlight";
 const TILT_STRENGTH = 8;
@@ -44,13 +45,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
       {/* Cloud: vertically and horizontally centered */}
       <div className="animate-float absolute top-1/2 left-1/2 -translate-1/2">
         <div ref={cloudRef} style={{ willChange: "transform" }}>
-          <Image
-            src="/hero-cloud.svg"
-            alt=""
-            width={321}
-            height={241}
-            priority
-          />
+          <HeroCloud width={321} height={241} />
         </div>
       </div>
     </section>

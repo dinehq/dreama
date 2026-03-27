@@ -1,9 +1,9 @@
 import Image from "next/image";
-import logoZhImg from "@public/logos/logo-en.png";
-import logoEnImg from "@public/logos/logo-zh.png";
-import avatarImg from "@public/logos/avatar.png";
-import TextLogoZh from "@public/logos/text-logo.svg";
-import TextLogoEn from "@public/logos/text-logo-en.svg";
+import logoZhImg from "@/assets/logos/logo-en.webp";
+import logoEnImg from "@/assets/logos/logo-zh.webp";
+import avatarImg from "@/assets/logos/avatar.webp";
+import TextLogoZh from "@/assets/logos/text-logo.svg";
+import TextLogoEn from "@/assets/logos/text-logo-en.svg";
 import { LogoAnimeAvatar } from "./LogoAnimeAvatar";
 
 type LogoVariant = "full" | "text" | "avatar" | "anime-avatar";

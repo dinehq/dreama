@@ -1,5 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ComponentType, SVGProps } from "react";
 
 type TextPosition = "top" | "bottom";
 type CardColor = "gray" | "yellow" | "orange" | "green" | "blue";
@@ -18,8 +18,10 @@ type ImageAlign =
 /** px number, percentage string (e.g. "50%"), or "auto" */
 type SizeValue = number | `${number}%` | "auto";
 
+type SvgComponent = ComponentType<SVGProps<SVGSVGElement>>;
+
 interface CardImage {
-  src: string | StaticImageData;
+  src: string | StaticImageData | SvgComponent;
   /**
    * Display width — px number, "100%" (fills card width), or "auto".
    * When either dimension is non-numeric, height follows aspect ratio automatically.
@@ -147,11 +149,29 @@ export default function FeatureCard({
 }: FeatureCardProps) {
   const textColors = textThemeMap[textTheme];
 
+  const isSvg = image && typeof image.src === "function";
+
   const imageBlock = image ? (
     <div style={wrapperStyle(image)}>
-      {isFluid(image) ? (
+      {isSvg ? (
+        (() => {
+          const SvgIcon = image.src as SvgComponent;
+          return (
+            <SvgIcon
+              style={{
+                width: image.width !== undefined ? toCSS(image.width) : "100%",
+                height:
+                  image.height !== undefined ? toCSS(image.height) : "auto",
+                transform: `scale(${imageScale})`,
+                transition: IMAGE_SCALE_TRANSITION,
+              }}
+              className="block origin-center"
+            />
+          );
+        })()
+      ) : isFluid(image) ? (
         <Image
-          src={image.src}
+          src={image.src as string | StaticImageData}
           alt=""
           width={0}
           height={0}
@@ -171,7 +191,7 @@ export default function FeatureCard({
         />
       ) : (
         <Image
-          src={image.src}
+          src={image.src as string | StaticImageData}
           alt=""
           width={image.width as number}
           height={image.height as number}

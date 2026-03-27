@@ -5,9 +5,9 @@ import Image from "next/image";
 import FadeIn from "@/components/ui/FadeIn";
 import BrushUnderline from "@/components/ui/BrushUnderline";
 import FadeInGroup from "@/components/ui/FadeInGroup";
-import carousel1 from "@public/primary-carousel/1.jpg";
-import carousel2 from "@public/primary-carousel/2.jpg";
-import carousel3 from "@public/primary-carousel/3.jpg";
+import carousel1 from "@/assets/carousel/1.webp";
+import carousel2 from "@/assets/carousel/2.webp";
+import carousel3 from "@/assets/carousel/3.webp";
 import type { Dict } from "@/i18n/zh";
 
 const CAROUSEL_IMAGES = [carousel1, carousel2, carousel3] as const;

@@ -103,6 +103,8 @@ export const en: Dict = {
   about: {
     heading: "About Us",
     body: "We are a multidisciplinary team that understands both content and AI — founded by creators and AI practitioners with 10+ years of product and technology experience, alongside exceptional scientists, engineers, and innovators.",
+    press: "Press",
+    join: "Join Us",
   },
   footer: {
     copyright: "© 2026 Shenzhen Ideaflow Technology Co., Ltd.",
