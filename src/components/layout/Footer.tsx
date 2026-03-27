@@ -12,12 +12,10 @@ export default function Footer({
   dict: Dict["footer"];
   locale: "zh" | "en";
 }) {
-  const copyright = <p className="text-xs text-ink/40">{dict.copyright}</p>;
-
   return (
     <footer className="pb-5 md:pb-10 lg:pb-20">
-      <div className="relative mx-auto flex min-h-17 max-w-360 items-center justify-between gap-4 page-gutter">
-        {/* Left — text logo + lang switch + copyright (zh only) */}
+      <div className="relative mx-auto flex max-w-360 flex-col gap-2 py-4 page-gutter sm:min-h-17 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
+        {/* Logo + lang switch */}
         <div className="flex min-w-0 flex-col gap-2">
           <div className="flex items-center gap-3">
             <LogoIcon
@@ -27,7 +25,17 @@ export default function Footer({
             />
             <LocaleLink locale={locale} />
           </div>
-          {copyright}
+          {/* Copyright — desktop only */}
+          <p className="hidden text-xs text-ink/40 sm:block">
+            {dict.copyright}
+          </p>
+        </div>
+
+        {/* Mobile — copyright + ICP inline wrapping */}
+        <div className="flex flex-wrap gap-x-3 text-xs text-ink/40 sm:hidden">
+          <span>{dict.copyright}</span>
+          <span>{ICP_NUMBER}</span>
+          <span>{NETWORK_SECURITY}</span>
         </div>
 
         {/* Center — avatar, absolutely positioned so it doesn't affect footer height */}
@@ -35,12 +43,12 @@ export default function Footer({
           <LogoIcon variant="anime-avatar" className="h-full w-auto" />
         </div>
 
-        {/* Right — ICP registration + copyright (en) */}
-        <div className="flex flex-col items-end gap-1">
-          <p className="text-right text-[10px] text-ink/40 sm:text-xs sm:whitespace-nowrap">
+        {/* Right — ICP registration, desktop only */}
+        <div className="hidden flex-col items-end gap-2 sm:flex">
+          <p className="text-right text-xs whitespace-nowrap text-ink/40">
             {ICP_NUMBER}
           </p>
-          <p className="text-right text-[10px] text-ink/40 sm:text-xs sm:whitespace-nowrap">
+          <p className="text-right text-xs whitespace-nowrap text-ink/40">
             {NETWORK_SECURITY}
           </p>
         </div>
