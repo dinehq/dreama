@@ -103,7 +103,7 @@ export default function AIShowcaseSection({
 
         {/* Media area */}
         <FadeIn delay={100}>
-          <div className="relative h-65 w-full overflow-hidden rounded-3xl md:h-162">
+          <div className="relative h-65 w-full overflow-hidden rounded-4xl md:h-162">
             {dict.items.map((item, idx) => (
               <Image
                 key={item.title}

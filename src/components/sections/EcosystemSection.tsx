@@ -18,7 +18,7 @@ export default function EcosystemSection({
     <section id="ecosystem" className="flex flex-col gap-10 md:gap-14">
       {/* Header */}
       <div className="page-gutter">
-        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-center md:gap-16 md:text-left">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-center md:gap-16 md:text-left">
           <h2 className="shrink-0 text-4xl leading-snug font-semibold text-ink md:text-5xl">
             {dict.heading1}
             <br />

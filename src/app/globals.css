@@ -20,6 +20,7 @@
   --color-border: rgba(0, 0, 0, 0.06);
 
   /* Radius */
+  --radius-4xl: 2.5rem;
   --radius-5xl: 4rem;
   --radius-pill: 9999px;
 }
