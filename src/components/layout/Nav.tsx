@@ -272,7 +272,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 transform: expanded ? "translateY(0)" : "translateY(-6px)",
               }}
             >
-              <div className="flex flex-col gap-1 px-4 pb-3">
+              <div className="flex flex-col gap-1 px-4 pb-1">
                 {NAV_LINKS.map(({ href, dictKey }) => (
                   <a
                     key={href}
