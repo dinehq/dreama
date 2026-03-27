@@ -33,6 +33,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
         alt=""
         fill
         className="object-cover"
+        sizes="100vw"
         priority
         placeholder="blur"
       />

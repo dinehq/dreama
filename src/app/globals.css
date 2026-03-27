@@ -24,58 +24,10 @@
   --radius-pill: 9999px;
 }
 
-@font-face {
-  font-family: "OPPO Sans 4.0 SC";
-  src: url("/fonts/OPPOSans.subset.woff2") format("woff2");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* @font-face {
-  font-family: "OwnersTRIAL";
-  src: url("/fonts/OwnersTRIAL-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "OwnersTRIAL";
-  src: url("/fonts/OwnersTRIAL-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-} */
-
-@font-face {
-  font-family: "OwnersTextTRIAL";
-  src: url("/fonts/OwnersTRIALText-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "OwnersTextTRIAL";
-  src: url("/fonts/OwnersTRIALText-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "OwnersTextTRIAL";
-  src: url("/fonts/OwnersTRIALText-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 @theme inline {
-  --font-display: "OPPO Sans 4.0 SC", system-ui, sans-serif;
-  --font-body: "OPPO Sans 4.0 SC", system-ui, sans-serif;
-  --font-nav: "OPPO Sans 4.0 SC", system-ui, sans-serif;
+  --font-display: var(--font-oppo-sans), system-ui, sans-serif;
+  --font-body: var(--font-oppo-sans), system-ui, sans-serif;
+  --font-nav: var(--font-oppo-sans), system-ui, sans-serif;
 }
 
 :root {
@@ -128,7 +80,7 @@ body {
 }
 
 :root:lang(en) body {
-  font-family: "OwnersTextTRIAL", system-ui, sans-serif;
+  font-family: var(--font-owners-text), system-ui, sans-serif;
 }
 
 /* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
