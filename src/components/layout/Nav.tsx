@@ -134,162 +134,169 @@ export default function Nav({ dict }: { dict: NavDict }) {
         className="mx-auto max-w-360 page-gutter"
         style={{ paddingTop: "calc(env(safe-area-inset-top) + 0.75rem)" }}
       >
-        {/* Pill nav bar */}
+        {/*
+         * Unified pill — contains both the top bar and the expandable mobile menu.
+         * border-radius transitions from pill (9999px) → rounded-3xl (1.5rem) on expand.
+         * overflow-hidden lives on the inner menu wrapper, not here, so shadow is never clipped.
+         */}
         <div
-          className={`flex items-center justify-between rounded-full bg-nav-bg/90 p-2 backdrop-blur-sm transition-shadow duration-300 ${
-            scrolled ? "shadow-[0_2px_12px_0_rgb(0_0_0/0.08)]" : "shadow-none"
+          className={`rounded-[26px] bg-nav-bg/90 backdrop-blur-sm transition-shadow duration-300 ${
+            expanded || scrolled ? "shadow-nav" : "shadow-none"
           }`}
         >
-          {/* Left — logo */}
-          <div className="flex flex-1 items-center">
-            <Link href={locale === "en" ? "/en" : "/"}>
-              <LogoIcon
-                variant="full"
-                className="h-9 w-auto"
-                priority
-                locale={locale}
-              />
-            </Link>
-          </div>
-
-          {/* Center — nav links (desktop only) */}
-          <div
-            className={
-              isDesktop === null
-                ? "hidden items-center gap-8 md:flex"
-                : isDesktop
-                  ? "flex items-center gap-8"
-                  : "hidden"
-            }
-          >
-            {NAV_LINKS.map(({ href, dictKey }) => (
-              <a
-                key={href}
-                href={href}
-                className={LINK_CLASS}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToHash(href);
-                }}
-              >
-                {dict[dictKey]}
-              </a>
-            ))}
-          </div>
-
-          {/* Right — actions */}
-          <div
-            className={`flex flex-1 items-center justify-end ${
-              isDesktop === null
-                ? "gap-4 md:gap-6"
-                : isDesktop
-                  ? "gap-6"
-                  : "gap-4"
-            }`}
-          >
-            {/* Login — desktop only */}
-            <a
-              href="https://ai.ideaflow.pro/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${desktopOnly} ${LINK_CLASS}`}
-            >
-              {dict.login}
-            </a>
-
-            {/* Download — mobile: direct link, desktop: QR popover */}
-            <a
-              href={APP_DOWNLOAD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={mobileOnly}
-            >
-              <Button>{dict.download}</Button>
-            </a>
-            <div className={desktopOnly}>
-              <HoverPopover
-                content={<DownloadQRCode playSignal={qrPlaySignal} />}
-                onHoverChange={(hovered) => {
-                  if (hovered) setQrPlaySignal((n) => n + 1);
-                }}
-              >
-                <Button>{dict.download}</Button>
-              </HoverPopover>
+          {/* Top row */}
+          <div className="flex items-center justify-between p-2">
+            {/* Left — logo */}
+            <div className="flex flex-1 items-center">
+              <Link href={locale === "en" ? "/en" : "/"}>
+                <LogoIcon
+                  variant="full"
+                  className="h-9 w-auto"
+                  priority
+                  locale={locale}
+                />
+              </Link>
             </div>
 
-            {/* Hamburger — mobile only */}
-            <button
-              className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1 pr-2`}
-              onClick={() => setOpen((v) => !v)}
-              aria-label={expanded ? dict.closeMenu : dict.openMenu}
-              aria-expanded={expanded}
+            {/* Center — nav links (desktop only) */}
+            <div
+              className={
+                isDesktop === null
+                  ? "hidden items-center gap-8 md:flex"
+                  : isDesktop
+                    ? "flex items-center gap-8"
+                    : "hidden"
+              }
             >
-              <span
-                className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
-                style={
-                  open
-                    ? { transform: "translateY(6px) rotate(45deg)" }
-                    : undefined
-                }
-              />
-              <span
-                className="block h-0.5 w-5 rounded-full bg-ink transition-all duration-300"
-                style={
-                  open ? { opacity: 0, transform: "scaleX(0)" } : undefined
-                }
-              />
-              <span
-                className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
-                style={
-                  open
-                    ? { transform: "translateY(-6px) rotate(-45deg)" }
-                    : undefined
-                }
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile dropdown */}
-        <div
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            isDesktop === null ? "md:hidden" : ""
-          }`}
-          style={{ maxHeight: expanded ? "360px" : "0px" }}
-          aria-hidden={!expanded}
-          inert={!expanded}
-        >
-          <div
-            className="transition-all duration-300 ease-in-out"
-            style={{
-              opacity: expanded ? 1 : 0,
-              transform: expanded ? "translateY(0)" : "translateY(-8px)",
-            }}
-          >
-            <div className="mt-2 flex flex-col gap-1 rounded-2xl bg-nav-bg/90 px-4 py-2 backdrop-blur-sm">
               {NAV_LINKS.map(({ href, dictKey }) => (
                 <a
                   key={href}
                   href={href}
+                  className={LINK_CLASS}
                   onClick={(e) => {
                     e.preventDefault();
-                    setOpen(false);
                     scrollToHash(href);
                   }}
-                  className={`${LINK_CLASS} border-b border-border py-3`}
                 >
                   {dict[dictKey]}
                 </a>
               ))}
+            </div>
+
+            {/* Right — actions */}
+            <div
+              className={`flex flex-1 items-center justify-end ${
+                isDesktop === null
+                  ? "gap-4 md:gap-6"
+                  : isDesktop
+                    ? "gap-6"
+                    : "gap-4"
+              }`}
+            >
+              {/* Login — desktop only */}
               <a
                 href="https://ai.ideaflow.pro/"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className={`${LINK_CLASS} py-3`}
+                className={`${desktopOnly} ${LINK_CLASS}`}
               >
                 {dict.login}
               </a>
+
+              {/* Download — mobile: direct link, desktop: QR popover */}
+              <a
+                href={APP_DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={mobileOnly}
+              >
+                <Button>{dict.download}</Button>
+              </a>
+              <div className={desktopOnly}>
+                <HoverPopover
+                  content={<DownloadQRCode playSignal={qrPlaySignal} />}
+                  onHoverChange={(hovered) => {
+                    if (hovered) setQrPlaySignal((n) => n + 1);
+                  }}
+                >
+                  <Button>{dict.download}</Button>
+                </HoverPopover>
+              </div>
+
+              {/* Hamburger — mobile only */}
+              <button
+                className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1 pr-2`}
+                onClick={() => setOpen((v) => !v)}
+                aria-label={expanded ? dict.closeMenu : dict.openMenu}
+                aria-expanded={expanded}
+              >
+                <span
+                  className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+                  style={
+                    open
+                      ? { transform: "translateY(6px) rotate(45deg)" }
+                      : undefined
+                  }
+                />
+                <span
+                  className="block h-0.5 w-5 rounded-full bg-ink transition-all duration-300"
+                  style={
+                    open ? { opacity: 0, transform: "scaleX(0)" } : undefined
+                  }
+                />
+                <span
+                  className="block h-0.5 w-5 origin-center rounded-full bg-ink transition-all duration-300"
+                  style={
+                    open
+                      ? { transform: "translateY(-6px) rotate(-45deg)" }
+                      : undefined
+                  }
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu — height-animated, inside the pill so shadow is unclipped */}
+          <div
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              isDesktop === null ? "md:hidden" : ""
+            }`}
+            style={{ maxHeight: expanded ? "360px" : "0px" }}
+            aria-hidden={!expanded}
+            inert={!expanded}
+          >
+            <div
+              className="transition-all duration-300 ease-in-out"
+              style={{
+                opacity: expanded ? 1 : 0,
+                transform: expanded ? "translateY(0)" : "translateY(-6px)",
+              }}
+            >
+              <div className="flex flex-col gap-1 px-4 pb-3">
+                {NAV_LINKS.map(({ href, dictKey }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpen(false);
+                      scrollToHash(href);
+                    }}
+                    className={`${LINK_CLASS} border-b border-border py-3`}
+                  >
+                    {dict[dictKey]}
+                  </a>
+                ))}
+                <a
+                  href="https://ai.ideaflow.pro/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className={`${LINK_CLASS} py-3`}
+                >
+                  {dict.login}
+                </a>
+              </div>
             </div>
           </div>
         </div>

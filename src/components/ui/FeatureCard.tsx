@@ -238,7 +238,7 @@ export default function FeatureCard({
 
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-4xl md:rounded-5xl ${colorMap[color]} ${className} `}
+      className={`relative w-full overflow-hidden rounded-3xl md:rounded-5xl ${colorMap[color]} ${className} `}
     >
       {imageBlock}
       {textBlock}
