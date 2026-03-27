@@ -161,8 +161,8 @@ export default function TestimonialSection({
                   href={visual.avatar}
                   x={-14}
                   y={-110}
-                  width={924}
-                  height={584}
+                  width={891}
+                  height={619}
                   preserveAspectRatio="xMidYMid slice"
                   style={{
                     opacity: phase === "enter" ? 1 : 0,

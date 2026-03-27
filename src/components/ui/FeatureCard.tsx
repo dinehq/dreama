@@ -226,11 +226,11 @@ export default function FeatureCard({
       } max-w-72`}
     >
       <p
-        className={`text-xl/tight font-semibold md:text-2xl/tight ${textColors.title} `}
+        className={`text-xl font-semibold md:text-[28px] ${textColors.title} `}
       >
         {title}
       </p>
-      <p className={`mt-1 text-base/5 ${textColors.description} `}>
+      <p className={`mt-1 text-sm md:text-[18px] ${textColors.description} `}>
         {description}
       </p>
     </div>

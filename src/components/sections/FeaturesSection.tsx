@@ -67,7 +67,7 @@ const LEFT_CARD_VISUALS: CardVisual[] = [
     },
   },
   {
-    color: "orange",
+    color: "yellow",
     textPosition: "top",
     baseGrow: 321,
     hoverGrow: 500,
@@ -79,7 +79,7 @@ const LEFT_CARD_VISUALS: CardVisual[] = [
 
 const RIGHT_CARD_VISUALS: CardVisual[] = [
   {
-    color: "yellow",
+    color: "orange",
     textPosition: "bottom",
     baseGrow: 280,
     hoverGrow: 400,
@@ -87,9 +87,9 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     delay: 0,
     image: {
       src: feature4,
-      width: "110%",
+      width: "105%",
       x: 32,
-      y: 21,
+      y: 42,
       align: "bottom-left",
     },
   },
@@ -142,12 +142,12 @@ function CardColumn({
   return (
     <div className="flex flex-col gap-[clamp(1rem,2.5vw,2rem)]">
       <FadeIn>
-        <h3 className="text-center text-2xl font-semibold text-ink">
+        <h3 className="text-center text-xl font-semibold text-ink md:text-[28px]">
           <MarkerHighlight>{label}</MarkerHighlight>
         </h3>
       </FadeIn>
       {/* Aspect-ratio container — height scales with column width */}
-      <div className="flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)] md:aspect-624/1066">
+      <div className="flex aspect-350/680 w-full flex-col gap-[clamp(1rem,2.5vw,2rem)] md:aspect-628/1256">
         {cards.map(
           (
             { delay, baseGrow, hoverGrow, imageHoverScale = 1, ...props },
