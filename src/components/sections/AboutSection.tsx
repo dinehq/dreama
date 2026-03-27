@@ -20,12 +20,19 @@ export default function AboutSection({
               sizes="(max-width: 1280px) 100vw, 1280px"
             />
 
-            {/* gradient overlay */}
+            {/* gradient overlay — stronger on mobile, lighter on desktop */}
             <div
-              className="pointer-events-none absolute inset-0"
+              className="pointer-events-none absolute inset-0 md:hidden"
               style={{
                 backgroundImage:
                   "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0) 100%)",
+              }}
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-3/5 md:block"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%)",
               }}
             />
 
@@ -37,7 +44,7 @@ export default function AboutSection({
               <p className="text-base/relaxed md:text-2xl/relaxed">
                 {dict.body}
               </p>
-              <div className="flex gap-2">
+              <div className="flex gap-4">
                 <a
                   href="#"
                   className="inline-flex items-center justify-center rounded-pill bg-white/95 px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-white"
