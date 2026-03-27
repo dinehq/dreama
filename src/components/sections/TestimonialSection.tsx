@@ -221,15 +221,6 @@ export default function TestimonialSection({
             >
               <ChevronLeftIcon width={36} height={36} />
             </button>
-            <button
-              onClick={() =>
-                goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1)
-              }
-              aria-label={dict.next}
-              className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-ink/8 text-ink transition-colors hover:bg-ink/12"
-            >
-              <ChevronRightIcon width={36} height={36} />
-            </button>
             <span
               className="relative block h-px w-6 overflow-hidden bg-ink/10 md:w-12"
               aria-hidden="true"
@@ -246,10 +237,15 @@ export default function TestimonialSection({
                 }}
               />
             </span>
-            <span className="text-base text-ink/60 tabular-nums">
-              {String(active + 1).padStart(2, "0")}/
-              {String(ITEM_VISUALS.length).padStart(2, "0")}
-            </span>
+            <button
+              onClick={() =>
+                goTo((activeRef.current + 1) % ITEM_VISUALS.length, 1)
+              }
+              aria-label={dict.next}
+              className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-ink/8 text-ink transition-colors hover:bg-ink/12"
+            >
+              <ChevronRightIcon width={36} height={36} />
+            </button>
           </div>
         </div>
       </FadeIn>
