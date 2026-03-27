@@ -186,7 +186,7 @@ export default function TestimonialSection({
             {dict.items.map((it, i) => (
               <blockquote
                 key={i}
-                className="text-2xl/snug font-medium text-ink [grid-area:1/1] md:text-4xl"
+                className="text-2xl/snug font-medium text-ink [grid-area:1/1] md:text-[32px]"
                 aria-hidden={i !== active}
                 style={
                   i === active
@@ -202,7 +202,7 @@ export default function TestimonialSection({
 
         {/* ── Stable area: buttons and counter never animate ── */}
         <div className="mt-10 flex flex-wrap items-center gap-3 px-4 md:px-[6%]">
-          <p className="text-lg text-ink/80 md:text-2xl" style={slideStyle(80)}>
+          <p className="text-lg text-ink/80 md:text-xl" style={slideStyle(80)}>
             {item.author}
             {dict.separator}
             {item.role}

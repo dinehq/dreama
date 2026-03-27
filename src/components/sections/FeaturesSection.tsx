@@ -200,7 +200,7 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
           <h2 className="text-3xl font-semibold text-ink md:text-5xl">
             <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
           </h2>
-          <p className="mt-4 text-base text-ink/60">{dict.subheading}</p>
+          <p className="mt-4 text-base text-ink/80">{dict.subheading}</p>
         </FadeIn>
 
         {/* Two-column grid */}

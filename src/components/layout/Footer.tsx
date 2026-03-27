@@ -12,7 +12,7 @@ export default function Footer({
   dict: Dict["footer"];
   locale: "zh" | "en";
 }) {
-  const copyright = <p className="text-xs text-ink/50">{dict.copyright}</p>;
+  const copyright = <p className="text-xs text-ink/40">{dict.copyright}</p>;
 
   return (
     <footer className="pb-5 md:pb-10 lg:pb-20">
@@ -37,10 +37,10 @@ export default function Footer({
 
         {/* Right — ICP registration + copyright (en) */}
         <div className="flex flex-col items-end gap-1">
-          <p className="text-right text-[10px] text-ink/50 sm:text-xs sm:whitespace-nowrap">
+          <p className="text-right text-[10px] text-ink/40 sm:text-xs sm:whitespace-nowrap">
             {ICP_NUMBER}
           </p>
-          <p className="text-right text-[10px] text-ink/50 sm:text-xs sm:whitespace-nowrap">
+          <p className="text-right text-[10px] text-ink/40 sm:text-xs sm:whitespace-nowrap">
             {NETWORK_SECURITY}
           </p>
         </div>

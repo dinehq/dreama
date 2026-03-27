@@ -1,10 +1,10 @@
-import img1 from "@/assets/ecosystem-marquee/1.png";
-import img2 from "@/assets/ecosystem-marquee/2.png";
-import img3 from "@/assets/ecosystem-marquee/3.png";
-import img4 from "@/assets/ecosystem-marquee/4.png";
-import img5 from "@/assets/ecosystem-marquee/5.png";
-import img6 from "@/assets/ecosystem-marquee/6.png";
-import img7 from "@/assets/ecosystem-marquee/7.png";
+import img1 from "@/assets/ecosystem-marquee/1.webp";
+import img2 from "@/assets/ecosystem-marquee/2.webp";
+import img3 from "@/assets/ecosystem-marquee/3.svg";
+import img4 from "@/assets/ecosystem-marquee/4.webp";
+import img5 from "@/assets/ecosystem-marquee/5.svg";
+import img6 from "@/assets/ecosystem-marquee/6.webp";
+import img7 from "@/assets/ecosystem-marquee/7.svg";
 import type { Dict } from "@/i18n/zh";
 
 const ITEMS = [img1, img2, img3, img4, img5, img6, img7];
@@ -24,7 +24,7 @@ export default function EcosystemSection({
             <br />
             {dict.heading2}
           </h2>
-          <p className="max-w-2xl text-xl leading-relaxed text-ink/75 md:text-2xl">
+          <p className="max-w-2xl text-xl leading-relaxed text-ink/75 md:text-[28px]">
             {dict.body}
           </p>
         </div>

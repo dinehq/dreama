@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
           all: [
             { not: "foreign" },
             { not: { path: "**/assets/features/**/*.svg" } },
+            { not: { path: "**/assets/ecosystem-marquee/**/*.svg" } },
           ],
         },
         loaders: ["@svgr/webpack"],

@@ -113,7 +113,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
               flexShrink: 0,
             }}
           />
-          <div className="flex shrink-0 items-center gap-9">
+          <div className="flex shrink-0 items-center gap-8">
             {NAV_LINKS.map(({ href, dictKey }) => (
               <span key={href} className="text-base">
                 {dict[dictKey]}
@@ -156,9 +156,9 @@ export default function Nav({ dict }: { dict: NavDict }) {
           <div
             className={
               isDesktop === null
-                ? "hidden items-center gap-9 md:flex"
+                ? "hidden items-center gap-8 md:flex"
                 : isDesktop
-                  ? "flex items-center gap-9"
+                  ? "flex items-center gap-8"
                   : "hidden"
             }
           >
