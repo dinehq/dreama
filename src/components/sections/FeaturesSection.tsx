@@ -11,9 +11,9 @@ import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@/assets/features/1.webp";
 import feature2 from "@/assets/features/2.webp";
 import feature3 from "@/assets/features/3.webp";
-import Feature4 from "@/assets/features/4.svg";
-import Feature5 from "@/assets/features/5.svg";
-import Feature6 from "@/assets/features/6.svg";
+import feature4 from "@/assets/features/4.svg";
+import feature5 from "@/assets/features/5.svg";
+import feature6 from "@/assets/features/6.svg";
 import type { Dict } from "@/i18n/zh";
 
 type CardConfig = Omit<FeatureCardProps, "className" | "imageScale"> & {
@@ -87,7 +87,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 0,
     image: {
-      src: Feature4,
+      src: feature4,
       width: "110%",
       x: 32,
       y: 21,
@@ -102,7 +102,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 150,
     image: {
-      src: Feature5,
+      src: feature5,
       width: "70%",
       x: 0,
       y: 0,
@@ -117,7 +117,7 @@ const RIGHT_CARD_VISUALS: CardVisual[] = [
     imageHoverScale: 1,
     delay: 300,
     image: {
-      src: Feature6,
+      src: feature6,
       width: "100%",
       x: 0,
       y: 0,

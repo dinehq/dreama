@@ -26,7 +26,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[90vh] min-h-170 w-full overflow-hidden"
+      className="relative h-[90vh] min-h-[900px] w-full overflow-hidden sm:min-h-170"
     >
       <Image
         src={heroBg}
@@ -38,7 +38,7 @@ export default function HeroSection({ dict }: { dict: { tagline: string } }) {
       />
 
       {/* Title: bottom edge sits above the cloud top (cloud center = 50%) */}
-      <h1 className="absolute bottom-[calc(50%+161px)] left-1/2 -translate-x-1/2 text-center text-5xl font-medium tracking-tight whitespace-nowrap text-ink sm:text-6xl md:text-7xl">
+      <h1 className="absolute right-0 bottom-[calc(50%+161px)] left-0 px-4 text-center text-5xl font-medium tracking-tight text-ink sm:right-auto sm:left-1/2 sm:-translate-x-1/2 sm:px-0 sm:text-6xl sm:whitespace-nowrap md:text-7xl">
         <MarkerHighlight variant={1}>{dict.tagline}</MarkerHighlight>
       </h1>
 

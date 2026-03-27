@@ -5,10 +5,14 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   turbopack: {
     rules: {
-      // Transform .svg imports into React components via @svgr/webpack.
-      // Only applies to project files (not node_modules).
+      // SVGR for all project .svg except src/assets/features/ (those use Next static image + Image).
       "*.svg": {
-        condition: { not: "foreign" },
+        condition: {
+          all: [
+            { not: "foreign" },
+            { not: { path: "**/assets/features/**/*.svg" } },
+          ],
+        },
         loaders: ["@svgr/webpack"],
         as: "*.js",
       },

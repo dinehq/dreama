@@ -110,6 +110,16 @@ function toCSS(v: SizeValue | undefined): string | number {
   return v ?? "auto";
 }
 
+/** Next only provides blur placeholders for static imports that include blurDataURL (not SVG). */
+function blurPlaceholderProp(
+  src: string | StaticImageData | SvgComponent,
+): "blur" | undefined {
+  if (typeof src !== "object" || src === null) return undefined;
+  return "blurDataURL" in src && typeof src.blurDataURL === "string"
+    ? "blur"
+    : undefined;
+}
+
 /**
  * Wrapper style: handles absolute positioning + centering transforms.
  * Width/height go on the wrapper so that fluid % values (e.g. "100%") are
@@ -187,7 +197,7 @@ export default function FeatureCard({
             transition: IMAGE_SCALE_TRANSITION,
           }}
           className="block origin-center"
-          placeholder={typeof image.src === "object" ? "blur" : undefined}
+          placeholder={blurPlaceholderProp(image.src)}
         />
       ) : (
         <Image
@@ -201,7 +211,7 @@ export default function FeatureCard({
             transition: IMAGE_SCALE_TRANSITION,
           }}
           className="block origin-center"
-          placeholder={typeof image.src === "object" ? "blur" : undefined}
+          placeholder={blurPlaceholderProp(image.src)}
         />
       )}
     </div>

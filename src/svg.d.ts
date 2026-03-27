@@ -1,7 +1,7 @@
-// Type for SVG files imported as React components via @svgr/webpack.
-// Usage: import Icon from '@/components/icons/my-icon.svg'
+// SVGR for *.svg except src/assets/features/** (see next.config.ts); those are StaticImageData.
 declare module "*.svg" {
+  import type { StaticImageData } from "next/image";
   import type { FC, SVGProps } from "react";
-  const SVG: FC<SVGProps<SVGSVGElement>>;
-  export default SVG;
+  const svg: FC<SVGProps<SVGSVGElement>> | StaticImageData;
+  export default svg;
 }
