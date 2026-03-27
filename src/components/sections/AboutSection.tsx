@@ -38,7 +38,7 @@ export default function AboutSection({
 
             {/* text content */}
             <div className="absolute inset-x-6 bottom-6 flex flex-col gap-3 text-white md:inset-x-10 md:bottom-10 md:max-w-160 md:gap-4">
-              <h2 className="text-2xl font-bold md:text-[32px] md:leading-12">
+              <h2 className="text-2xl font-medium md:text-[32px] md:leading-12">
                 {dict.heading}
               </h2>
               <p className="text-base/relaxed md:text-2xl/relaxed">

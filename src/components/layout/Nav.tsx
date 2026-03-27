@@ -18,6 +18,12 @@ const LINK_CLASS =
   "text-base text-ink hover:text-brand transition-colors whitespace-nowrap";
 const SCROLL_OFFSET = 120;
 
+const NAV_LINKS = [
+  { href: "#features", dictKey: "creators" },
+  { href: "#about", dictKey: "about" },
+  { href: "#join", dictKey: "join" },
+] as const;
+
 function scrollToHash(href: string) {
   const id = href.slice(1);
   const el = document.getElementById(id);
@@ -70,12 +76,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
     return () => ro.disconnect();
   }, []);
 
-  const navLinks = [
-    { href: "#features", label: dict.creators },
-    { href: "#about", label: dict.about },
-    { href: "#join", label: dict.join },
-  ];
-
   // In CSS mode (null): open controls mobile dropdown; CSS hides it on desktop.
   // In JS mode: also gate on !isDesktop.
   const expanded = isDesktop === null ? open : !isDesktop && open;
@@ -120,9 +120,9 @@ export default function Nav({ dict }: { dict: NavDict }) {
           }}
         />
         <div className="flex shrink-0 items-center gap-9">
-          {navLinks.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, dictKey }) => (
             <span key={href} className="text-base">
-              {label}
+              {dict[dictKey]}
             </span>
           ))}
         </div>
@@ -175,7 +175,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 : "hidden"
           }
         >
-          {navLinks.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, dictKey }) => (
             <a
               key={href}
               href={href}
@@ -185,7 +185,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 scrollToHash(href);
               }}
             >
-              {label}
+              {dict[dictKey]}
             </a>
           ))}
         </div>
@@ -279,7 +279,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
           }}
         >
           <div className="flex flex-col gap-1 border-t border-border px-4 py-2">
-            {navLinks.map(({ href, label }) => (
+            {NAV_LINKS.map(({ href, dictKey }) => (
               <a
                 key={href}
                 href={href}
@@ -290,7 +290,7 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 }}
                 className={`${LINK_CLASS} border-b border-border py-3`}
               >
-                {label}
+                {dict[dictKey]}
               </a>
             ))}
             <a

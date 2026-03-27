@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import FadeIn from "@/components/ui/FadeIn";
-import BrushUnderline from "@/components/ui/BrushUnderline";
+import MarkerHighlight from "@/components/ui/MarkerHighlight";
 import FadeInGroup from "@/components/ui/FadeInGroup";
 import carousel1 from "@/assets/carousel/1.webp";
 import carousel2 from "@/assets/carousel/2.webp";
@@ -97,7 +97,7 @@ export default function AIShowcaseSection({
         {/* Heading */}
         <FadeIn>
           <h2 className="mb-10 text-center text-3xl font-medium text-ink md:text-5xl">
-            <BrushUnderline variant={1}>{dict.heading}</BrushUnderline>
+            <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
           </h2>
         </FadeIn>
 

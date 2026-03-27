@@ -5,7 +5,6 @@ import FeatureCard, {
   type FeatureCardProps,
 } from "@/components/ui/FeatureCard";
 import FadeIn from "@/components/ui/FadeIn";
-import BrushUnderline from "@/components/ui/BrushUnderline";
 import MarkerHighlight from "@/components/ui/MarkerHighlight";
 import FadeInGroup from "@/components/ui/FadeInGroup";
 import feature1 from "@/assets/features/1.webp";
@@ -199,7 +198,7 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
         {/* Section header */}
         <FadeIn className="mb-16 text-center">
           <h2 className="text-3xl font-medium text-ink md:text-5xl">
-            <BrushUnderline variant={2}>{dict.heading}</BrushUnderline>
+            <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
           </h2>
           <p className="mt-4 text-base text-ink/60">{dict.subheading}</p>
         </FadeIn>

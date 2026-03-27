@@ -46,7 +46,7 @@ src/
 
 **Styling:** Tailwind CSS v4 with design tokens as CSS custom properties in `globals.css`. Dark mode is CSS-var-only — do not use `dark:` Tailwind classes.
 
-**Assets:** Images, fonts, and SVGs live in `src/assets/` with static imports (content hashing, blur placeholders). Only `public/` is for files that turbopack can't import (e.g. video). Prefer `.webp` over `.jpg`/`.png` — compress with `cwebp` when adding new raster images.
+**Assets:** Images and SVGs live in `src/assets/` with static imports (content hashing, blur placeholders). `public/` is only for files loaded by the browser via URL — fonts (CSS `url()`) and video. Prefer `.webp` over `.jpg`/`.png` — compress with `cwebp` when adding new raster images.
 
 **SVG Icons:** `.svg` files are transformed to React components via `@svgr/webpack` (configured in turbopack rules). Import and render inline:
 
