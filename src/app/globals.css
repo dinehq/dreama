@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand colors */
   --color-brand: #06c755;
   --color-brand-light: #44e775;
   --color-brand-mint: #9ef2b7;
@@ -9,23 +8,17 @@
   --color-accent-yellow: #ffe23c;
   --color-accent-orange: #ff830f;
   --color-accent-blue: #45c7ff;
-
-  /* Neutrals — light-mode defaults; overridden in dark mode below */
   --color-page-bg: #ffffff;
   --color-nav-bg: #ffffff;
   --color-surface: #f8f8f8;
   --color-surface-alt: #f0f0f0;
   --color-ink: #242424;
-  --color-ink-base: #242424; /* never overridden — use on elements with a fixed light bg */
+  --color-ink-base: #242424;
   --color-hero-bg: #e4e4e4;
   --color-border: rgba(0, 0, 0, 0.06);
-
-  /* Radius */
   --radius-4xl: 2.5rem;
   --radius-5xl: 4rem;
   --radius-pill: 9999px;
-
-  /* Shadows */
   --shadow-nav: 0 2px 12px 0 rgb(0 0 0 / 0.08);
 }
 
@@ -44,10 +37,6 @@ img {
   user-drag: none;
 }
 
-/* Dark mode — CSS-var-only; managed via .dark class on <html>.
- * A blocking <script> in <head> sets .dark based on
- * localStorage("dreama-theme") ?? prefers-color-scheme.
- * ThemeToggle component in the footer handles manual toggling. */
 .dark {
   --color-page-bg: #0a0a0a;
   --color-nav-bg: #111111;
@@ -85,7 +74,6 @@ body {
   font-family: var(--font-owners-text), system-ui, sans-serif;
 }
 
-/* Single-source horizontal gutter — mirrors px-5 md:px-10 lg:px-20 */
 @utility page-gutter {
   padding-left: calc(var(--spacing) * 5);
   padding-right: calc(var(--spacing) * 5);

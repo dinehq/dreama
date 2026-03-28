@@ -9,7 +9,7 @@ export default function AboutSection({
   dict: { heading: string; body: string; press: string; join: string };
 }) {
   return (
-    <section id="about" className="py-10 page-gutter md:py-0">
+    <section id="about" className="page-gutter">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <div className="relative min-h-88 overflow-clip rounded-3xl md:aspect-1280/750 md:min-h-0 md:rounded-4xl">

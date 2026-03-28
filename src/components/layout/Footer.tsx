@@ -14,7 +14,7 @@ export default function Footer({
   locale: "zh" | "en";
 }) {
   return (
-    <footer className="pb-5 md:pb-10 lg:pb-20">
+    <footer className="pb-5 md:pb-8">
       <div className="relative mx-auto flex max-w-360 flex-col gap-2 py-4 page-gutter sm:min-h-17 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-0">
         <div className="flex min-w-0 flex-col gap-2">
           <div className="flex items-center">
