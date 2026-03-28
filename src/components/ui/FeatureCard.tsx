@@ -223,7 +223,7 @@ export default function FeatureCard({
         textPosition === "top"
           ? "top-[clamp(1rem,2.5vw,2rem)]"
           : "bottom-[clamp(1rem,2.5vw,2rem)]"
-      } max-w-72`}
+      } max-w-80`}
     >
       <p
         className={`text-xl font-semibold md:text-[28px] ${textColors.title} `}

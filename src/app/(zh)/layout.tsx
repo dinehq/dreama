@@ -5,6 +5,7 @@ import { oppoSans, ownersText } from "@/lib/fonts";
 import { zh } from "@/i18n/zh";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import ThemeScript from "@/components/layout/ThemeScript";
 import LocaleRedirect from "@/components/layout/LocaleRedirect";
 
 export const metadata: Metadata = {
@@ -21,9 +22,11 @@ export default function ZhLayout({
   return (
     <html
       lang="zh-CN"
+      suppressHydrationWarning
       className={`h-full antialiased ${oppoSans.variable} ${ownersText.variable}`}
     >
       <head>
+        <ThemeScript />
         {process.env.NODE_ENV === "development" && (
           <Script
             src="//unpkg.com/react-grab/dist/index.global.js"

@@ -44,38 +44,35 @@ img {
   user-drag: none;
 }
 
-/* Dark mode — variables only; components intentionally use no dark: classes */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Neutrals */
-    --color-page-bg: #0a0a0a;
-    --color-nav-bg: #111111;
-    --color-surface: #1c1c1e;
-    --color-surface-alt: #141416;
-    --color-ink: #ededed;
-    --color-hero-bg: #1e1e1e;
-    --color-border: rgba(255, 255, 255, 0.08);
+/* Dark mode — CSS-var-only; managed via .dark class on <html>.
+ * A blocking <script> in <head> sets .dark based on
+ * localStorage("dreama-theme") ?? prefers-color-scheme.
+ * ThemeToggle component in the footer handles manual toggling. */
+.dark {
+  --color-page-bg: #0a0a0a;
+  --color-nav-bg: #111111;
+  --color-surface: #1c1c1e;
+  --color-surface-alt: #141416;
+  --color-ink: #ededed;
+  --color-hero-bg: #1e1e1e;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-brand: #05b34a;
+  --color-brand-light: #164d28;
+  --color-brand-mint: #0d3318;
+  --color-brand-vivid: #1a8540;
+  --color-accent-yellow: #c99e00;
+  --color-accent-orange: #c45f00;
+  --color-accent-blue: #0090bf;
+  --shadow-nav: 0 2px 12px 0 rgb(0 0 0 / 0.3);
+}
 
-    /* Brand — keep hue, reduce lightness */
-    --color-brand: #05b34a;
-    --color-brand-light: #164d28;
-    --color-brand-mint: #0d3318;
-    --color-brand-vivid: #1a8540;
+.dark img,
+.dark image {
+  filter: brightness(0.85);
+}
 
-    /* Accents — keep hue, reduce to avoid harshness on dark bg */
-    --color-accent-yellow: #c99e00;
-    --color-accent-orange: #c45f00;
-    --color-accent-blue: #0090bf;
-  }
-
-  img,
-  image {
-    filter: brightness(0.85);
-  }
-
-  .invert-dark {
-    filter: invert(1);
-  }
+.dark .invert-dark {
+  filter: invert(1);
 }
 
 body {

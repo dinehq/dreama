@@ -94,14 +94,12 @@ export default function AIShowcaseSection({
   return (
     <section className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
-        {/* Heading */}
         <FadeIn>
           <h2 className="mb-10 text-center text-3xl font-semibold text-ink md:text-5xl">
             <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
           </h2>
         </FadeIn>
 
-        {/* Media area */}
         <FadeIn delay={100}>
           <div className="relative h-65 w-full overflow-hidden rounded-3xl md:h-162 md:rounded-4xl">
             {dict.items.map((item, idx) => (
@@ -118,7 +116,6 @@ export default function AIShowcaseSection({
           </div>
         </FadeIn>
 
-        {/* Tab bar */}
         <div className="mt-8 flex flex-col gap-4 md:flex-row">
           {dict.items.map((item, idx) => {
             const isActive = idx === active;
@@ -130,7 +127,6 @@ export default function AIShowcaseSection({
                   isActive ? "bg-brand/8" : `bg-surface-alt hover:bg-surface`
                 } `}
               >
-                {/* Progress fill — width written directly by RAF for the active tab */}
                 <span
                   ref={(el) => {
                     progressBarRefs.current[idx] = el;
@@ -139,7 +135,6 @@ export default function AIShowcaseSection({
                   className={`absolute inset-y-0 left-0 rounded-none bg-brand/12 transition-opacity duration-300 ${isActive ? `opacity-100` : `opacity-0`} `}
                 />
 
-                {/* Text — always above the fill */}
                 <span className="relative z-10 flex flex-col">
                   <span className="text-base font-semibold text-ink">
                     {item.title}

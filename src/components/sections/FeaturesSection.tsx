@@ -195,7 +195,6 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
   return (
     <section id="features" className="page-gutter">
       <FadeInGroup className="mx-auto max-w-7xl">
-        {/* Section header */}
         <FadeIn className="mb-16 text-center">
           <h2 className="text-3xl font-semibold text-ink md:text-5xl">
             <MarkerHighlight variant={1}>{dict.heading}</MarkerHighlight>
@@ -203,7 +202,6 @@ export default function FeaturesSection({ dict }: { dict: Dict["features"] }) {
           <p className="mt-4 text-base text-ink/80">{dict.subheading}</p>
         </FadeIn>
 
-        {/* Two-column grid */}
         <div className="grid grid-cols-1 gap-x-[clamp(1rem,2.5vw,2rem)] gap-y-[clamp(2.5rem,6vw,3rem)] md:grid-cols-2">
           <CardColumn
             label={dict.forEveryone}

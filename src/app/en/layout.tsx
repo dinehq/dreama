@@ -5,6 +5,7 @@ import { oppoSans, ownersText } from "@/lib/fonts";
 import { en } from "@/i18n/en";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import ThemeScript from "@/components/layout/ThemeScript";
 
 export const metadata: Metadata = {
   title: en.meta.title,
@@ -20,9 +21,11 @@ export default function EnLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`h-full antialiased ${oppoSans.variable} ${ownersText.variable}`}
     >
       <head>
+        <ThemeScript />
         {process.env.NODE_ENV === "development" && (
           <Script
             src="//unpkg.com/react-grab/dist/index.global.js"

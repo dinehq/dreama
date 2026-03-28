@@ -8,7 +8,7 @@ import type { Dict } from "@/i18n/zh";
 
 export default function HomePage({ dict }: { dict: Dict }) {
   return (
-    <main className="flex flex-col gap-24 pb-12 md:gap-50 md:pb-12">
+    <main className="flex flex-col gap-24 pb-12 md:gap-40 md:pb-12">
       <HeroSection dict={dict.hero} />
       <EcosystemSection dict={dict.ecosystem} />
       <AIShowcaseSection dict={dict.aiShowcase} />

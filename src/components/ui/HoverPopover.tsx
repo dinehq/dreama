@@ -32,6 +32,10 @@ export default function HoverPopover({
       <div
         className={`pointer-events-none absolute ${popoverPos} left-1/2 -translate-x-1/2 rounded-2xl bg-nav-bg p-3 opacity-0 shadow-lg ring-1 ring-border transition-opacity duration-200 group-hover/popover:pointer-events-auto group-hover/popover:opacity-100`}
       >
+        {/* Invisible bridge covering the gap between trigger and popover */}
+        <div
+          className={`absolute right-0 left-0 ${placement === "bottom" ? "bottom-full h-3" : "top-full h-3"}`}
+        />
         {content}
       </div>
     </div>

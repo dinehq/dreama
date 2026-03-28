@@ -14,9 +14,9 @@ const BLOB_PATH =
   "M724.1 0C816.386 0 891.2 74.813 891.2 167.1V288.9C891.2 381.187 816.386 456 724.1 456C671.157 456 623.968 431.378 593.352 392.961C589.076 387.596 580.623 387.595 576.347 392.961C545.731 431.378 498.542 456 445.6 456C392.657 456 345.468 431.378 314.852 392.961C310.576 387.596 302.123 387.595 297.847 392.961C267.231 431.378 220.042 456 167.1 456C74.8131 456 0.00023831 381.187 0 288.9V167.1C0.000230964 74.8131 74.8131 0.000214411 167.1 0C220.042 0 267.231 24.622 297.847 63.0384C302.123 68.4037 310.576 68.4036 314.852 63.0383C345.468 24.6219 392.658 0.000123001 445.6 0C498.542 0 545.731 24.622 576.347 63.0384C580.623 68.4037 589.076 68.4036 593.352 63.0383C623.968 24.6219 671.158 0.000123001 724.1 0Z";
 
 const ITEM_VISUALS = [
-  { avatar: creator1.src, color: "var(--color-brand)" },
-  { avatar: creator2.src, color: "var(--color-accent-blue)" },
-  { avatar: creator3.src, color: "var(--color-accent-yellow)" },
+  { avatar: creator1.src, color: "var(--color-brand)", imageX: 0 },
+  { avatar: creator2.src, color: "var(--color-accent-blue)", imageX: 0 },
+  { avatar: creator3.src, color: "var(--color-accent-yellow)", imageX: 0 },
 ] as const;
 
 const DURATION_MS = 5000;
@@ -94,8 +94,11 @@ export default function TestimonialSection({
   const visual = ITEM_VISUALS[active];
   const item = dict.items[active];
 
-  const exitX = dir > 0 ? -16 : 16; // exit slides in direction of travel
-  const enterX = dir > 0 ? 16 : -16; // enter arrives from the opposite side
+  const exitX = dir > 0 ? -16 : 16; // exit slides in direction of travel (text)
+  const enterX = dir > 0 ? 16 : -16; // enter arrives from the opposite side (text)
+  const IMAGE_SHIFT = 50; // more pronounced shift for portrait images
+  const imgExitX = dir > 0 ? -IMAGE_SHIFT : IMAGE_SHIFT;
+  const imgEnterX = dir > 0 ? IMAGE_SHIFT : -IMAGE_SHIFT;
   const slideStyle = (delay = 0): React.CSSProperties =>
     phase === "exit"
       ? {
@@ -115,16 +118,19 @@ export default function TestimonialSection({
             transition: `opacity 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 520ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`,
           };
 
+  // Each portrait has a designated horizontal offset (imageX) so it "lives" at
+  // a unique position in the blob. During transitions the image slides out/in
+  // with a pronounced directional shift, then settles at its resting offset.
   const imageSlideStyle: React.CSSProperties =
     phase === "exit"
       ? {
-          transform: `translateX(${exitX}px)`,
+          transform: `translateX(${imgExitX}px)`,
           transition: `transform ${EXIT_MS}ms ease`,
         }
       : phase === "pre-enter"
-        ? { transform: `translateX(${enterX}px)`, transition: "none" }
+        ? { transform: `translateX(${imgEnterX}px)`, transition: "none" }
         : {
-            transform: "translateX(0)",
+            transform: `translateX(${visual.imageX}px)`,
             transition: `transform 520ms cubic-bezier(0.22,1,0.36,1) 60ms`,
           };
 

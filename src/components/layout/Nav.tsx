@@ -8,7 +8,8 @@ import Button from "@/components/ui/Button";
 import HoverPopover from "@/components/ui/HoverPopover";
 import {
   DownloadQRCode,
-  APP_DOWNLOAD_URL,
+  APP_STORE_URL,
+  ANDROID_URL,
 } from "@/components/ui/DownloadQRCode";
 import type { Dict } from "@/i18n/zh";
 
@@ -129,24 +130,17 @@ export default function Nav({ dict }: { dict: NavDict }) {
         </div>
       </div>
 
-      {/* Outer container — applies page gutters, max-width, and top spacing */}
       <div
-        className="mx-auto max-w-360 page-gutter"
+        className="mx-auto max-w-6xl page-gutter"
         style={{ paddingTop: "calc(env(safe-area-inset-top) + 0.75rem)" }}
       >
-        {/*
-         * Unified pill — contains both the top bar and the expandable mobile menu.
-         * border-radius transitions from pill (9999px) → rounded-3xl (1.5rem) on expand.
-         * overflow-hidden lives on the inner menu wrapper, not here, so shadow is never clipped.
-         */}
+        {/* overflow-hidden lives on the inner menu, not the pill, so shadow is never clipped */}
         <div
           className={`rounded-[26px] bg-nav-bg/90 backdrop-blur-sm transition-shadow duration-300 ${
             expanded || scrolled ? "shadow-nav" : "shadow-none"
           }`}
         >
-          {/* Top row */}
           <div className="flex items-center justify-between p-2">
-            {/* Left — logo */}
             <div className="flex flex-1 items-center">
               <Link href={locale === "en" ? "/en" : "/"}>
                 <LogoIcon
@@ -158,7 +152,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
               </Link>
             </div>
 
-            {/* Center — nav links (desktop only) */}
             <div
               className={
                 isDesktop === null
@@ -183,7 +176,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
               ))}
             </div>
 
-            {/* Right — actions */}
             <div
               className={`flex flex-1 items-center justify-end ${
                 isDesktop === null
@@ -193,7 +185,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
                     : "gap-4"
               }`}
             >
-              {/* Login — desktop only */}
               <a
                 href="https://ai.ideaflow.pro/"
                 target="_blank"
@@ -203,12 +194,17 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 {dict.login}
               </a>
 
-              {/* Download — mobile: direct link, desktop: QR popover */}
               <a
-                href={APP_DOWNLOAD_URL}
+                href={APP_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={mobileOnly}
+                onClick={(e) => {
+                  if (!/iphone|ipad|ipod|mac/i.test(navigator.userAgent)) {
+                    e.preventDefault();
+                    window.open(ANDROID_URL, "_blank", "noopener,noreferrer");
+                  }
+                }}
               >
                 <Button>{dict.download}</Button>
               </a>
@@ -223,7 +219,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
                 </HoverPopover>
               </div>
 
-              {/* Hamburger — mobile only */}
               <button
                 className={`${mobileOnly} flex size-8 flex-col items-center justify-center gap-1 pr-2`}
                 onClick={() => setOpen((v) => !v)}
@@ -256,7 +251,6 @@ export default function Nav({ dict }: { dict: NavDict }) {
             </div>
           </div>
 
-          {/* Mobile menu — height-animated, inside the pill so shadow is unclipped */}
           <div
             className={`overflow-hidden transition-all duration-300 ease-in-out ${
               isDesktop === null ? "md:hidden" : ""
